@@ -1,0 +1,20 @@
+<html>
+    <head><title>Boyd Bot | Login</title></head>
+    <body>
+        <center>
+            <h1>Register</h1>
+            <form action="/register" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.gla_id.label }}<br>
+                    {{ form.gla_id(size=32) }}
+                </p>
+                <p>
+                    {{ form.gla_pass.label }}<br>
+                    {{ form.gla_pass(size=32) }}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+            </center>
+    </body>
+</html>
