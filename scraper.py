@@ -1,13 +1,14 @@
 from selenium import webdriver
 import os
 import selenium.common.exceptions as error
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import time, datetime
 
 
-## Constants
+## Constant (URL)
 URL = "https://www.gla.ac.uk/apps/timetable/#/login"
-weekdayMapping = {"MONDAY":0, "TUESDAY":1, "WEDNESDAY":2, "THURSDAY":3, "FRIDAY":4}
-###
 
 
 ## Selenium Stuff
@@ -29,22 +30,31 @@ def login(guidd,passww):
     browsers[guidd].find_element_by_id("guid").send_keys(guidd)
     browsers[guidd].find_element_by_id("password").send_keys(passww)
     browsers[guidd].find_element_by_xpath("//*[@id='app']/div/main/button").click()
-    time.sleep(4)
     
     try:
+        element_present = EC.presence_of_element_located((By.XPATH, "//*[@id='app']/div/div[1]/div[1]/a"))
+        WebDriverWait(browsers[guidd], 4).until(element_present)
         browsers[guidd].find_element_by_xpath("//*[@id='app']/div/div[1]/div[1]/a").click()
-        time.sleep(1)
         if browsers[guidd].current_url == "https://www.gla.ac.uk/apps/timetable/#/timetable":
             return 1
     
-    except error.UnexpectedAlertPresentException as e:
+    except error.UnexpectedAlertPresentException:
         browsers[guidd].quit()
         return 2
     
-    except error.NoSuchElementException as load:
+    except:
         browsers[guidd].quit()
         return 3
 
+def check_browser(guidd):
+    
+    try:
+        if browsers[guidd].current_url == "https://www.gla.ac.uk/apps/timetable/#/timetable":
+            return True
+        return True
+    except error.WebDriverException:
+        return False
+    return True
 
 def format_table(guidd):
     
@@ -59,19 +69,17 @@ def format_table(guidd):
 def read_day(guidd):
     
     message = ""
-    time.sleep(1)
-    classes = browsers[guidd].find_elements_by_class_name("fc-time-grid-event.fc-event.fc-start.fc-end")
-    
-    if classes == []:
-        message+= "There seem to be no classes."
-    
-    else:
+    try:
+        element_present = EC.visibility_of_all_elements_located((By.CLASS_NAME, "fc-time-grid-event.fc-event.fc-start.fc-end"))
+        WebDriverWait(browsers[guidd], 1).until(element_present)
+        classes = browsers[guidd].find_elements_by_class_name("fc-time-grid-event.fc-event.fc-start.fc-end")
         message+= "You have..\n\n"
         for clas in classes:
     
             try:
                 clas.click()
-                time.sleep(1)
+                element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
+                WebDriverWait(browsers[guidd], 1).until(element_present)
                 table = browsers[guidd].find_element_by_class_name("dialogueTable")
                 message+=format_table(guidd)+"\n\n"
                 browsers[guidd].find_element_by_class_name("close.text-white").click()
@@ -79,6 +87,9 @@ def read_day(guidd):
             except error.ElementNotInteractableException as e:
                 message+="(Unable to fetch class)\n"
                 continue
+    
+    except error.TimeoutException:
+        message+="There seem to be no classes."
     
     return message
 
@@ -91,7 +102,7 @@ def specific_day(date_entry, guidd):
         message = loop_days((date1 - datetime.date.today()).days, guidd)
         return message
 
-    except ValueError as ve:
+    except ValueError:
         return "The date seems invalid."
 
 

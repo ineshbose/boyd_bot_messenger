@@ -21,9 +21,9 @@ For security reasons, access tokens, keys, etc have been hidden from this reposi
 This repository was created fresh as the previous (private) repository had all keys in the commit history.
 
 ## Contributions & Thanks
-This repository is open to developers for improving the bot.
-The First Testers:
+This repository is open to developers for improving the bot. <br />
 * [Jakub Jelinek](https://github.com/kubajj)
 * Jules Petrella
 * [Luke Holland](https://github.com/AmazonPriime)
 * [Marc Auf Der Heyde](https://github.com/marcaufderheyde)
+* [Mr. Tom Wallis](https://github.com/probablytom)

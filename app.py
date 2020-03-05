@@ -97,13 +97,13 @@ def webhook():
                     else:
                         messaging_text = 'no text'
                 
-                    response = handleMessage(messaging_text, sender_id)
+                    response = parse_message(messaging_text, sender_id)
                     bot.send_text_message(sender_id, response)
     
     return "ok", 200
 
 
-def handleMessage(message, id):
+def parse_message(message, id):
    
     r = collection.find_one({"_id": id})
     
@@ -114,7 +114,15 @@ def handleMessage(message, id):
     
         if loginResult == 1:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 1}}) 
-            return "Logged in!"
+            bot.send_text_message(id, "Logged in!")
+            
+            try:
+                parse = witClient.message(message)
+                bot.send_action(id, "typing_on")
+                return scraper.specific_day(parse['entities']['datetime'][0]['value'][:10], r['guid'])
+            except:
+                return "What's up?"
+        
         else:
             collection.delete_one({"_id": id})
             collection.insert({"_id": "W"+id, "guid": "", "thing": "", "expect":{"expecting_guid": 1, "expecting_pass": 0}})
@@ -122,23 +130,28 @@ def handleMessage(message, id):
     
     else:
     
-        if message.lower() == "logout":
-            scraper.close(r['guid'])
-            collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
-            return "Logged out! Goodbye. :)"
-        elif message.lower() == "delete data":
-            collection.delete_one({"_id": id})
-            return "Deleted! :) "
+        if scraper.check_browser(r['guid']):
+            if message.lower() == "logout":
+                scraper.close(r['guid'])
+                collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
+                return "Logged out! Goodbye. :)"
+            elif message.lower() == "delete data":
+                collection.delete_one({"_id": id})
+                return "Deleted! :) "
+            
+            else:
+                
+                try:
+                    parse = witClient.message(message)
+                    bot.send_action(id, "typing_on")
+                    return scraper.specific_day(parse['entities']['datetime'][0]['value'][:10], r['guid'])
+                
+                except:
+                    return "Not sure how to answer that."
         
         else:
-            
-            try:
-                parse = witClient.message(message)
-                bot.send_action(id, "typing_on")
-                return scraper.specific_day(parse['entities']['datetime'][0]['value'][:10], r['guid'])
-            
-            except KeyError:
-                return "Not sure how to answer that."
+            collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
+            return "You have been logged out due to some error or being idle for too long. Say hello to log in again. :) "
 
 
 if __name__ == "__main__":
