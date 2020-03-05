@@ -27,3 +27,4 @@ This repository is open to developers for improving the bot. <br />
 * [Luke Holland](https://github.com/AmazonPriime)
 * [Marc Auf Der Heyde](https://github.com/marcaufderheyde)
 * [Mr. Tom Wallis](https://github.com/probablytom)
+* My high-school seniors - [Lakshay Kalbhor](https://github.com/kalbhor) and [Neel Vashisht](https://github.com/NeelVashisht) - with their [similar project](https://github.com/kalbhor/MIT-Hodor)
