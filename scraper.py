@@ -4,7 +4,7 @@ import selenium.common.exceptions as error
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-import time, datetime
+import time, datetime, pytz
 
 
 ## Constant (URL)
@@ -54,6 +54,8 @@ def check_browser(guidd):
         return True
     except error.WebDriverException:
         return False
+    except KeyError:
+        return False
     return True
 
 def format_table(guidd):
@@ -74,8 +76,8 @@ def read_day(guidd):
         WebDriverWait(browsers[guidd], 1).until(element_present)
         classes = browsers[guidd].find_elements_by_class_name("fc-time-grid-event.fc-event.fc-start.fc-end")
         message+= "You have..\n\n"
+        
         for clas in classes:
-    
             try:
                 clas.click()
                 element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
@@ -84,13 +86,81 @@ def read_day(guidd):
                 message+=format_table(guidd)+"\n\n"
                 browsers[guidd].find_element_by_class_name("close.text-white").click()
     
-            except error.ElementNotInteractableException as e:
+            except error.ElementNotInteractableException:
+                browsers[guidd].implicitly_wait(3)
+                clas.click()
+                element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
+                WebDriverWait(browsers[guidd], 1).until(element_present)
+                table = browsers[guidd].find_element_by_class_name("dialogueTable")
+                message+=format_table(guidd)+"\n\n"
+                browsers[guidd].find_element_by_class_name("close.text-white").click()
+            
+            except:
                 message+="(Unable to fetch class)\n"
                 continue
     
     except error.TimeoutException:
         message+="There seem to be no classes."
     
+    return message
+
+
+def read_now(guidd):  # Yet to Test
+    message = ""
+    try:
+        element_present = EC.visibility_of_all_elements_located((By.CLASS_NAME, "fc-time-grid-event.fc-event.fc-start.fc-end"))
+        WebDriverWait(browsers[guidd], 1).until(element_present)
+        classes = browsers[guidd].find_elements_by_class_name("fc-time-grid-event.fc-event.fc-start.fc-end")
+        message+= "Up next, you have..\n\n"
+        
+        for clas in classes:
+            try:
+                clas.click()
+                element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
+                WebDriverWait(browsers[guidd], 1).until(element_present)
+                table = browsers[guidd].find_element_by_class_name("dialogueTable")
+                class_data = []
+                
+                for i in range(1,8):
+                    class_data.append(browsers[guidd].find_element_by_xpath("//*[@id='eventModal']/div/div/div[2]/table/tr[{}]/td".format(str(i))).text)                
+                
+                tyme = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')).date()) + " {}".format(class_data[4])
+                classtime = datetime.datetime.strptime(tyme, '%Y-%m-%d %I:%M %p')
+                
+                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= classtime):
+                    message+=((class_data[0] + " ({}) ".format(class_data[2]) + "\nfrom {} to {} ".format(class_data[4],class_data[5]) + "\nat {}.".format(class_data[1])) + "\n\n")
+                    break
+                browsers[guidd].find_element_by_class_name("close.text-white").click()
+            
+            except error.ElementNotInteractableException:
+                browsers[guidd].implicitly_wait(3)
+                clas.click()
+                element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
+                WebDriverWait(browsers[guidd], 1).until(element_present)
+                table = browsers[guidd].find_element_by_class_name("dialogueTable")
+                class_data = []
+                
+                for i in range(1,8):
+                    class_data.append(browsers[guidd].find_element_by_xpath("//*[@id='eventModal']/div/div/div[2]/table/tr[{}]/td".format(str(i))).text)                
+                
+                tyme = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')).date()) + " {}".format(class_data[4])
+                classtime = datetime.datetime.strptime(tyme, '%Y-%m-%d %I:%M %p')
+                
+                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= classtime):
+                    message+=((class_data[0] + " ({}) ".format(class_data[2]) + "\nfrom {} to {} ".format(class_data[4],class_data[5]) + "\nat {}.".format(class_data[1])) + "\n\n")
+                    break
+                browsers[guidd].find_element_by_class_name("close.text-white").click()
+            
+            except:
+                message+="(Unable to fetch class)\n"
+                continue
+    
+    except error.TimeoutException:
+        message+="There seem to be no classes."
+    
+    if message == "Up next, you have..\n\n":
+        return "No class. :) "
+        
     return message
 
 
@@ -112,6 +182,13 @@ def loop_days(n,guidd):
         for i in range(n):
             browsers[guidd].find_element_by_class_name("fc-next-button.fc-button.fc-button-primary").click()
 
+        message = read_day(guidd)
+        browsers[guidd].find_element_by_class_name("fc-today-button.fc-button.fc-button-primary").click()
+        return message
+
+    elif n<0 and n > -365:
+        for i in range((n*(-1))):
+            browsers[guidd].find_element_by_class_name("fc-prev-button.fc-button.fc-button-primary").click()
         message = read_day(guidd)
         browsers[guidd].find_element_by_class_name("fc-today-button.fc-button.fc-button-primary").click()
         return message
