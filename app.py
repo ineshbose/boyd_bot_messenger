@@ -61,6 +61,9 @@ def main():
                         messaging_text = 'no text'
                     response = parse_message(messaging_text, sender_id)
                     bot.send_text_message(sender_id, response)
+
+            elif collection.count_documents({"_id": "W"+sender_id}) > 0:
+                bot.send_text_message(sender_id, "Doesn't seem like you've registered yet.\nRegister here: https://boydbot.herokuapp.com/register?key={}".format(sender_id))
             
             else:
                 collection.insert_one({"_id": "W"+sender_id})
@@ -124,7 +127,7 @@ def parse_message(message, id):
                     return "What's up?"
             
             except:
-                return "What's up?"
+                return "So, what's up?"
         
         else:
             collection.delete_one({"_id": id})
@@ -158,7 +161,7 @@ def parse_message(message, id):
                     return "Not sure how to answer that."
             
             except:
-                return "Not sure how to answer that."
+                return "Something went wrong with parsing that."
         
         else:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})

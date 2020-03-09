@@ -12,10 +12,11 @@ $ pip install -r requirements.txt
 For security reasons, access tokens, keys, etc have been hidden from this repository. Wherever you see `os.environ.get()`, a key is being used. You may replace these with your own.
 
 ## To-Do
-1. Locations
-2. Read Next Class
+1. Read Next Class ✓
+2. Locations
 3. Book Rooms
-4. Small talk(?)
+4. Small talk(?) (Switch to DialogFlow)
+5. Background Scheduler (opt-in feature)
 
 ## Note
 This repository was created fresh as the previous (private) repository had all keys in the commit history.

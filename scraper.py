@@ -46,8 +46,8 @@ def login(guidd,passww):
         browsers[guidd].quit()
         return 3
 
+
 def check_browser(guidd):
-    
     try:
         if browsers[guidd].current_url == "https://www.gla.ac.uk/apps/timetable/#/timetable":
             return True
@@ -57,6 +57,7 @@ def check_browser(guidd):
     except KeyError:
         return False
     return True
+
 
 def format_table(guidd):
     
@@ -73,7 +74,7 @@ def read_day(guidd):
     message = ""
     try:
         element_present = EC.visibility_of_all_elements_located((By.CLASS_NAME, "fc-time-grid-event.fc-event.fc-start.fc-end"))
-        WebDriverWait(browsers[guidd], 1).until(element_present)
+        WebDriverWait(browsers[guidd], 3).until(element_present)
         classes = browsers[guidd].find_elements_by_class_name("fc-time-grid-event.fc-event.fc-start.fc-end")
         message+= "You have..\n\n"
         
@@ -81,7 +82,7 @@ def read_day(guidd):
             try:
                 clas.click()
                 element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
-                WebDriverWait(browsers[guidd], 1).until(element_present)
+                WebDriverWait(browsers[guidd], 2).until(element_present)
                 table = browsers[guidd].find_element_by_class_name("dialogueTable")
                 message+=format_table(guidd)+"\n\n"
                 browsers[guidd].find_element_by_class_name("close.text-white").click()
@@ -90,7 +91,7 @@ def read_day(guidd):
                 browsers[guidd].implicitly_wait(3)
                 clas.click()
                 element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
-                WebDriverWait(browsers[guidd], 1).until(element_present)
+                WebDriverWait(browsers[guidd], 2).until(element_present)
                 table = browsers[guidd].find_element_by_class_name("dialogueTable")
                 message+=format_table(guidd)+"\n\n"
                 browsers[guidd].find_element_by_class_name("close.text-white").click()
@@ -105,11 +106,11 @@ def read_day(guidd):
     return message
 
 
-def read_now(guidd):  # Yet to Test
+def read_now(guidd):
     message = ""
     try:
         element_present = EC.visibility_of_all_elements_located((By.CLASS_NAME, "fc-time-grid-event.fc-event.fc-start.fc-end"))
-        WebDriverWait(browsers[guidd], 1).until(element_present)
+        WebDriverWait(browsers[guidd], 3).until(element_present)
         classes = browsers[guidd].find_elements_by_class_name("fc-time-grid-event.fc-event.fc-start.fc-end")
         message+= "Up next, you have..\n\n"
         
@@ -117,7 +118,7 @@ def read_now(guidd):  # Yet to Test
             try:
                 clas.click()
                 element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
-                WebDriverWait(browsers[guidd], 1).until(element_present)
+                WebDriverWait(browsers[guidd], 2).until(element_present)
                 table = browsers[guidd].find_element_by_class_name("dialogueTable")
                 class_data = []
                 
@@ -127,8 +128,9 @@ def read_now(guidd):  # Yet to Test
                 tyme = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')).date()) + " {}".format(class_data[4])
                 classtime = datetime.datetime.strptime(tyme, '%Y-%m-%d %I:%M %p')
                 
-                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= classtime):
+                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= pytz.timezone('Europe/London').localize(classtime)):
                     message+=((class_data[0] + " ({}) ".format(class_data[2]) + "\nfrom {} to {} ".format(class_data[4],class_data[5]) + "\nat {}.".format(class_data[1])) + "\n\n")
+                    browsers[guidd].find_element_by_class_name("close.text-white").click()
                     break
                 browsers[guidd].find_element_by_class_name("close.text-white").click()
             
@@ -136,7 +138,7 @@ def read_now(guidd):  # Yet to Test
                 browsers[guidd].implicitly_wait(3)
                 clas.click()
                 element_present = EC.visibility_of_element_located((By.CLASS_NAME, "dialogueTable"))
-                WebDriverWait(browsers[guidd], 1).until(element_present)
+                WebDriverWait(browsers[guidd], 2).until(element_present)
                 table = browsers[guidd].find_element_by_class_name("dialogueTable")
                 class_data = []
                 
@@ -146,8 +148,9 @@ def read_now(guidd):  # Yet to Test
                 tyme = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')).date()) + " {}".format(class_data[4])
                 classtime = datetime.datetime.strptime(tyme, '%Y-%m-%d %I:%M %p')
                 
-                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= classtime):
+                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= pytz.timezone('Europe/London').localize(classtime)):
                     message+=((class_data[0] + " ({}) ".format(class_data[2]) + "\nfrom {} to {} ".format(class_data[4],class_data[5]) + "\nat {}.".format(class_data[1])) + "\n\n")
+                    browsers[guidd].find_element_by_class_name("close.text-white").click()
                     break
                 browsers[guidd].find_element_by_class_name("close.text-white").click()
             
@@ -156,7 +159,7 @@ def read_now(guidd):  # Yet to Test
                 continue
     
     except error.TimeoutException:
-        message+="There seem to be no classes."
+        message+="You seem to have no classes today."
     
     if message == "Up next, you have..\n\n":
         return "No class. :) "
