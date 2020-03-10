@@ -161,7 +161,8 @@ def parse_message(message, id):
                     return "Not sure how to answer that."
             
             except:
-                return "Something went wrong with parsing that."
+                scraper.reload(r['guid'])
+                return "Something went wrong with parsing that. Try again."
         
         else:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})

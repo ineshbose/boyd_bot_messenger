@@ -7,8 +7,10 @@ from selenium.webdriver.common.by import By
 import time, datetime, pytz
 
 
-## Constant (URL)
+## Constants
 URL = "https://www.gla.ac.uk/apps/timetable/#/login"
+tmzn = pytz.timezone('Europe/London')
+###
 
 
 ## Selenium Stuff
@@ -57,6 +59,10 @@ def check_browser(guidd):
     except KeyError:
         return False
     return True
+
+
+def reload(guidd):
+    browsers[guidd].refresh()
 
 
 def format_table(guidd):
@@ -125,10 +131,10 @@ def read_now(guidd):
                 for i in range(1,8):
                     class_data.append(browsers[guidd].find_element_by_xpath("//*[@id='eventModal']/div/div/div[2]/table/tr[{}]/td".format(str(i))).text)                
                 
-                tyme = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')).date()) + " {}".format(class_data[4])
+                tyme = str(datetime.datetime.now(tz=tmzn).date()) + " {}".format(class_data[4])
                 classtime = datetime.datetime.strptime(tyme, '%Y-%m-%d %I:%M %p')
                 
-                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= pytz.timezone('Europe/London').localize(classtime)):
+                if(datetime.datetime.now(tz=tmzn) <= tmzn.localize(classtime)):
                     message+=((class_data[0] + " ({}) ".format(class_data[2]) + "\nfrom {} to {} ".format(class_data[4],class_data[5]) + "\nat {}.".format(class_data[1])) + "\n\n")
                     browsers[guidd].find_element_by_class_name("close.text-white").click()
                     break
@@ -145,10 +151,10 @@ def read_now(guidd):
                 for i in range(1,8):
                     class_data.append(browsers[guidd].find_element_by_xpath("//*[@id='eventModal']/div/div/div[2]/table/tr[{}]/td".format(str(i))).text)                
                 
-                tyme = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')).date()) + " {}".format(class_data[4])
+                tyme = str(datetime.datetime.now(tz=tmzn).date()) + " {}".format(class_data[4])
                 classtime = datetime.datetime.strptime(tyme, '%Y-%m-%d %I:%M %p')
                 
-                if(datetime.datetime.now(tz=pytz.timezone('Europe/London')) <= pytz.timezone('Europe/London').localize(classtime)):
+                if(datetime.datetime.now(tz=tmzn) <= tmzn.localize(classtime)):
                     message+=((class_data[0] + " ({}) ".format(class_data[2]) + "\nfrom {} to {} ".format(class_data[4],class_data[5]) + "\nat {}.".format(class_data[1])) + "\n\n")
                     browsers[guidd].find_element_by_class_name("close.text-white").click()
                     break
@@ -162,7 +168,7 @@ def read_now(guidd):
         message+="You seem to have no classes today."
     
     if message == "Up next, you have..\n\n":
-        return "No class. :) "
+        message = "No class. :) "
         
     return message
 
