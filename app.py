@@ -11,18 +11,15 @@ from wit import Wit
 
 
 app = Flask(__name__)
+app_url = os.environ.get("APP_URL")
 app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")
 witClient = Wit(os.environ.get("WIT_ACCESS_TOKEN"))
 PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
 cluster = MongoClient(os.environ.get("MONGO_TOKEN"))
 db = cluster[os.environ.get("FIRST_CLUSTER")]
 collection = db[os.environ.get("COLLECTION_NAME")]
-
-
-file = open(os.environ.get("KEY_NAME"), 'rb')
-key = file.read()
-file.close()
-f = Fernet(key)
+wait_id = os.environ.get("WAIT_ID")
+f = Fernet(os.environ.get("FERNET_KEY"))
 
 
 bot = Bot(PAGE_ACCESS_TOKEN)
@@ -62,12 +59,12 @@ def main():
                     response = parse_message(messaging_text, sender_id)
                     bot.send_text_message(sender_id, response)
 
-            elif collection.count_documents({"_id": "W"+sender_id}) > 0:
-                bot.send_text_message(sender_id, "Doesn't seem like you've registered yet.\nRegister here: https://boydbot.herokuapp.com/register?key={}".format(sender_id))
+            elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
+                bot.send_text_message(sender_id, "Doesn't seem like you've registered yet.\nRegister here: {}/register?key={}".format(app_url, sender_id))
             
             else:
-                collection.insert_one({"_id": "W"+sender_id})
-                bot.send_text_message(sender_id, "New user!\nRegister here: https://boydbot.herokuapp.com/register?key={}".format(sender_id))
+                collection.insert_one({"_id": wait_id+sender_id})
+                bot.send_text_message(sender_id, "New user!\nRegister here: {}/register?key={}".format(app_url, sender_id))
                 return "ok", 200
         
         return "ok", 200
@@ -78,7 +75,7 @@ def new_user_registration():
     if request.method == 'GET':
         pk = request.args.get('key')
         
-        if collection.count_documents({"_id": "W"+str(pk)}) > 0:
+        if collection.count_documents({"_id": wait_id+str(pk)}) > 0:
             form = RegisterForm(fb_id=pk)
             return render_template('register.html', form=form)
         else:
@@ -91,12 +88,12 @@ def new_user_registration():
         loginResult = scraper.login(gla_id, gla_pass)
         
         if loginResult == 2:
-            return '<h1> Wrong credentials. <a href="https://boydbot.herokuapp.com/register?key={}">Try again.</a></h1>'.format(fb_id)
+            return '<h1> Wrong credentials. <a href="{}/register?key={}">Try again.</a></h1>'.format(app_url, fb_id)
         elif loginResult == 3:
-            return '<h1> Something went wrong. <a href="https://boydbot.herokuapp.com/register?key={}">Try again.</a></h1>'.format(fb_id)
+            return '<h1> Something went wrong. <a href="{}/register?key={}">Try again.</a></h1>'.format(app_url, fb_id)
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "thing": f.encrypt(gla_pass.encode()), "loggedIn": 1})
-        collection.delete_one({"_id": "W"+fb_id})
+        collection.delete_one({"_id": wait_id+fb_id})
         return '<h1> Login successful! You can now close this page and chat to the bot. </h1>'
 
 
@@ -131,8 +128,8 @@ def parse_message(message, id):
         
         else:
             collection.delete_one({"_id": id})
-            collection.insert_one({"_id": "W"+id})
-            return "Something went wrong.\nRegister here: https://boydbot.herokuapp.com/register?key={}".format(id)
+            collection.insert_one({"_id": wait_id+id})
+            return "Something went wrong.\nRegister here: {}/register?key={}".format(app_url, id)
     
     else:
     
