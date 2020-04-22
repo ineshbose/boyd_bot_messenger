@@ -77,7 +77,7 @@ def new_user_registration():
         
         if collection.count_documents({"_id": wait_id+str(pk)}) > 0:
             form = RegisterForm(fb_id=pk)
-            return render_template('register.html', form=form)
+            return render_template('register.html', form=form, message="")
         else:
             return '404'
     
@@ -88,9 +88,11 @@ def new_user_registration():
         loginResult = scraper.login(gla_id, gla_pass)
         
         if loginResult == 2:
-            return '<h1> Wrong credentials. <a href="{}/register?key={}">Try again.</a></h1>'.format(app_url, fb_id)
+            form = RegisterForm(fb_id=fb_id)
+            return render_template('register.html', form=form, message="Invalid credentials.")
         elif loginResult == 3:
-            return '<h1> Something went wrong. <a href="{}/register?key={}">Try again.</a></h1>'.format(app_url, fb_id)
+            form = RegisterForm(fb_id=fb_id)
+            return render_template('register.html', form=form, message="Something went wrong. Try again.")
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "thing": f.encrypt(gla_pass.encode()), "loggedIn": 1})
         collection.delete_one({"_id": wait_id+fb_id})

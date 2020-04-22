@@ -1,6 +1,10 @@
-<html>
-    <head><title>Boyd Bot | Login</title></head>
-    <body>
+{% extends 'base.html' %}
+
+{% block title_block %}
+Login
+{% endblock %}
+
+{% block body_block %}
         <center>
             <h1>Register</h1>
             <form action="/register" method="post" novalidate>
@@ -16,5 +20,4 @@
                 <p>{{ form.submit() }}</p>
             </form>
             </center>
-    </body>
-</html>
+{% endblock %}
