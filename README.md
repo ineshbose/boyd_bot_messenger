@@ -8,9 +8,6 @@ All requirements have been listed in `requirements.txt`, they can be installed u
 $ pip install -r requirements.txt
 ```
 
-### Drivers
-The necessary driver is [chromedriver](https://chromedriver.chromium.org/). For testing, [ngrok](https://ngrok.com/) is a good idea.
-
 ### Environment Variables
 Access tokens, keys, etc have been hidden from this repository for obvious reasons. Wherever you see `os.environ.get()`, a key is being used. You may replace these with your own.
 

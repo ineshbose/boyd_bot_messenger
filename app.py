@@ -117,7 +117,7 @@ def parse_message(message, id):
                 bot.send_action(id, "typing_on")
                 
                 if 'datetime' in parse['entities']:
-                    return scraper.specific_day(parse['entities']['datetime'][0]['value'][:10], r['guid'])
+                    return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
                 
                 elif 'read_next' in parse['entities']:
                     return scraper.read_now(r['guid'])
@@ -141,17 +141,15 @@ def parse_message(message, id):
                 bot.send_action(id, "typing_on")
 
                 if 'logout' in parse['entities']:
-                    scraper.close(r['guid'])
                     collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
                     return "Logged out! Goodbye. :)"
                 
                 elif 'delete_data' in parse['entities']:
-                    scraper.close(r['guid'])
                     collection.delete_one({"_id": id})
                     return "Deleted! :) "
                 
                 elif 'datetime' in parse['entities']:
-                    return scraper.specific_day(parse['entities']['datetime'][0]['value'][:10], r['guid'])
+                    return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
                 
                 elif 'read_next' in parse['entities']:
                     return scraper.read_now(r['guid'])
@@ -160,7 +158,6 @@ def parse_message(message, id):
                     return "Not sure how to answer that."
             
             except:
-                scraper.reload(r['guid'])
                 return "Something went wrong with parsing that. Try again."
         
         else:
