@@ -6,6 +6,7 @@ Login
 
 {% block body_block %}
         <center>
+            <h1>{{message}}</h1>
             <h1>Register</h1>
             <form action="/register" method="post" novalidate>
                 {{ form.hidden_tag() }}
