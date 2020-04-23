@@ -72,6 +72,7 @@ def new_user_registration():
     
     if request.method == 'GET':
         pk = request.args.get('key')
+        app.logger.info('{} is undergoing registration.'.format(pk))
         return render_template('register.html', form=RegisterForm(fb_id=pk), message="") if collection.count_documents({"_id": wait_id+str(pk)}) > 0 else redirect('/')
     
     else:
@@ -82,11 +83,14 @@ def new_user_registration():
         
         if loginResult == 2:
             form = RegisterForm(fb_id=fb_id)
+            app.logger.info('{} provided invalid credentials.'.format(fb_id))
             return render_template('register.html', form=form, message="Invalid credentials.")
         elif loginResult > 2:
             form = RegisterForm(fb_id=fb_id)
+            app.logger.info('{} registration threw some error.'.format(fb_id))
             return render_template('register.html', form=form, message="Something went wrong. Try again.")
         
+        app.logger.info('{} completed registration.'.format(fb_id))
         collection.insert_one({"_id": fb_id, "guid": gla_id, "thing": f.encrypt(gla_pass.encode()), "loggedIn": 1})
         collection.delete_one({"_id": wait_id+fb_id})
         bot.send_text_message(fb_id, "Alrighty! We can get started. :D")
@@ -102,10 +106,12 @@ def handle_entity(message, r, alt, except_message):
         try:
             if 'logout' in parse['entities']:
                 collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
+                app.logger.info('{} logged out.'.format(r['_id']))
                 return "Logged out! Goodbye. :)"
             
             elif 'delete_data' in parse['entities']:
                 collection.delete_one({"_id": r['_id']})
+                app.logger.info('{} deleted their data.'.format(r['_id']))
                 return "Deleted! :) "
             
             elif 'datetime' in parse['entities']:
@@ -117,10 +123,12 @@ def handle_entity(message, r, alt, except_message):
             else:
                 return alt
 
-        except:
+        except Exception as e:
+            app.logger.info('{} messaged "{}" that threw an error: {}'.format(r['_id'], message, e))
             return except_message
     
     else:
+        app.logger.info('{} was logged out.'.format(r['_id']))
         collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
         return parse_message(message, r['_id'])
 
@@ -134,9 +142,11 @@ def parse_message(message, id):
         loginResult = scraper.login(r['guid'], (f.decrypt(r['thing'])).decode())
     
         if loginResult == 1:
+            app.logger.info('{} was logged in.'.format(id))
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 1}}) 
         
         else:
+            app.logger.info('{} was unable to log in.'.format(id))
             collection.delete_one({"_id": id})
             collection.insert_one({"_id": wait_id+id})
             return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, id)
