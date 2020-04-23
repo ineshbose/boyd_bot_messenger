@@ -15,6 +15,7 @@ app_url = os.environ.get("APP_URL")
 app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")
 witClient = Wit(os.environ.get("WIT_ACCESS_TOKEN"))
 PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
+fb_verify = os.environ.get("VERIFY_TOKEN")
 cluster = MongoClient(os.environ.get("MONGO_TOKEN"))
 db = cluster[os.environ.get("FIRST_CLUSTER")]
 collection = db[os.environ.get("COLLECTION_NAME")]
@@ -37,7 +38,7 @@ def main():
     
     if request.method == 'GET':
         if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
-            if not request.args.get("hub.verify_token") == os.environ.get("VERIFY_TOKEN"):
+            if not request.args.get("hub.verify_token") == fb_verify:
                 return "Verification token mismatch", 403
             return request.args["hub.challenge"], 200
         return "Hello World", 200
