@@ -135,7 +135,7 @@ def parse_message(message, id):
     
     else:
     
-        if scraper.check_browser(r['guid']):
+        if scraper.check_loggedIn(r['guid']):
             try:
                 parse = witClient.message(message)
                 bot.send_action(id, "typing_on")
