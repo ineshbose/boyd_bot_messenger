@@ -41,7 +41,7 @@ def main():
             if not request.args.get("hub.verify_token") == fb_verify:
                 return "Verification token mismatch", 403
             return request.args["hub.challenge"], 200
-        return "Hello World", 200
+        return render_template('index.html'), 200
     
     else:
         data = request.get_json()
@@ -50,8 +50,8 @@ def main():
             messaging_event = data['entry'][0]['messaging'][0]
             
             if collection.count_documents({"_id": sender_id}) > 0:
+                
                 if messaging_event.get('message'):
-                    
                     messaging_text = messaging_event['message']['text'] if 'text' in messaging_event['message'] else 'no text'
                     response = parse_message(messaging_text, sender_id)
                     bot.send_text_message(sender_id, response)
@@ -72,7 +72,7 @@ def new_user_registration():
     
     if request.method == 'GET':
         pk = request.args.get('key')
-        return render_template('register.html', form=RegisterForm(fb_id=pk), message="") if collection.count_documents({"_id": wait_id+str(pk)}) > 0 else '404'
+        return render_template('register.html', form=RegisterForm(fb_id=pk), message="") if collection.count_documents({"_id": wait_id+str(pk)}) > 0 else redirect('/')
     
     else:
         fb_id = request.form.get('fb_id')
@@ -95,28 +95,34 @@ def new_user_registration():
 
 def handle_entity(message, r, alt, except_message):
 
-    parse = witClient.message(message)
-    
-    try:
-        if 'logout' in parse['entities']:
-            collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
-            return "Logged out! Goodbye. :)"
+    if scraper.check_loggedIn(r['guid']):
+        bot.send_action(r['_id'], "typing_on")
+        parse = witClient.message(message)
         
-        elif 'delete_data' in parse['entities']:
-            collection.delete_one({"_id": r['_id']})
-            return "Deleted! :) "
-        
-        elif 'datetime' in parse['entities']:
-            return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
-        
-        elif 'read_next' in parse['entities']:
-            return scraper.read_now(r['guid'])
-        
-        else:
-            return alt
+        try:
+            if 'logout' in parse['entities']:
+                collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
+                return "Logged out! Goodbye. :)"
+            
+            elif 'delete_data' in parse['entities']:
+                collection.delete_one({"_id": r['_id']})
+                return "Deleted! :) "
+            
+            elif 'datetime' in parse['entities']:
+                return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
+            
+            elif 'read_next' in parse['entities']:
+                return scraper.read_now(r['guid'])
+            
+            else:
+                return alt
 
-    except:
-        return except_message
+        except:
+            return except_message
+    
+    else:
+        collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
+        return parse_message(message, r['_id'])
 
 
 def parse_message(message, id):
@@ -129,23 +135,13 @@ def parse_message(message, id):
     
         if loginResult == 1:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 1}}) 
-            bot.send_action(id, "typing_on")
-            return handle_entity(message, r, "What's up?","So, what's up?")
         
         else:
             collection.delete_one({"_id": id})
             collection.insert_one({"_id": wait_id+id})
             return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, id)
     
-    else:
-    
-        if scraper.check_loggedIn(r['guid']):
-            bot.send_action(id, "typing_on")
-            return handle_entity(message, r, "I'm not quite sure how to answer that.","Oops. I wasn't able to understand that. Try again.")
-        
-        else:
-            collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
-            return parse_message(message, id)
+    return handle_entity(message, r, "I can't answer that yet.", "I was unable to understand that. Try again?")
 
 
 if __name__ == "__main__":
