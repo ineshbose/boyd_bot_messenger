@@ -22,10 +22,7 @@ def login(guid,passw):
 
 
 def format_event(event):
-    if '(' in event['summary']:
-        return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
-    else:
-        return event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
+    return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n' if '(' in event['summary'] else event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
 
 
 def read_date(date_entry, guid):
@@ -37,11 +34,8 @@ def read_date(date_entry, guid):
     for event in calendars[guid].walk('vevent'):
         if event['dtstart'].dt > tmzn.localize(date1) and event['dtend'].dt < tmzn.localize(date2):
             message+=format_event(event)
-    
-    if message == "You have..\n\n":
-        return "There seem to be no classes."
-    
-    return message
+
+    return "There seem to be no classes." if message == "You have..\n\n" else message
 
 
 def read_now(guid):
@@ -54,13 +48,7 @@ def read_now(guid):
             message+=format_event(event)
             break
     
-    if message == "Up next, you have..\n\n":
-        return "No class. :)"
-    
-    return message
+    return "No class! :D" if message == "Up next, you have..\n\n" else message
 
 def check_loggedIn(guid):
-    if guid in calendars.keys():
-        return True
-    else:
-        return False
+    return True if guid in calendars.keys() else False

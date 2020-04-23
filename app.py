@@ -52,11 +52,7 @@ def main():
             if collection.count_documents({"_id": sender_id}) > 0:
                 if messaging_event.get('message'):
                     
-                    if 'text' in messaging_event['message']:
-                        messaging_text = messaging_event['message']['text']
-                    
-                    else:
-                        messaging_text = 'no text'
+                    messaging_text = messaging_event['message']['text'] if 'text' in messaging_event['message'] else 'no text'
                     response = parse_message(messaging_text, sender_id)
                     bot.send_text_message(sender_id, response)
 
@@ -65,7 +61,7 @@ def main():
             
             else:
                 collection.insert_one({"_id": wait_id+sender_id})
-                bot.send_text_message(sender_id, "New user!\nRegister here: {}/register?key={}".format(app_url, sender_id))
+                bot.send_text_message(sender_id, "Hello there, new person!\nRegister here: {}/register?key={}".format(app_url, sender_id))
                 return "ok", 200
         
         return "ok", 200
@@ -75,12 +71,7 @@ def new_user_registration():
     
     if request.method == 'GET':
         pk = request.args.get('key')
-        
-        if collection.count_documents({"_id": wait_id+str(pk)}) > 0:
-            form = RegisterForm(fb_id=pk)
-            return render_template('register.html', form=form, message="")
-        else:
-            return '404'
+        return render_template('register.html', form=RegisterForm(fb_id=pk), message="") if collection.count_documents({"_id": wait_id+str(pk)}) > 0 else '404'
     
     else:
         fb_id = request.form.get('fb_id')
@@ -111,10 +102,10 @@ def parse_message(message, id):
     
         if loginResult == 1:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 1}}) 
-            
+            bot.send_action(id, "typing_on")
+
             try:
                 parse = witClient.message(message)
-                bot.send_action(id, "typing_on")
                 
                 if 'datetime' in parse['entities']:
                     return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
@@ -131,14 +122,15 @@ def parse_message(message, id):
         else:
             collection.delete_one({"_id": id})
             collection.insert_one({"_id": wait_id+id})
-            return "Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, id)
+            return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, id)
     
     else:
     
         if scraper.check_loggedIn(r['guid']):
+            bot.send_action(id, "typing_on")
+            
             try:
                 parse = witClient.message(message)
-                bot.send_action(id, "typing_on")
 
                 if 'logout' in parse['entities']:
                     collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
@@ -162,7 +154,7 @@ def parse_message(message, id):
         
         else:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
-            return "You have been logged out due to some error or being idle for too long. Say hello to log in again. :) "
+            return "Whoops! I closed your calendar because of being idle for too long, or some error. Say hello to get back on track. ;) "
 
 
 if __name__ == "__main__":

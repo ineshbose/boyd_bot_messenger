@@ -14,7 +14,7 @@ Access tokens, keys, etc have been hidden from this repository for obvious reaso
 ## To-Do
 1. Read Next Class ✓
 2. Locations
-3. Book Rooms
+3. Book Rooms (might have to ditch considering `selenium` is removed)
 4. Small talk(?) (Switch to DialogFlow)
 5. Background Scheduler (opt-in feature)
 
