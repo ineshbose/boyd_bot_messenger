@@ -99,11 +99,11 @@ def handle_entity(message, r, alt, except_message):
     
     try:
         if 'logout' in parse['entities']:
-            collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
+            collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
             return "Logged out! Goodbye. :)"
         
         elif 'delete_data' in parse['entities']:
-            collection.delete_one({"_id": id})
+            collection.delete_one({"_id": r['_id']})
             return "Deleted! :) "
         
         elif 'datetime' in parse['entities']:
