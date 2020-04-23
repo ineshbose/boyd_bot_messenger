@@ -93,25 +93,30 @@ def new_user_registration():
         return '<h1> Login successful! You can now close this page and chat to the bot. </h1>'
 
 
-def handle_entity(message, r, alt):
-    parse = witClient.message(message)
+def handle_entity(message, r, alt, except_message):
 
-    if 'logout' in parse['entities']:
-        collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
-        return "Logged out! Goodbye. :)"
+    parse = witClient.message(message)
     
-    elif 'delete_data' in parse['entities']:
-        collection.delete_one({"_id": id})
-        return "Deleted! :) "
-    
-    elif 'datetime' in parse['entities']:
-        return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
-    
-    elif 'read_next' in parse['entities']:
-        return scraper.read_now(r['guid'])
-    
-    else:
-        return alt
+    try:
+        if 'logout' in parse['entities']:
+            collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
+            return "Logged out! Goodbye. :)"
+        
+        elif 'delete_data' in parse['entities']:
+            collection.delete_one({"_id": id})
+            return "Deleted! :) "
+        
+        elif 'datetime' in parse['entities']:
+            return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
+        
+        elif 'read_next' in parse['entities']:
+            return scraper.read_now(r['guid'])
+        
+        else:
+            return alt
+
+    except:
+        return except_message
 
 
 def parse_message(message, id):
@@ -125,12 +130,7 @@ def parse_message(message, id):
         if loginResult == 1:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 1}}) 
             bot.send_action(id, "typing_on")
-
-            try:
-                handle_entity(message, r, "What's up?")
-            
-            except:
-                return "So, what's up?"
+            return handle_entity(message, r, "What's up?","So, what's up?")
         
         else:
             collection.delete_one({"_id": id})
@@ -141,16 +141,11 @@ def parse_message(message, id):
     
         if scraper.check_loggedIn(r['guid']):
             bot.send_action(id, "typing_on")
-            
-            try:
-                handle_entity(message, r, "I'm not quite sure how to answer that.")
-            
-            except:
-                return "Oops. I wasn't able to understand that. Try again."
+            return handle_entity(message, r, "I'm not quite sure how to answer that.","Oops. I wasn't able to understand that. Try again.")
         
         else:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 0}})
-            parse_message(message, id)
+            return parse_message(message, id)
 
 
 if __name__ == "__main__":
