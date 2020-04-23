@@ -14,13 +14,18 @@ def login(guid,passw):
     req[guid] = requests.get("https://{}:{}@frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics".format(guid,passw))
     try:
         calendars[guid] = Calendar.from_ical(req[guid].content)
+        req[guid].close()
         return 1
     except:
+        req[guid].close()
         return 2
 
 
 def format_event(event):
-    return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
+    if '(' in event['summary']:
+        return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
+    else:
+        return event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
 
 
 def read_date(date_entry, guid):
@@ -57,4 +62,5 @@ def read_now(guid):
 def check_loggedIn(guid):
     if guid in calendars.keys():
         return True
-    return False
+    else:
+        return False

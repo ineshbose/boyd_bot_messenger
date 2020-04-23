@@ -91,12 +91,13 @@ def new_user_registration():
         if loginResult == 2:
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Invalid credentials.")
-        elif loginResult == 3:
+        elif loginResult > 2:
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Something went wrong. Try again.")
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "thing": f.encrypt(gla_pass.encode()), "loggedIn": 1})
         collection.delete_one({"_id": wait_id+fb_id})
+        bot.send_text_message(fb_id, "Alrighty! We can get started. :D")
         return '<h1> Login successful! You can now close this page and chat to the bot. </h1>'
 
 
@@ -105,13 +106,11 @@ def parse_message(message, id):
     r = collection.find_one({"_id": id})
     
     if r['loggedIn'] == 0:
-        bot.send_text_message(id, "Logging in..")
         bot.send_action(id, "typing_on")
         loginResult = scraper.login(r['guid'], (f.decrypt(r['thing'])).decode())
     
         if loginResult == 1:
             collection.update_one({"_id": id}, {'$set': {'loggedIn': 1}}) 
-            bot.send_text_message(id, "Logged in!")
             
             try:
                 parse = witClient.message(message)
@@ -132,7 +131,7 @@ def parse_message(message, id):
         else:
             collection.delete_one({"_id": id})
             collection.insert_one({"_id": wait_id+id})
-            return "Something went wrong.\nRegister here: {}/register?key={}".format(app_url, id)
+            return "Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, id)
     
     else:
     
