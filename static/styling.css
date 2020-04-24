@@ -1,0 +1,14 @@
+body {
+    background-image: url("https://www.gla.ac.uk/media/Media_681972_smxx.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: "Hillhead","Ubuntu","Trebuchet MS",Arial,sans-serif;
+    font-size: .9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #373a3c;
+    text-align: left;
+    background-color: #ebf1f5;
+}

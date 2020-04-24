@@ -6,22 +6,19 @@ Login
 
 {% block body_block %}
         <center>
-            <h1>{{message}}</h1>
-            <h1>Register</h1>
+            <h2>{{message}}</h2>
             <form action="/register" method="post" validate>
                 {{ form.hidden_tag() }}
                 <p>
-                    {{ form.gla_id.label }}<br>
-                    {{ form.gla_id(size=32) }}
+                    {{ form.gla_id(size=32, placeholder=form.gla_id.label.text) }}
                 </p>
                 <p>
-                    {{ form.gla_pass.label }}<br>
-                    {{ form.gla_pass(size=32) }}
+                    {{ form.gla_pass(size=32, placeholder=form.gla_pass.label.text) }}
                 </p>
                 <p>
                     <a href="https://password.gla.ac.uk/">Forgot your password?</a>
                 </p>
-                <p>{{ form.submit() }}</p>
+                <p>{{ form.submit(value='Log in with your GUID') }}</p>
             </form>
-            </center>
+        </center>
 {% endblock %}
