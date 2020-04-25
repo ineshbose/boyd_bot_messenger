@@ -6,6 +6,7 @@ Login
 
 {% block body_block %}
         <center>
+            <div class='box'>
             <h2>{{message}}</h2>
             <form action="/register" method="post" validate>
                 {{ form.hidden_tag() }}
@@ -20,5 +21,6 @@ Login
                 </p>
                 <p>{{ form.submit(value='Log in with your GUID') }}</p>
             </form>
+            </div>
         </center>
 {% endblock %}

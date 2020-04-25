@@ -1,21 +1,20 @@
-import os, sys
+import os, sys, json
 import scraper
 from pymessenger import Bot
 from cryptography.fernet import Fernet
-from flask import Flask, request, session, redirect, render_template
+from flask import Flask, request, session, redirect, render_template, make_response
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from wtforms.validators import DataRequired
 from pymongo import MongoClient
-from wit import Wit
 
 
 app = Flask(__name__)
 app_url = os.environ.get("APP_URL")
 app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")
-witClient = Wit(os.environ.get("WIT_ACCESS_TOKEN"))
 PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
-fb_verify = os.environ.get("VERIFY_TOKEN")
+webhook_token = os.environ.get("VERIFY_TOKEN")
+wb_arg_name = os.environ.get("WB_ARG_NAME")
 cluster = MongoClient(os.environ.get("MONGO_TOKEN"))
 db = cluster[os.environ.get("FIRST_CLUSTER")]
 collection = db[os.environ.get("COLLECTION_NAME")]
@@ -33,38 +32,34 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Login')
 
 
-@app.route('/', methods=['GET','POST'])
-def main():
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/webhook', methods=['GET','POST'])
+def webhook():
     
     if request.method == 'GET':
-        if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
-            if not request.args.get("hub.verify_token") == fb_verify:
-                return "Verification token mismatch", 403
-            return request.args["hub.challenge"], 200
+        if not request.args.get(wb_arg_name) == webhook_token:
+            return "Verification token mismatch", 403
         return render_template('index.html'), 200
     
     else:
         data = request.get_json()
-        if data['object'] == 'page':
-            sender_id = data['entry'][0]['messaging'][0]['sender']['id']
-            messaging_event = data['entry'][0]['messaging'][0]
-            
-            if collection.count_documents({"_id": sender_id}) > 0:
-                
-                if messaging_event.get('message'):
-                    messaging_text = messaging_event['message']['text'] if 'text' in messaging_event['message'] else 'no text'
-                    response = parse_message(messaging_text, sender_id)
-                    bot.send_text_message(sender_id, response)
-
-            elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
-                bot.send_text_message(sender_id, "Doesn't seem like you've registered yet.\nRegister here: {}/register?key={}".format(app_url, sender_id))
-            
-            else:
-                collection.insert_one({"_id": wait_id+sender_id})
-                bot.send_text_message(sender_id, "Hello there, new person!\nRegister here: {}/register?key={}".format(app_url, sender_id))
-                return "ok", 200
+        sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
         
-        return "ok", 200
+        if collection.count_documents({"_id": sender_id}) > 0:
+            response = parse_message(data, sender_id)
+
+        elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
+            response = "Doesn't seem like you've registered yet.\nRegister here: {}/register?key={}".format(app_url, sender_id)
+        
+        else:
+            collection.insert_one({"_id": wait_id+sender_id})
+            response = "Hello there, new person!\nRegister here: {}/register?key={}".format(app_url, sender_id)
+    
+        return prepare_json(response)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -93,39 +88,53 @@ def new_user_registration():
         return '<h1> Login successful! You can now close this page and chat to the bot. </h1>'
 
 
-def handle_entity(message, r, alt, except_message):
+def prepare_json(message):
+    res = {
+        'fulfillmentText': message,
+    }
+    res = json.dumps(res, indent=4)
+    r = make_response(res)
+    r.headers['Content-Type'] = 'application/json'
+    return r
+
+
+def handle_intent(data, r):
 
     if scraper.check_loggedIn(r['guid']):
         bot.send_action(r['_id'], "typing_on")
-        parse = witClient.message(message)
+        intent = data['queryResult']['intent']
         
         try:
-            if 'logout' in parse['entities']:
-                collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
-                return "Logged out! Goodbye. :)"
-            
-            elif 'delete_data' in parse['entities']:
-                collection.delete_one({"_id": r['_id']})
-                return "Deleted! :) "
-            
-            elif 'datetime' in parse['entities']:
-                return scraper.read_date(parse['entities']['datetime'][0]['value'][:10], r['guid'])
-            
-            elif 'read_next' in parse['entities']:
-                return scraper.read_now(r['guid'])
-            
+            if 'displayName' in intent:
+                if intent['displayName'] == 'Default Welcome Intent':
+                    return
+
+                if intent['displayName'] == 'delete data':
+                    collection.delete_one({"_id": r['_id']})
+                    return "Deleted! :) "
+                
+                elif intent['displayName'] == 'read timetable':
+                    print(data['queryResult']['parameters']['date-time'][:10])
+                    return scraper.read_date(data['queryResult']['parameters']['date-time'][:10], r['guid'])
+                
+                elif intent['displayName'] == 'read next':
+                    return scraper.read_now(r['guid'])
+
+                else:
+                    return "I'm unable to answer that."
+                
             else:
-                return alt
+                return
 
         except:
-            return except_message
+            return "I'm sorry, something went wrong understanding that. :("
     
     else:
         collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
-        return parse_message(message, r['_id'])
+        return parse_message(data, r['_id'])
 
 
-def parse_message(message, id):
+def parse_message(data, id):
    
     r = collection.find_one({"_id": id})
     
@@ -141,7 +150,7 @@ def parse_message(message, id):
             collection.insert_one({"_id": wait_id+id})
             return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, id)
     
-    return handle_entity(message, r, "I can't answer that yet.", "I was unable to understand that. Try again?")
+    return handle_intent(data, r)
 
 
 if __name__ == "__main__":
