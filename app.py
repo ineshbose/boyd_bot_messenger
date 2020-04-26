@@ -85,7 +85,7 @@ def new_user_registration():
         collection.insert_one({"_id": fb_id, "guid": gla_id, "thing": f.encrypt(gla_pass.encode()), "loggedIn": 1})
         collection.delete_one({"_id": wait_id+fb_id})
         bot.send_text_message(fb_id, "Alrighty! We can get started. :D")
-        return '<h1> Login successful! You can now close this page and chat to the bot. </h1>'
+        return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
 
 
 def prepare_json(message):
@@ -114,7 +114,6 @@ def handle_intent(data, r):
                     return "Deleted! :) "
                 
                 elif intent['displayName'] == 'read timetable':
-                    print(data['queryResult']['parameters']['date-time'][:10])
                     return scraper.read_date(data['queryResult']['parameters']['date-time'][:10], r['guid'])
                 
                 elif intent['displayName'] == 'read next':
