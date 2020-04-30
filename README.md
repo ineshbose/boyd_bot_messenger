@@ -1,4 +1,10 @@
 # Boyd Bot (Messenger)
+![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)
+![GitHub](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)
+<a href="https://www.facebook.com/uofgbot"><img src="https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook" />
+<a href="https://m.me/uofgbot"><img src="https://img.shields.io/badge/Messenger--9cf?style=flat-square&logo=messenger" />
+<a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot"><img src="https://img.shields.io/badge/Behance--lightgrey?style=flat-square&logo=behance" /></a>
+
 This repository is for Flask version of the Boyd Bot.
 
 ## Set-Up
@@ -12,11 +18,11 @@ $ pip install -r requirements.txt
 Access tokens, keys, etc have been hidden from this repository for obvious reasons. Wherever you see `os.environ.get()`, a key is being used. You may replace these with your own.
 
 ## To-Do
-1. Read Next Class ✓
-2. Locations
-3. Book Rooms (might have to ditch considering `selenium` is removed)
-4. Small talk(?) (Switch to DialogFlow) ✓
-5. Background Scheduler (opt-in feature)
+- [x] Read Next Class
+- [ ] Locations
+- [ ] Book Rooms (might have to ditch considering `selenium` is removed)
+- [x] Small talk(?) (Switch to DialogFlow)
+- [ ] Background Scheduler (opt-in feature)
 
 ## Note
 This repository was created fresh as the previous (private) repository had some keys in the commit history. If any sensitive data is pushed accidentally, a new repository will be created.

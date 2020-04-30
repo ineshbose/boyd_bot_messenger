@@ -106,9 +106,6 @@ def handle_intent(data, r):
         
         try:
             if 'displayName' in intent:
-                if intent['displayName'] == 'Default Welcome Intent':
-                    return
-
                 if intent['displayName'] == 'delete data':
                     collection.delete_one({"_id": r['_id']})
                     return "Deleted! :) "
@@ -120,7 +117,7 @@ def handle_intent(data, r):
                     return scraper.read_now(r['guid'])
 
                 else:
-                    return "I'm unable to answer that."
+                    return
                 
             else:
                 return
