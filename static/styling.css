@@ -1,3 +1,7 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     background-image: url("https://www.gla.ac.uk/media/Media_681972_smxx.jpg");
     background-position: center center;
@@ -9,7 +13,8 @@ body {
     font-weight: 400;
     line-height: 1.5;
     color: #373a3c;
-    text-align: left;
+    text-align: center;
+    align-content: center;
     background-color: #ebf1f5;
 }
 
@@ -28,10 +33,14 @@ a {
 }
 
 .box {
-    align-items: center;
     background-color: rgba(255, 255, 255, .7);
     border-radius: 6px;
     padding: 10px;
+}
+
+form {
+    display: block;
+    margin-top: 0em;
 }
 
 .alert {
@@ -45,8 +54,9 @@ a {
 
 .form-control {
     display: block;
-    width: 97%;
+    width: 100%;
     padding: .375rem .75rem;
+    margin-bottom: 10px;
     font-size: .9rem;
     line-height: 1.5;
     color: #495057;
@@ -62,6 +72,7 @@ a {
     font-weight: 400;
     width: 100%;
     text-align: center;
+    margin-bottom: 10px;
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
