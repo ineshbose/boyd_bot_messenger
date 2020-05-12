@@ -1,6 +1,6 @@
 # Boyd Bot (Messenger)
-![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)
-![GitHub](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)
+[![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
+[![GitHub](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
 <a href="https://www.facebook.com/uofgbot"><img src="https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook" />
 <a href="https://m.me/uofgbot"><img src="https://img.shields.io/badge/Messenger--9cf?style=flat-square&logo=messenger" />
 <a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot"><img src="https://img.shields.io/badge/Behance--lightgrey?style=flat-square&logo=behance" /></a>

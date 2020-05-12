@@ -1,8 +1,8 @@
-import os, sys, json
+import os, json
 import scraper
 from pymessenger import Bot
 from cryptography.fernet import Fernet
-from flask import Flask, request, session, redirect, render_template, make_response
+from flask import Flask, request, redirect, render_template, make_response
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from wtforms.validators import DataRequired
@@ -47,7 +47,11 @@ def webhook():
     
     else:
         data = request.get_json()
-        sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
+
+        try:
+            sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
+        except KeyError:
+            return
         
         if collection.count_documents({"_id": sender_id}) > 0:
             response = parse_message(data, sender_id)
@@ -82,7 +86,7 @@ def new_user_registration():
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Something went wrong. Try again.")
         
-        collection.insert_one({"_id": fb_id, "guid": gla_id, "thing": f.encrypt(gla_pass.encode()), "loggedIn": 1})
+        collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode()), "loggedIn": 1})
         collection.delete_one({"_id": wait_id+fb_id})
         bot.send_text_message(fb_id, "Alrighty! We can get started. :D")
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
@@ -122,29 +126,29 @@ def handle_intent(data, r):
             else:
                 return
 
-        except:
-            return "I'm sorry, something went wrong understanding that. :("
+        except Exception as e:
+            return "I'm sorry, something went wrong understanding that. :( \n\n\n ERROR: {}".format(e)
     
     else:
         collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
         return parse_message(data, r['_id'])
 
 
-def parse_message(data, id):
+def parse_message(data, uid):
    
-    r = collection.find_one({"_id": id})
+    r = collection.find_one({"_id": uid})
     
     if r['loggedIn'] == 0:
-        bot.send_action(id, "typing_on")
-        loginResult = scraper.login(r['guid'], (f.decrypt(r['thing'])).decode())
+        bot.send_action(uid, "typing_on")
+        loginResult = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
     
         if loginResult == 1:
-            collection.update_one({"_id": id}, {'$set': {'loggedIn': 1}}) 
+            collection.update_one({"_id": uid}, {'$set': {'loggedIn': 1}}) 
         
         else:
-            collection.delete_one({"_id": id})
-            collection.insert_one({"_id": wait_id+id})
-            return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, id)
+            collection.delete_one({"_id": uid})
+            collection.insert_one({"_id": wait_id+uid})
+            return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, uid)
     
     return handle_intent(data, r)
 
