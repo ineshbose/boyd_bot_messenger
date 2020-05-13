@@ -9,23 +9,25 @@ from wtforms.validators import DataRequired
 from pymongo import MongoClient
 
 
-app = Flask(__name__)
-app_url = os.environ.get("APP_URL")
-app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")
-PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
-webhook_token = os.environ.get("VERIFY_TOKEN")
-wb_arg_name = os.environ.get("WB_ARG_NAME")
-cluster = MongoClient(os.environ.get("MONGO_TOKEN"))
-db = cluster[os.environ.get("FIRST_CLUSTER")]
-collection = db[os.environ.get("COLLECTION_NAME")]
-wait_id = os.environ.get("WAIT_ID")
-f = Fernet(os.environ.get("FERNET_KEY"))
-
-
-bot = Bot(PAGE_ACCESS_TOKEN)
+app = Flask(__name__)                                               # Importing Flask app name
+app_url = os.environ.get("APP_URL")                                 # App URL as variable to easily change it
+app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")              # Flask Secret Key to enable FlaskForm
+PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")             # Facebook Page Access Token
+webhook_token = os.environ.get("VERIFY_TOKEN")                      # Webhook Token for GET request
+wb_arg_name = os.environ.get("WB_ARG_NAME")                         # Webhook Argument Name
+cluster = MongoClient(os.environ.get("MONGO_TOKEN"))                # Mongo Cluster
+db = cluster[os.environ.get("FIRST_CLUSTER")]                       # Mongo Database in the Cluster
+collection = db[os.environ.get("COLLECTION_NAME")]                  # Mongo Collection in the Database
+wait_id = os.environ.get("WAIT_ID")                                 # Prefix ID to distinguish between registered users and in-registration users
+f = Fernet(os.environ.get("FERNET_KEY"))                            # Encryption key using Fernet
+bot = Bot(PAGE_ACCESS_TOKEN)                                        # Facebook Bot using Page Access Token and pymessenger
 
 
 class RegisterForm(FlaskForm):
+    """Registration form for users.
+
+    Contains 3 essential input fields (+ 1 `SubmitField`).
+    """
     fb_id = HiddenField('fb_id')
     gla_id = StringField('GUID', validators=[DataRequired()])
     gla_pass = PasswordField('Password', validators=[DataRequired()])
@@ -34,11 +36,30 @@ class RegisterForm(FlaskForm):
 
 @app.route('/')
 def index():
+    """Returns index() view for the app.
+
+    Returns
+    -------
+    template
+        The home page for the app corresponding the URL (`app_url`+'/').
+    """
     return render_template('index.html')
 
 
 @app.route('/webhook', methods=['GET','POST'])
 def webhook():
+    """Enables webhook for the app.
+
+    A method to create GET and POST requests with the app to DialogFlow.
+    
+    Returns
+    -------
+    template
+        On successful webhook, a template is rendered.
+
+    json
+        The response to POST request.
+    """
     
     if request.method == 'GET':
         if not request.args.get(wb_arg_name) == webhook_token:
@@ -68,6 +89,16 @@ def webhook():
 
 @app.route('/register', methods=['GET', 'POST'])
 def new_user_registration():
+    """Registration for a new user.
+
+    Using `wait_id`, in-registration user is distinguished and then logged in using `scraper.login()` and depending
+    on returned boolean value, the page is re-rendered.
+
+    Returns
+    -------
+    template
+        Depending on login, the page is rendered again.
+    """
     
     if request.method == 'GET':
         pk = request.args.get('key')
@@ -77,14 +108,11 @@ def new_user_registration():
         fb_id = request.form.get('fb_id')
         gla_id = request.form.get('gla_id')
         gla_pass = request.form.get('gla_pass')
-        loginResult = scraper.login(gla_id, gla_pass)
+        login_result = scraper.login(gla_id, gla_pass)
         
-        if loginResult == 2:
+        if not login_result:
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Invalid credentials.")
-        elif loginResult > 2:
-            form = RegisterForm(fb_id=fb_id)
-            return render_template('register.html', form=form, message="Something went wrong. Try again.")
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode()), "loggedIn": 1})
         collection.delete_one({"_id": wait_id+fb_id})
@@ -93,6 +121,22 @@ def new_user_registration():
 
 
 def prepare_json(message):
+    """Prepares a formatted JSON containing the message.
+
+    To return a message from a POST request, DialogFlow requires a formatted JSON.
+    Using `pymessenger` to send messages would not be good practice.
+
+    Parameters
+    ----------
+    message : str
+        The message to return.
+
+    Returns
+    -------
+    json
+        A formatted JSON for DialogFlow with the message.
+    """
+
     res = {
         'fulfillmentText': message,
     }
@@ -103,6 +147,25 @@ def prepare_json(message):
 
 
 def handle_intent(data, r):
+    """Checks intent for a message and creates response.
+
+    If an intent is found in a message, a response is returned.
+
+    Parameters
+    ----------
+    data :
+        The JSON of the POST request.
+    r :
+        The details of the user on Mongo.
+
+    Returns
+    -------
+    str
+        The response if intent is satisfied
+
+    null
+        If intent is not handled by the app, DialogFlow creates response.
+    """
 
     if scraper.check_loggedIn(r['guid']):
         bot.send_action(r['_id'], "typing_on")
@@ -110,14 +173,14 @@ def handle_intent(data, r):
         
         try:
             if 'displayName' in intent:
-                if intent['displayName'] == 'delete data':
+                if intent['displayName'].lower() == 'delete data':
                     collection.delete_one({"_id": r['_id']})
                     return "Deleted! :) "
                 
-                elif intent['displayName'] == 'read timetable':
-                    return scraper.read_date(data['queryResult']['parameters']['date-time'][:10], r['guid'])
+                elif intent['displayName'].lower() == 'read timetable':
+                    return scraper.read_date(r['guid'], data['queryResult']['parameters']['date-time'][:10])
                 
-                elif intent['displayName'] == 'read next':
+                elif intent['displayName'].lower() == 'read next':
                     return scraper.read_now(r['guid'])
 
                 else:
@@ -127,7 +190,7 @@ def handle_intent(data, r):
                 return
 
         except Exception as e:
-            return "I'm sorry, something went wrong understanding that. :( \n\n\n ERROR: {}".format(e)
+            return "I'm sorry, something went wrong understanding that. :( \n\n\nERROR: {}".format(e)
     
     else:
         collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
@@ -135,14 +198,33 @@ def handle_intent(data, r):
 
 
 def parse_message(data, uid):
+    """Parses the message of the user.
+
+    The main method handling log in and intents for the message.
+
+    Parameters
+    ----------
+    data : 
+        The JSON of the POST request.
+    uid : str
+        The unique ID for the Facebook user of the app.
+
+    Returns
+    -------
+    str
+        A response for the message.
+
+    null
+        If intent is not handled by app, the response is created by DialogFlow.
+    """
    
     r = collection.find_one({"_id": uid})
     
     if r['loggedIn'] == 0:
         bot.send_action(uid, "typing_on")
-        loginResult = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
+        login_result = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
     
-        if loginResult == 1:
+        if login_result:
             collection.update_one({"_id": uid}, {'$set': {'loggedIn': 1}}) 
         
         else:

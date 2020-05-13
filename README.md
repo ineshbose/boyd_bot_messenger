@@ -5,7 +5,7 @@
 <a href="https://m.me/uofgbot"><img src="https://img.shields.io/badge/Messenger--9cf?style=flat-square&logo=messenger" />
 <a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot"><img src="https://img.shields.io/badge/Behance--lightgrey?style=flat-square&logo=behance" /></a>
 
-This repository is for Flask version of the Boyd Bot.
+This repository is for the Flask version of the Boyd Bot.
 
 ## Set-Up
 ### Packages
