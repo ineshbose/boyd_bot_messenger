@@ -60,8 +60,9 @@ def format_event(event):
     str
         A formatted, readable string for the event.
     """
-    return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n' if '(' in event['summary'] \
-        else event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
+    return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' \
+        + event['location'] + '.\n\n' if '(' in event['summary'] else event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' \
+            + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
 
 
 def read_date(uid, date_entry):
@@ -98,7 +99,8 @@ def read_now(uid):
     """Fetches the upcoming event.
 
     Iterates through all events in the calendar and returns the next event within a range, that is upcoming i.e.
-    starts in a while.
+    starts in a while. The difference between this function and `read_date()` is that this returns ONE event,
+    therefore breaking the loop after it fetches one.
 
     Parameters
     ----------
@@ -125,7 +127,7 @@ def read_now(uid):
 def check_loggedIn(uid):
     """Checks that calendar exists for the user.
 
-    This method enables integrity and checks if a `icalendar.Calendar` exists for a specific user. If not,
+    This function enables integrity and checks if a `icalendar.Calendar` exists for a specific user. If not,
     the user is logged in again in the background.
 
     Parameters

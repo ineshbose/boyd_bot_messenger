@@ -1,12 +1,12 @@
 import os, json
 import scraper
 from pymessenger import Bot
-from cryptography.fernet import Fernet
-from flask import Flask, request, redirect, render_template, make_response
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, HiddenField
-from wtforms.validators import DataRequired
 from pymongo import MongoClient
+from flask_wtf import FlaskForm
+from cryptography.fernet import Fernet
+from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, SubmitField, HiddenField
+from flask import Flask, request, redirect, render_template, make_response
 
 
 app = Flask(__name__)                                               # Importing Flask app name
@@ -18,9 +18,9 @@ wb_arg_name = os.environ.get("WB_ARG_NAME")                         # Webhook Ar
 cluster = MongoClient(os.environ.get("MONGO_TOKEN"))                # Mongo Cluster
 db = cluster[os.environ.get("FIRST_CLUSTER")]                       # Mongo Database in the Cluster
 collection = db[os.environ.get("COLLECTION_NAME")]                  # Mongo Collection in the Database
-wait_id = os.environ.get("WAIT_ID")                                 # Prefix ID to distinguish between registered users and in-registration users
+wait_id = os.environ.get("WAIT_ID")                                 # ID to distinguish between registered and in-registration users
 f = Fernet(os.environ.get("FERNET_KEY"))                            # Encryption key using Fernet
-bot = Bot(PAGE_ACCESS_TOKEN)                                        # Facebook Bot using Page Access Token and pymessenger
+bot = Bot(PAGE_ACCESS_TOKEN)                                        # Facebook Bot using pymessenger and Page Access Token
 
 
 class RegisterForm(FlaskForm):
@@ -114,7 +114,7 @@ def new_user_registration():
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Invalid credentials.")
         
-        collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode()), "loggedIn": 1})
+        collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode())})
         collection.delete_one({"_id": wait_id+fb_id})
         bot.send_text_message(fb_id, "Alrighty! We can get started. :D")
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
@@ -167,34 +167,29 @@ def handle_intent(data, r):
         If intent is not handled by the app, Dialogflow creates response.
     """
 
-    if scraper.check_loggedIn(r['guid']):
-        bot.send_action(r['_id'], "typing_on")
-        intent = data['queryResult']['intent']
-        
-        try:
-            if 'displayName' in intent:
-                if intent['displayName'].lower() == 'delete data':
-                    collection.delete_one({"_id": r['_id']})
-                    return "Deleted! :) "
-                
-                elif intent['displayName'].lower() == 'read timetable':
-                    return scraper.read_date(r['guid'], data['queryResult']['parameters']['date-time'][:10])
-                
-                elif intent['displayName'].lower() == 'read next':
-                    return scraper.read_now(r['guid'])
+    bot.send_action(r['_id'], "typing_on")
+    intent = data['queryResult']['intent']
+    
+    try:
+        if 'displayName' in intent:
+            if intent['displayName'].lower() == 'delete data':
+                collection.delete_one({"_id": r['_id']})
+                return "Deleted! :) "
+            
+            elif intent['displayName'].lower() == 'read timetable':
+                return scraper.read_date(r['guid'], data['queryResult']['parameters']['date-time'][:10])
+            
+            elif intent['displayName'].lower() == 'read next':
+                return scraper.read_now(r['guid'])
 
-                else:
-                    return
-                
             else:
                 return
+            
+        else:
+            return
 
-        except Exception as e:
-            return "I'm sorry, something went wrong understanding that. :( \n\n\nERROR: {}".format(e)
-    
-    else:
-        collection.update_one({"_id": r['_id']}, {'$set': {'loggedIn': 0}})
-        return parse_message(data, r['_id'])
+    except Exception as e:
+        return "I'm sorry, something went wrong understanding that. :( \n\n\nERROR: {}".format(e)
 
 
 def parse_message(data, uid):
@@ -220,14 +215,11 @@ def parse_message(data, uid):
    
     r = collection.find_one({"_id": uid})
     
-    if r['loggedIn'] == 0:
+    if not scraper.check_loggedIn(r['guid']):
         bot.send_action(uid, "typing_on")
         login_result = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
     
-        if login_result:
-            collection.update_one({"_id": uid}, {'$set': {'loggedIn': 1}}) 
-        
-        else:
+        if not login_result:
             collection.delete_one({"_id": uid})
             collection.insert_one({"_id": wait_id+uid})
             return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, uid)
