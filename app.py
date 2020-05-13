@@ -24,8 +24,7 @@ bot = Bot(PAGE_ACCESS_TOKEN)                                        # Facebook B
 
 
 class RegisterForm(FlaskForm):
-    """
-    Registration form for users.
+    """Registration form for users.
 
     Contains 3 essential input fields (+ 1 `SubmitField`).
     """
@@ -43,7 +42,6 @@ def index():
     -------
     template
         The home page for the app corresponding the URL (`app_url`+'/').
-    
     """
     return render_template('index.html')
 
@@ -61,7 +59,6 @@ def webhook():
 
     json
         The response to POST request.
-    
     """
     
     if request.method == 'GET':
@@ -101,7 +98,6 @@ def new_user_registration():
     -------
     template
         Depending on login, the page is rendered again.
-    
     """
     
     if request.method == 'GET':
@@ -139,7 +135,6 @@ def prepare_json(message):
     -------
     json
         A formatted JSON for Dialogflow with the message.
-    
     """
 
     res = {
@@ -170,7 +165,6 @@ def handle_intent(data, r):
 
     null
         If intent is not handled by the app, Dialogflow creates response.
-    
     """
 
     if scraper.check_loggedIn(r['guid']):
@@ -222,7 +216,6 @@ def parse_message(data, uid):
 
     null
         If intent is not handled by app, the response is created by Dialogflow.
-    
     """
    
     r = collection.find_one({"_id": uid})
@@ -243,4 +236,4 @@ def parse_message(data, uid):
 
 
 if __name__ == "__main__":
-    app.run(debug = True, port = 80)
+    app.run(debug = False, port = 80)

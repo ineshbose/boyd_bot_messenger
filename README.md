@@ -1,5 +1,6 @@
 # Boyd Bot (Messenger)
 [![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
+[![Codacy grade](https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square)](https://app.codacy.com/manual/ineshbose/boyd_bot_messenger)
 [![GitHub](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
 <a href="https://www.facebook.com/uofgbot"><img src="https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook" />
 <a href="https://m.me/uofgbot"><img src="https://img.shields.io/badge/Messenger--9cf?style=flat-square&logo=messenger" />
