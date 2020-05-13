@@ -29,13 +29,14 @@ def login(uid,pw):
     -------
     bool
         A boolean value corresponding if the login was successful (true) or not (false).
+    
     """
     req[uid] = requests.get("https://{}:{}@{}".format(uid,pw,cal_url))
     try:
         calendars[uid] = Calendar.from_ical(req[uid].content)
         req[uid].close()
         return True
-    except:
+    except Exception:
         req[uid].close()
         return False
 
@@ -59,6 +60,7 @@ def format_event(event):
     -------
     str
         A formatted, readable string for the event.
+    
     """
     return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n' if '(' in event['summary'] \
         else event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
@@ -75,12 +77,13 @@ def read_date(uid, date_entry):
     uid : str
         The username / unique ID of the user to correspond with the calendar.
     date_entry : str
-        Datetime entry from DialogFlow.
+        Datetime entry from Dialogflow.
 
     Returns
     -------
     str
         A formatted message containing information about the events on that date.
+    
     """
     year, month, day = map(int, date_entry.split('-'))
     date1 = datetime.datetime(year, month, day)
@@ -109,6 +112,7 @@ def read_now(uid):
     -------
     str
         A formatted message containing information about the upcoming event.
+    
     """
     date1 = datetime.datetime.now()
     date2 = date1 + datetime.timedelta(days=1)
@@ -137,5 +141,6 @@ def check_loggedIn(uid):
     -------
     bool
         A boolean value corresponding if the calendar exists (true) or not (false).
+    
     """
     return True if uid in calendars.keys() else False

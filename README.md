@@ -5,7 +5,8 @@
 <a href="https://m.me/uofgbot"><img src="https://img.shields.io/badge/Messenger--9cf?style=flat-square&logo=messenger" />
 <a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot"><img src="https://img.shields.io/badge/Behance--lightgrey?style=flat-square&logo=behance" /></a>
 
-This repository is for the Flask version of the Boyd Bot.
+This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
+This version is specific to [University of Glasgow](https://www.gla.ac.uk/), and uses [Facebook Messenger](https://www.facebook.com/messenger) and [Dialogflow](https://dialogflow.com/).
 
 ## Set-Up
 ### Packages
@@ -21,7 +22,7 @@ Access tokens, keys, etc have been hidden from this repository for obvious reaso
 - [x] Read Next Class
 - [ ] Locations
 - [ ] Book Rooms (might have to ditch considering `selenium` is removed)
-- [x] Small talk(?) (Switch to DialogFlow)
+- [x] Small talk(?) (Switch to Dialogflow)
 - [ ] Background Scheduler (opt-in feature)
 
 ## Note
