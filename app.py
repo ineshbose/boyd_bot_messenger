@@ -182,11 +182,7 @@ def handle_intent(data, r):
             elif intent['displayName'].lower() == 'read next':
                 return scraper.read_now(r['guid'])
 
-            else:
-                return
-            
-        else:
-            return
+        return
 
     except Exception as e:
         return "I'm sorry, something went wrong understanding that. :( \n\n\nERROR: {}".format(e)

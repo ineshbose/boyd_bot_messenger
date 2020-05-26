@@ -34,9 +34,7 @@ Contributions are more than welcome in any form! <br />
 
 ### Testers
 * [Jakub Jelinek](https://github.com/kubajj)
-* Jules Petrella
-* [Luke Holland](https://github.com/AmazonPriime)
-* [Marc Auf Der Heyde](https://github.com/marcaufderheyde)
+* _Looking for Testers!_
 
 ### Special Thanks
 * [Mr. Tom Wallis](https://github.com/probablytom)
