@@ -84,7 +84,7 @@ def read_date(uid, date_entry=None):
     str
         A formatted message containing information about the events on that date.
     """
-    date1 = dtparse(date_entry).replace(hour=0, tzinfo=tmzn) if date_entry!=None else tmzn.localize(datetime.datetime.now())
+    date1 = dtparse(date_entry).replace(hour=0, minute=0, second=0, tzinfo=tmzn) if date_entry!=None else tmzn.localize(datetime.datetime.now())
     date2 = date1.replace(hour=23, minute=59, second=59, tzinfo=tmzn)
     message = "You have..\n\n"
     
@@ -93,7 +93,7 @@ def read_date(uid, date_entry=None):
             message+=format_event(event)
             if date_entry == None: break
 
-    return "There seem to be no classes! :D" if message == "You have..\n\n" else message
+    return message if message!="You have..\n\n" else "There seem to be no classes. :D"
 
 
 def check_loggedIn(uid):

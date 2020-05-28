@@ -68,11 +68,7 @@ def webhook():
     
     else:
         data = request.get_json()
-
-        try:
-            sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
-        except KeyError:
-            return
+        sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
         
         if collection.count_documents({"_id": sender_id}) > 0:
             response = parse_message(data, sender_id)
@@ -138,9 +134,7 @@ def prepare_json(message):
         A formatted JSON for Dialogflow with the message.
     """
 
-    res = {
-        'fulfillmentText': message,
-    }
+    res = { 'fulfillmentText': message, }
     res = json.dumps(res, indent=4)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
@@ -176,17 +170,17 @@ def handle_intent(data, r):
             if intent['displayName'].lower() == 'delete data':
                 collection.delete_one({"_id": r['_id']})
                 return "Deleted! :) "
+
+            elif intent['displayName'].lower() == 'read next':
+                return scraper.read_date(r['guid'])
             
             elif intent['displayName'].lower() == 'read timetable':
                 return scraper.read_date(r['guid'], data['queryResult']['parameters']['date-time'])
-            
-            elif intent['displayName'].lower() == 'read next':
-                return scraper.read_date(r['guid'])
 
         return
 
     except Exception as e:
-        log("Exception thrown {}. {} sent {}".format(e, r['_id'], data['queryResult']['queryText']))
+        log("Exception thrown: {}. {} sent {}".format(e, r['_id'], data['queryResult']['queryText']))
         return "I'm sorry, something went wrong understanding that. :("
 
 
@@ -214,7 +208,7 @@ def parse_message(data, uid):
     r = collection.find_one({"_id": uid})
     
     if not scraper.check_loggedIn(r['guid']):
-        log("{} was logged out.".format(uid))
+        log("{} logging in again.".format(uid))
         bot.send_action(uid, "typing_on")
         login_result = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
     
@@ -237,7 +231,7 @@ def log(message):
     message : str
         The message to log.
     """
-    print(message)          # This is not good practice. Will be replaced.
+    print(message)          # print() is not good practice. Will be replaced.
 
 
 if __name__ == "__main__":
