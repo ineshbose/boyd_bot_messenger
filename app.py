@@ -109,7 +109,8 @@ def new_user_registration():
         gla_id = request.form.get('gla_id')
         gla_pass = request.form.get('gla_pass')
         login_result = scraper.login(gla_id, gla_pass)
-        
+        log("{} undergoing registration. Result: {}".format(fb_id, login_result))
+
         if not login_result:
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Invalid credentials.")
@@ -177,15 +178,16 @@ def handle_intent(data, r):
                 return "Deleted! :) "
             
             elif intent['displayName'].lower() == 'read timetable':
-                return scraper.read_date(r['guid'], data['queryResult']['parameters']['date-time'][:10])
+                return scraper.read_date(r['guid'], data['queryResult']['parameters']['date-time'])
             
             elif intent['displayName'].lower() == 'read next':
-                return scraper.read_now(r['guid'])
+                return scraper.read_date(r['guid'])
 
         return
 
     except Exception as e:
-        return "I'm sorry, something went wrong understanding that. :( \n\n\nERROR: {}".format(e)
+        log("Exception thrown {}. {} sent {}".format(e, r['_id'], data['queryResult']['queryText']))
+        return "I'm sorry, something went wrong understanding that. :("
 
 
 def parse_message(data, uid):
@@ -212,15 +214,30 @@ def parse_message(data, uid):
     r = collection.find_one({"_id": uid})
     
     if not scraper.check_loggedIn(r['guid']):
+        log("{} was logged out.".format(uid))
         bot.send_action(uid, "typing_on")
         login_result = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
     
         if not login_result:
+            log("{} failed to log in.".format(uid))
             collection.delete_one({"_id": uid})
             collection.insert_one({"_id": wait_id+uid})
             return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, uid)
     
     return handle_intent(data, r)
+
+
+def log(message):
+    """Logs details onto the terminal of server.
+
+    This function can be changed to how logging is intended.
+
+    Parameters
+    ----------
+    message : str
+        The message to log.
+    """
+    print(message)          # This is not good practice. Will be replaced.
 
 
 if __name__ == "__main__":

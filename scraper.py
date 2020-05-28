@@ -10,7 +10,7 @@ calendars = {}                                                          # Calend
 ###
 
 
-def login(uid,pw):
+def login(uid, pw):
     """Logins in user with the provided credentials.
 
     A request fetches content from a URL with authentication, and `icalendar.Calendar` creates a calendar from that content.
@@ -65,7 +65,7 @@ def format_event(event):
             + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
 
 
-def read_date(uid, date_entry):
+def read_date(uid, date_entry=None):
     """Fetches events for a specific date.
 
     Iterates through all events in the calendar and returns events that start and end between the beginning of that
@@ -83,45 +83,16 @@ def read_date(uid, date_entry):
     str
         A formatted message containing information about the events on that date.
     """
-    year, month, day = map(int, date_entry.split('-'))
-    date1 = datetime.datetime(year, month, day)
-    date2 = date1 + datetime.timedelta(days=1)
+    date1 = datetime.datetime.fromisoformat(date_entry).replace(hour=0, tzinfo=tmzn) if date_entry!=None else tmzn.localize(datetime.datetime.now())
+    date2 = date1.replace(hour=23, minute=59, second=59, tzinfo=tmzn)
     message = "You have..\n\n"
     
     for event in calendars[uid].walk('vevent'):
-        if event['dtstart'].dt > tmzn.localize(date1) and event['dtend'].dt < tmzn.localize(date2):
+        if event['dtstart'].dt > date1 and event['dtend'].dt < date2:
             message+=format_event(event)
+            if date_entry == None: break
 
-    return "There seem to be no classes." if message == "You have..\n\n" else message
-
-
-def read_now(uid):
-    """Fetches the upcoming event.
-
-    Iterates through all events in the calendar and returns the next event within a range, that is upcoming i.e.
-    starts in a while. The difference between this function and `read_date()` is that this returns ONE event,
-    therefore breaking the loop after it fetches one.
-
-    Parameters
-    ----------
-    uid : str
-        The username / unique ID of the user to correspond with the calendar.
-
-    Returns
-    -------
-    str
-        A formatted message containing information about the upcoming event.
-    """
-    date1 = datetime.datetime.now()
-    date2 = date1 + datetime.timedelta(days=1)
-    message = "Up next, you have..\n\n"
-    
-    for event in calendars[uid].walk('vevent'):
-        if event['dtstart'].dt > tmzn.localize(date1) and event['dtend'].dt < tmzn.localize(date2):
-            message+=format_event(event)
-            break
-    
-    return "No class! :D" if message == "Up next, you have..\n\n" else message
+    return "There seem to be no classes! :D" if message == "You have..\n\n" else message
 
 
 def check_loggedIn(uid):
