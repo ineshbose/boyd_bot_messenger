@@ -113,3 +113,36 @@ def check_loggedIn(uid):
         A boolean value corresponding if the calendar exists (true) or not (false).
     """
     return True if uid in calendars.keys() else False
+
+
+def send_message(uid, access_token, message):
+    """Sends message to a user on Facebook
+
+    Using Facebook Send API, it creates a POST request that sends a message.
+    This function is a part of this file since it deals with requests more than `app.py`.
+
+    Parameters
+    ----------
+    uid : str
+        The username / unique ID of the user.
+    access_token : str
+        Page Access Token of Facebook Page
+    message : str
+        Message to send
+    
+    Returns
+    -------
+    response
+        Request status (200/400)
+    """
+    data = {
+        "messaging_type": "RESPONSE",
+        "recipient": {
+            "id": uid
+        },
+        "message": {
+            "text": message
+        }
+    }
+    
+    return requests.post('https://graph.facebook.com/v7.0/me/messages?access_token={}'.format(access_token), json=data)

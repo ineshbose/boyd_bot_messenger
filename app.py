@@ -1,6 +1,5 @@
 import os, json
 import scraper
-from pymessenger import Bot
 from pymongo import MongoClient
 from flask_wtf import FlaskForm
 from cryptography.fernet import Fernet
@@ -20,7 +19,6 @@ db = cluster[os.environ.get("FIRST_CLUSTER")]                       # Mongo Data
 collection = db[os.environ.get("COLLECTION_NAME")]                  # Mongo Collection in the Database
 wait_id = os.environ.get("WAIT_ID")                                 # ID to distinguish between registered and in-registration users
 f = Fernet(os.environ.get("FERNET_KEY"))                            # Encryption key using Fernet
-bot = Bot(PAGE_ACCESS_TOKEN)                                        # Facebook Bot using pymessenger and Page Access Token
 
 
 class RegisterForm(FlaskForm):
@@ -113,7 +111,7 @@ def new_user_registration():
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode())})
         collection.delete_one({"_id": wait_id+fb_id})
-        bot.send_text_message(fb_id, "Alrighty! We can get started. :D")
+        scraper.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
 
 
@@ -162,7 +160,6 @@ def handle_intent(data, r):
         If intent is not handled by the app, Dialogflow creates response.
     """
 
-    bot.send_action(r['_id'], "typing_on")
     intent = data['queryResult']['intent']
     
     try:
@@ -209,7 +206,6 @@ def parse_message(data, uid):
     
     if not scraper.check_loggedIn(r['guid']):
         log("{} logging in again.".format(uid))
-        bot.send_action(uid, "typing_on")
         login_result = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
     
         if not login_result:
