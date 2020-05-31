@@ -1,5 +1,5 @@
 import os, json
-import scraper
+import timetable
 from pymongo import MongoClient
 from flask_wtf import FlaskForm
 from cryptography.fernet import Fernet
@@ -85,7 +85,7 @@ def webhook():
 def new_user_registration():
     """Registration for a new user.
 
-    Using `wait_id`, in-registration user is distinguished and then logged in using `scraper.login()` and depending
+    Using `wait_id`, in-registration user is distinguished and then logged in using `timetable.login()` and depending
     on returned boolean value, the page is re-rendered.
 
     Returns
@@ -102,7 +102,7 @@ def new_user_registration():
         fb_id = request.form.get('fb_id')
         gla_id = request.form.get('gla_id')
         gla_pass = request.form.get('gla_pass')
-        login_result = scraper.login(gla_id, gla_pass)
+        login_result = timetable.login(gla_id, gla_pass)
         log("{} undergoing registration. Result: {}".format(fb_id, login_result))
 
         if not login_result:
@@ -111,7 +111,7 @@ def new_user_registration():
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode())})
         collection.delete_one({"_id": wait_id+fb_id})
-        scraper.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")
+        timetable.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
 
 
@@ -169,10 +169,10 @@ def handle_intent(data, r):
                 return "Deleted! :) "
 
             elif intent['displayName'].lower() == 'read next':
-                return scraper.read_date(r['guid'])
+                return timetable.read_date(r['guid'])
             
             elif intent['displayName'].lower() == 'read timetable':
-                return scraper.read_date(r['guid'], data['queryResult']['parameters']['date-time'])
+                return timetable.read_date(r['guid'], data['queryResult']['parameters']['date-time'])
 
         return
 
@@ -204,9 +204,9 @@ def parse_message(data, uid):
    
     r = collection.find_one({"_id": uid})
     
-    if not scraper.check_loggedIn(r['guid']):
+    if not timetable.check_loggedIn(r['guid']):
         log("{} logging in again.".format(uid))
-        login_result = scraper.login(r['guid'], (f.decrypt(r['gupw'])).decode())
+        login_result = timetable.login(r['guid'], (f.decrypt(r['gupw'])).decode())
     
         if not login_result:
             log("{} failed to log in.".format(uid))
