@@ -1,26 +1,31 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
 
-{% block title_block %}
-Login
-{% endblock %}
-
-{% block body_block %}
-    <div class="region-main">
-        <div class="box">
-            {% if success %}
-            {{ success }}
-            {% else %}
-            {% if message %}
-            <div class="alert">{{message}}</div>
-            {% endif %}
-            <form action="/register" method="post" validate>
-                {{ form.hidden_tag() }}
-                {{ form.gla_id(placeholder=form.gla_id.label.text, class_="form-control") }}
-                {{ form.gla_pass(placeholder=form.gla_pass.label.text, class_="form-control") }}
-                {{ form.submit(value='Log in with your GUID', class_="button-control") }}
-                <a href="https://password.gla.ac.uk/">Forgot your password?</a>
-            </form>
-            {% endif %}
+<html>
+    <head>
+        <title>Boyd Bot | Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- It's a good idea to style the registration form with a theme that is familiar to users and can get their trust.-->
+        <link rel="shortcut icon" href="/static/icon.ico">
+        <link rel="stylesheet" type="text/css" href="/static/hillhead-theme.css">
+    </head>
+    <body>
+        <div class="region-main">
+            <div class="box">
+                {% if success %}
+                {{ success }}
+                {% else %}
+                {% if message %}
+                <div class="alert">{{message}}</div>
+                {% endif %}
+                <form action="/register" method="post" validate>
+                    {{ form.hidden_tag() }}
+                    {{ form.gla_id(placeholder=form.gla_id.label.text, class_="form-control") }}
+                    {{ form.gla_pass(placeholder=form.gla_pass.label.text, class_="form-control") }}
+                    {{ form.submit(value='Log in with your GUID', class_="button-control") }}
+                    <a href="https://password.gla.ac.uk/">Forgot your password?</a>
+                </form>
+                {% endif %}
+            </div>
         </div>
-    </div>
-{% endblock %}
+    </body>
+</html>

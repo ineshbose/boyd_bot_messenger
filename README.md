@@ -1,4 +1,4 @@
-# Boyd Bot (Messenger)
+# :speech_balloon: Boyd Bot (Messenger)
 [![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
 [![Codacy grade](https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square)](https://app.codacy.com/manual/ineshbose/boyd_bot_messenger)
 [![GitHub](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
@@ -8,8 +8,23 @@
 
 This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
 
+### Table of Contents
+* [Setup](#wrench-setup)
+    * [Cloning](#cloning)
+    * [Packages](#packages)
+    * [Environment Variables](#environment-variables)
+* [Using For Your University](#classical_building-want-to-use-this-for-your-university-fork-it)
+    * [Services](#services)
+    * [Instructions](#instructions)
+    * [Deployment](#deployment)
+* [Contributions & Thanks](#raised_hands-contributions--thanks)
+    * [To-Do](#to-do)
+    * [Testers](#testers)
+    * [Special Thanks](#special-thanks)
 
-## Setup
+<br />
+
+## :wrench: Setup
 
 ### Cloning
 The first step is to clone the repository in your preferred directory using
@@ -38,7 +53,7 @@ $ set XYZ_KEY="random_key_value"
 ```
 
 
-## Want to use this for your university? [Fork it!](https://github.com/ineshbose/boyd_bot_messenger/fork)
+## :classical_building: Want to use this for your university? [Fork it!](https://github.com/ineshbose/boyd_bot_messenger/fork)
 It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). The following are considerations / instructions that you should know about if you aren't aware:
 
 ### Services
@@ -50,15 +65,22 @@ This version uses some external services that should easily be replaceable.
 ### Instructions
 The code is documented using _docstrings_; make sure you go through it. Since this repository acts like a template, there is not much to change. Much of it is mentioned, for example
 ```python
-tmzn = pytz.timezone('Europe/London')
-cal_url = "link/to/timetable.ics"
+tmzn = pytz.timezone('Europe/London')   # Timezone
+cal_url = "link/to/timetable.ics"       # University ICS link
 ```
+ 
+Templates should also be tailored to your need. Go through the files in [templates](templates) and [static](static).
 
 ### Deployment
 Be sure to do your research on where and how to deploy your code! Make sure that access tokens, keys, etc. are changed, and, along with the code & database, are **secure**.
 
 
-## To-Do
+## :raised_hands: Contributions & Thanks
+Contributions are more than welcome in any form! :smile:<br />
+
+### To-Do
+There are some planned updates for this project. Feel free to help out in order to complete these.
+- [ ] Separate Documentation from Code
 - [x] Read Next Class
 - [ ] Locations
 - [ ] Book Rooms (might have to ditch considering `selenium` is removed)
@@ -67,10 +89,6 @@ Be sure to do your research on where and how to deploy your code! Make sure that
 - [ ] Tests
 - [ ] Deadlines from Moodle
 - [ ] Cross questions, contexts, proper specific questions
-
-
-## Contributions & Thanks
-Contributions are more than welcome in any form! <br />
 
 ### Testers
 * [Jakub Jelinek](https://github.com/kubajj)

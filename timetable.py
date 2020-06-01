@@ -66,7 +66,7 @@ def format_event(event):
             + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
 
 
-def read_date(uid, date_entry=None):
+def read_date(uid, start_date=None, end_date=None):
     """Fetches events for a specific date.
 
     Iterates through all events in the calendar and returns events that start and end between the beginning of that
@@ -76,7 +76,7 @@ def read_date(uid, date_entry=None):
     ----------
     uid : str
         The username / unique ID of the user to correspond with the calendar.
-    date_entry : str
+    start_date : str
         Datetime entry from Dialogflow.
 
     Returns
@@ -84,14 +84,14 @@ def read_date(uid, date_entry=None):
     str
         A formatted message containing information about the events on that date.
     """
-    date1 = dtparse(date_entry).replace(hour=0, minute=0, second=0, tzinfo=tmzn) if date_entry!=None else tmzn.localize(datetime.datetime.now())
-    date2 = date1.replace(hour=23, minute=59, second=59, tzinfo=tmzn)
+    date1 = dtparse(start_date).replace(hour=0, minute=0, second=0, tzinfo=tmzn) if start_date!=None else tmzn.localize(datetime.datetime.now())
+    date2 = dtparse(end_date) if end_date!=None else date1.replace(hour=23, minute=59, second=59, tzinfo=tmzn)
     message = "You have..\n\n"
     
     for event in calendars[uid].walk('vevent'):
         if event['dtstart'].dt > date1 and event['dtend'].dt < date2:
             message+=format_event(event)
-            if date_entry == None: break
+            if start_date == None: break
 
     return message if message!="You have..\n\n" else "There seem to be no classes. :D"
 

@@ -44,41 +44,35 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/webhook', methods=['GET','POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook():
     """Enables webhook for the app.
 
-    A method to create GET and POST requests with the app to Dialogflow.
+    A method to create POST requests with the app to Dialogflow.
+    GET requests can be added if required.
     
     Returns
     -------
-    template
-        On successful webhook, a template is rendered.
-
     json
         The response to POST request.
     """
+    if not request.headers.get(wb_arg_name) == webhook_token:
+        return "Verification token mismatch", 403
+
+    data = request.get_json()
+    sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']          # Keys correspond to Facebook User ID
     
-    if request.method == 'GET':
-        if not request.args.get(wb_arg_name) == webhook_token:
-            return "Verification token mismatch", 403
-        return render_template('index.html'), 200
+    if collection.count_documents({"_id": sender_id}) > 0:
+        response = parse_message(data, sender_id)
+
+    elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
+        response = "Doesn't seem like you've registered yet.\nRegister here: {}/register?key={}".format(app_url, sender_id)
     
     else:
-        data = request.get_json()
-        sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
-        
-        if collection.count_documents({"_id": sender_id}) > 0:
-            response = parse_message(data, sender_id)
+        collection.insert_one({"_id": wait_id+sender_id})
+        response = "Hello there! To get started, register here: {}/register?key={}".format(app_url, sender_id)
 
-        elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
-            response = "Doesn't seem like you've registered yet.\nRegister here: {}/register?key={}".format(app_url, sender_id)
-        
-        else:
-            collection.insert_one({"_id": wait_id+sender_id})
-            response = "Hello there, new person!\nRegister here: {}/register?key={}".format(app_url, sender_id)
-    
-        return prepare_json(response)
+    return prepare_json(response)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -111,7 +105,7 @@ def new_user_registration():
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode())})
         collection.delete_one({"_id": wait_id+fb_id})
-        timetable.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")
+        timetable.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")        # To alert user on Facebook Messenger. This can be removed.
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
 
 
@@ -143,6 +137,7 @@ def handle_intent(data, r):
     """Checks intent for a message and creates response.
 
     If an intent is found in a message, a response is returned.
+    Put all intents handled by the app here.
 
     Parameters
     ----------
@@ -177,7 +172,7 @@ def handle_intent(data, r):
         return
 
     except Exception as e:
-        log("Exception thrown: {}. {} sent {}".format(e, r['_id'], data['queryResult']['queryText']))
+        log("Exception ({}) thrown: {}. {} sent '{}'.".format(type(e).__name__, e, r['_id'], data['queryResult']['queryText']))
         return "I'm sorry, something went wrong understanding that. :("
 
 
