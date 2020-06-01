@@ -1,5 +1,5 @@
 import os, json
-import timetable
+import timetable, facebook
 from pymongo import MongoClient
 from flask_wtf import FlaskForm
 from cryptography.fernet import Fernet
@@ -8,17 +8,17 @@ from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from flask import Flask, request, redirect, render_template, make_response
 
 
-app = Flask(__name__)                                               # Importing Flask app name
-app_url = os.environ.get("APP_URL")                                 # App URL as variable to easily change it
-app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")              # Flask Secret Key to enable FlaskForm
-PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")             # Facebook Page Access Token
-webhook_token = os.environ.get("VERIFY_TOKEN")                      # Webhook Token for GET request
-wb_arg_name = os.environ.get("WB_ARG_NAME")                         # Webhook Argument Name
-cluster = MongoClient(os.environ.get("MONGO_TOKEN"))                # Mongo Cluster
-db = cluster[os.environ.get("FIRST_CLUSTER")]                       # Mongo Database in the Cluster
-collection = db[os.environ.get("COLLECTION_NAME")]                  # Mongo Collection in the Database
-wait_id = os.environ.get("WAIT_ID")                                 # ID to distinguish between registered and in-registration users
-f = Fernet(os.environ.get("FERNET_KEY"))                            # Encryption key using Fernet
+app = Flask(__name__)                                           # Importing Flask app name
+app_url = os.environ["APP_URL"]                                 # App URL as variable to easily change it
+app.config['SECRET_KEY'] = os.environ["FLASK_KEY"]              # Flask Secret Key to enable FlaskForm
+PAGE_ACCESS_TOKEN = os.environ["PAGE_ACCESS_TOKEN"]             # Facebook Page Access Token
+webhook_token = os.environ["VERIFY_TOKEN"]                      # Webhook Token for GET request
+wb_arg_name = os.environ["WB_ARG_NAME"]                         # Webhook Argument Name
+cluster = MongoClient(os.environ["MONGO_TOKEN"])                # Mongo Cluster
+db = cluster[os.environ["FIRST_CLUSTER"]]                       # Mongo Database in the Cluster
+collection = db[os.environ["COLLECTION_NAME"]]                  # Mongo Collection in the Database
+wait_id = os.environ["WAIT_ID"]                                 # ID to distinguish between registered and in-registration users
+f = Fernet(os.environ["FERNET_KEY"])                            # Encryption key using Fernet
 
 
 class RegisterForm(FlaskForm):
@@ -60,7 +60,14 @@ def webhook():
         return "Verification token mismatch", 403
 
     data = request.get_json()
-    sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']          # Keys correspond to Facebook User ID
+
+    # This area is a little delicate. WIP
+    try:
+        sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
+        if not facebook.verify(sender_id, PAGE_ACCESS_TOKEN):
+            return
+    except KeyError:
+        return
     
     if collection.count_documents({"_id": sender_id}) > 0:
         response = parse_message(data, sender_id)
@@ -105,7 +112,7 @@ def new_user_registration():
         
         collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode())})
         collection.delete_one({"_id": wait_id+fb_id})
-        timetable.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")        # To alert user on Facebook Messenger. This can be removed.
+        facebook.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")        # To alert user on Facebook Messenger. This can be removed.
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
 
 

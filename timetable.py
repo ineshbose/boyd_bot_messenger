@@ -4,10 +4,10 @@ from dateutil.parser import parse as dtparse
 
 
 ## Global Scopes & Constants
-tmzn = pytz.timezone('Europe/London')                                   # Used to localize time and compare datetimes
-cal_url = "frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"   # This can be changed to any university's URL
-req = {}                                                                # Requests as dictionaries to fetch ICS
-calendars = {}                                                          # Calendars as dictionaries corresponding to UID
+tmzn = pytz.timezone('Europe/London')                                           # Used to localize time and compare datetimes
+cal_url = "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"   # This can be changed to any university's URL
+req = {}                                                                        # Requests as dictionaries to fetch ICS
+calendars = {}                                                                  # Calendars as dictionaries corresponding to UID
 ###
 
 
@@ -31,13 +31,12 @@ def login(uid, pw):
     bool
         A boolean value corresponding if the login was successful (true) or not (false).
     """
-    req[uid] = requests.get("https://{}:{}@{}".format(uid,pw,cal_url))
+    req[uid] = requests.get(cal_url, auth=(uid, pw))
+    req[uid].close()
     try:
         calendars[uid] = Calendar.from_ical(req[uid].content)
-        req[uid].close()
         return True
-    except Exception:
-        req[uid].close()
+    except (ValueError, Exception):
         return False
 
 
@@ -113,36 +112,3 @@ def check_loggedIn(uid):
         A boolean value corresponding if the calendar exists (true) or not (false).
     """
     return True if uid in calendars.keys() else False
-
-
-def send_message(uid, access_token, message):
-    """Sends message to a user on Facebook
-
-    Using Facebook Send API, it creates a POST request that sends a message.
-    This function is a part of this file since it deals with requests more than `app.py`.
-
-    Parameters
-    ----------
-    uid : str
-        The username / unique ID of the user.
-    access_token : str
-        Page Access Token of Facebook Page
-    message : str
-        Message to send
-    
-    Returns
-    -------
-    response
-        Request status (200/400)
-    """
-    data = {
-        "messaging_type": "RESPONSE",
-        "recipient": {
-            "id": uid
-        },
-        "message": {
-            "text": message
-        }
-    }
-    
-    return requests.post('https://graph.facebook.com/v7.0/me/messages?access_token={}'.format(access_token), json=data)
