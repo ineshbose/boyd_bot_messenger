@@ -42,6 +42,20 @@ f = Fernet(os.environ["FERNET_KEY"])
 * [cryptography](https://github.com/pyca/cryptography)
 
 
+## `RegisterForm()`
+```python
+class RegisterForm(FlaskForm):
+    """Registration form for users.
+
+    Contains 3 essential input fields (+ 1 `SubmitField`).
+    """
+    fb_id = HiddenField('fb_id')
+    uni_id = StringField('UID', validators=[DataRequired()])
+    uni_pass = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+```
+
+
 ## `index()`
 ```python
 @app.route('/')
@@ -103,6 +117,8 @@ def new_user_registration():
         # render template if URL argument found in database
     else:
         # try login
+        facebook.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")    # To alert user on Facebook Messenger. This can be removed.
+        return
 ```
 
 
