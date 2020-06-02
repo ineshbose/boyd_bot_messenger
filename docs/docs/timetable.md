@@ -1,16 +1,30 @@
-import requests, datetime, pytz
-from icalendar import Calendar
-from dateutil.parser import parse as dtparse
+# [timetable.py](https://github.com/ineshbose/boyd_bot_messenger/blob/master/timetable.py)
+This script handles going through the timetables.
+
+```python
+# Used to localize time and compare datetimes
+tmzn = pytz.timezone('Europe/London')
+
+# This can be changed to any university's URL
+cal_url = "link/to/timetable.ics"
+
+# Requests as dictionaries to fetch ICS
+req = {}
+
+# Calendars as dictionaries corresponding to UID
+calendars = {}
+```
+
+## Packages Used
+* [icalendar](https://github.com/collective/icalendar)
+* [requests](https://github.com/psf/requests)
+* [pytz](https://github.com/stub42/pytz)
+* [dateutil](https://github.com/dateutil/dateutil)
 
 
-## Global Scopes & Constants
-tmzn = pytz.timezone('Europe/London')                                           # Used to localize time and compare datetimes
-cal_url = "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"   # This can be changed to any university's URL
-req = {}                                                                        # Requests as dictionaries to fetch ICS
-calendars = {}                                                                  # Calendars as dictionaries corresponding to UID
-###
 
-
+## `login()`
+```python
 def login(uid, pw):
     """Logins in user with the provided credentials.
 
@@ -35,10 +49,14 @@ def login(uid, pw):
     try:
         calendars[uid] = Calendar.from_ical(req[uid].content)
         return True
-    except (ValueError, Exception):
+    except (ValueError, Exception): ## a ValueError is raised
         return False
+```
 
 
+
+## `format_event()`
+```python
 def format_event(event):
     """Formats calendar event in a presentable string.
 
@@ -62,8 +80,12 @@ def format_event(event):
     return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' \
         + event['location'] + '.\n\n' if '(' in event['summary'] else event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' \
             + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
+```
 
 
+
+## `read_date()`
+```python
 def read_date(uid, start_date=None, end_date=None):
     """Fetches events for a specific date.
 
@@ -92,8 +114,12 @@ def read_date(uid, start_date=None, end_date=None):
             if start_date == None: break
 
     return message if message!="You have..\n\n" else "There seem to be no classes. :D"
+```
 
 
+
+## `check_loggedIn()`
+```python
 def check_loggedIn(uid):
     """Checks that calendar exists for the user.
 
@@ -111,3 +137,4 @@ def check_loggedIn(uid):
         A boolean value corresponding if the calendar exists (true) or not (false).
     """
     return True if uid in calendars.keys() else False
+```

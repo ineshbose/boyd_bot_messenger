@@ -1,6 +1,13 @@
-import requests
+# [facebook.py](https://github.com/ineshbose/boyd_bot_messenger/blob/master/facebook.py)
+This script takes advantage of Facebook API to make requests.
 
 
+## Packages Used
+* [requests](https://github.com/psf/requests)
+
+
+## `send_message()`
+```python
 def send_message(uid, access_token, message):
     """Sends message to a user on Facebook
 
@@ -31,8 +38,12 @@ def send_message(uid, access_token, message):
     }
     
     return requests.post('https://graph.facebook.com/v7.0/me/messages?access_token={}'.format(access_token), json=data)
+```
 
 
+
+## `verify()`
+```python
 def verify(uid, access_token):
     """Verifies that the user is a Facebook User.
 
@@ -52,3 +63,4 @@ def verify(uid, access_token):
     """
     req = requests.get("https://graph.facebook.com/v7.0/{}?access_token={}".format(uid, access_token))
     return req.json()
+```

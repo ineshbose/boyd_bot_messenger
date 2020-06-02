@@ -64,8 +64,6 @@ def webhook():
     # This area is a little delicate. WIP
     try:
         sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
-        if not facebook.verify(sender_id, PAGE_ACCESS_TOKEN):
-            return
     except KeyError:
         return
     
@@ -76,8 +74,11 @@ def webhook():
         response = "Doesn't seem like you've registered yet.\nRegister here: {}/register?key={}".format(app_url, sender_id)
     
     else:
+        user_data = facebook.verify(sender_id, PAGE_ACCESS_TOKEN)
+        if 'error' in user_data:
+            return
         collection.insert_one({"_id": wait_id+sender_id})
-        response = "Hello there! To get started, register here: {}/register?key={}".format(app_url, sender_id)
+        response = "Hey there, {}! To get started, register here: {}/register?key={}".format(user_data['first_name'], app_url, sender_id)
 
     return prepare_json(response)
 
