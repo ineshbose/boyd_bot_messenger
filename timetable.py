@@ -26,11 +26,11 @@ def format_event(event):
     event['dtend'].dt.strftime('%I:%M%p'), event['dtstart'].dt.strftime('%d %B %y (%A)'), event['location'])
 
 
-def read_date(uid, start_date=None, end_date=None):
+def read_schedule(uid, start_date=None, end_date=None):
 
     date1 = dtparse(start_date).replace(tzinfo=tmzn) if start_date else datetime.datetime.now(tz=tmzn)
     date2 = dtparse(end_date).replace(tzinfo=tmzn) if end_date else date1.replace(hour=23, minute=59, second=59)
-    if (date2 - date1).days > 3: return "Big difference between the dates."    # To be fixed
+    if (date2 - date1).days > 7: return "Big difference between the dates."    # To be fixed
     message = "You have..\n\n"
     
     for event in calendars[uid].walk('vevent'):

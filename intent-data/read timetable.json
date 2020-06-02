@@ -1,0 +1,320 @@
+{
+  "id": "15101bbf-819c-455e-a346-fb29b009cd1b",
+  "name": "read timetable",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "date-time",
+          "dataType": "@sys.date-time",
+          "isList": false,
+          "required": true,
+          "prompts": [
+            "When?",
+            "Please specify the date."
+          ],
+          "value": "$date-time",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes between ",
+          "userDefined": false
+        },
+        {
+          "text": "tuesday 9am",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "friday 11pm",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "monday 9am",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes after ",
+          "userDefined": false
+        },
+        {
+          "text": "11am",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "What ",
+          "userDefined": false
+        },
+        {
+          "text": "classes",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " do I have",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Schedule",
+          "userDefined": true,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " for ",
+          "userDefined": false
+        },
+        {
+          "text": "Wednesday",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Lectures",
+          "userDefined": true,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "Monday",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "What ",
+          "userDefined": false
+        },
+        {
+          "text": "lectures",
+          "userDefined": true,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " do I have ",
+          "userDefined": false
+        },
+        {
+          "text": "today",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": "?",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Day after ",
+          "userDefined": false
+        },
+        {
+          "text": "tomorrow",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tomorrow",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Today",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Classes",
+          "userDefined": true,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "tomorrow",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "What ",
+          "userDefined": false
+        },
+        {
+          "text": "classes",
+          "userDefined": true,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " do I have ",
+          "userDefined": false
+        },
+        {
+          "text": "today",
+          "userDefined": true,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": "?",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

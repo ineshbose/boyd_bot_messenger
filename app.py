@@ -42,16 +42,14 @@ def webhook():
     data = request.get_json()
 
     # This area is a little delicate due to Dialogflow. WIP
-    try:
-        sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
-    except KeyError:
-        return
+    try: sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
+    except KeyError: return
     
     if collection.count_documents({"_id": sender_id}) > 0:
         response = parse_message(data, sender_id)
 
     elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
-        response = ("It doesn't seem like you've registered yet! :(\n"
+        response = ("It doesn't seem like you've registered yet.\n"
                     "Register here: {}/register?key={}").format(app_url, sender_id)
     
     else:
@@ -105,30 +103,29 @@ def handle_intent(data, r):
     intent = data['queryResult']['intent']
     
     try:
-        if 'displayName' in intent:
-            if intent['displayName'].lower() == 'delete data':
-                collection.delete_one({"_id": r['_id']})
-                return "Deleted! :) "
 
-            elif intent['displayName'].lower() == 'read next':
-                return timetable.read_date(r['uni_id'])
-            
-            elif intent['displayName'].lower() == 'read timetable':
+        if 'displayName' not in intent:
+            return
 
-                param = data['queryResult']['parameters']['date-time']
-                # looks like a bunch of if-else statements; this is WIP
-                if 'date_time' in param:
-                    return timetable.read_date(r['uni_id'], param['date_time'])
-                elif 'startDateTime' in param:
-                    return timetable.read_date(r['uni_id'], param['startDateTime'], param['endDateTime'])
-                elif 'startDate' in param:
-                    return timetable.read_date(r['uni_id'], param['startDate'], param['endDate'])
-                else:
-                    return timetable.read_date(r['uni_id'], param[:10]+"T00:00:00+"+param[20:25])
+        if intent['displayName'].lower() == 'delete data':
+            collection.delete_one({"_id": r['_id']})
+            return "Deleted! :) "
 
-                return timetable.read_date(r['uni_id'], data['queryResult']['parameters']['date-time'])
+        elif intent['displayName'].lower() == 'read next':
+            return timetable.read_schedule(r['uni_id'])
+        
+        elif intent['displayName'].lower() == 'read timetable':
 
-        return
+            param = data['queryResult']['parameters']['date-time']
+            # looks like a bunch of if-else statements; this is WIP
+            if 'date_time' in param:
+                return timetable.read_schedule(r['uni_id'], param['date_time'])
+            elif 'startDateTime' in param:
+                return timetable.read_schedule(r['uni_id'], param['startDateTime'], param['endDateTime'])
+            elif 'startDate' in param:
+                return timetable.read_schedule(r['uni_id'], param['startDate'], param['endDate'])
+            else:
+                return timetable.read_schedule(r['uni_id'], param[:10]+"T00:00:00+"+param[20:25])
 
     except Exception as e:
         log("Exception ({}) thrown: {}. {} sent '{}'.".format(type(e).__name__, e, r['_id'], data['queryResult']['queryText']))

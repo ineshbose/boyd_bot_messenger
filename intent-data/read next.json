@@ -1,0 +1,155 @@
+{
+  "id": "868f02ac-4c8f-47eb-8482-9de7888eac23",
+  "name": "read next",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "classes",
+          "dataType": "@classes",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$classes",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "now",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes now",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "What do I have now?",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Class",
+          "userDefined": true,
+          "alias": "classes",
+          "meta": "@classes"
+        },
+        {
+          "text": " up next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "What do I have up next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Up next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "What do I have next?",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

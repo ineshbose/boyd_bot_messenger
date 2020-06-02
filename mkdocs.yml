@@ -7,6 +7,8 @@ nav:
     - app.py: app.md
     - timetable.py: timetable.md
     - facebook.py: facebook.md
+    - Templates: templates.md
+    - External Services: services.md
 
 plugins:
     - search

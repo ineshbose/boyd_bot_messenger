@@ -1,0 +1,87 @@
+{
+  "id": "e49a4dd0-a2d9-42f0-9e1e-23b89c5d7bfc",
+  "name": "delete data",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "remove data",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "delete the data",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "delete my data",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "delete data",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": null,
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

@@ -1,8 +1,9 @@
 # :speech_balloon: Boyd Bot (Messenger)
 [![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
 [![Codacy grade](https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square)](https://app.codacy.com/manual/ineshbose/boyd_bot_messenger)
-[![License](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
 [![Read the Docs](https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square)](https://boyd-bot-messenger.readthedocs.io/en/latest/)
+[![License](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
+[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ineshbose/boyd_bot_messenger?label=version&style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/commits)
 [![Facebook](https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook)](https://www.facebook.com/uofgbot)
 [![Messenger](https://img.shields.io/badge/Messenger--informational?style=flat-square&logo=messenger)](https://m.me/uofgbot)
 [![Behance](https://img.shields.io/badge/Behance--informational?style=flat-square&logo=behance)](https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot)
@@ -10,22 +11,22 @@
 This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
 
 ### Contents
-* [Setup](#wrench-setup)
+* [Setup](#-setup)
     * [Cloning](#cloning)
     * [Packages](#packages)
     * [Environment Variables](#environment-variables)
-* [Using For Your University](#classical_building-want-to-use-this-for-your-university-fork-it)
+* [Using For Your University](#-want-to-use-this-for-your-university-fork-it)
     * [Services](#services)
     * [Instructions](#instructions)
     * [Deployment](#deployment)
-* [Contributions & Thanks](#raised_hands-contributions--thanks)
+* [Contributions & Thanks](#-contributions--thanks)
     * [To-Do](#to-do)
     * [Testers](#testers)
     * [Special Thanks](#special-thanks)
 
 <br />
 
-## :wrench: Setup
+## 🔧 Setup
 
 ### Cloning
 The first step is to clone the repository in your preferred directory using
@@ -54,7 +55,7 @@ $ set XYZ_KEY="random_key_value"
 ```
 
 
-## :classical_building: Want to use this for your university? [Fork it!](https://github.com/ineshbose/boyd_bot_messenger/fork)
+## 🏛️ Want to use this for your university? [Fork it!](https://github.com/ineshbose/boyd_bot_messenger/fork)
 It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). The following are considerations / instructions that you should know about if you aren't aware:
 
 ### Services
@@ -76,8 +77,8 @@ Templates should also be tailored to your need. Go through the files in [templat
 Be sure to do your research on where and how to deploy your code! Make sure that access tokens, keys, etc. are changed, and, along with the code & database, are **secure**.
 
 
-## :raised_hands: Contributions & Thanks
-Contributions are more than welcome in any form! :smile:<br />
+## 🙌 Contributions & Thanks
+Contributions are more than welcome in any form! 😄<br />
 
 ### To-Do
 There are some planned updates for this project. Feel free to help out in order to complete these.
