@@ -50,7 +50,7 @@ class RegisterForm(FlaskForm):
     Contains 3 essential input fields (+ 1 `SubmitField`).
     """
     fb_id = HiddenField('fb_id')
-    uni_id = StringField('UID', validators=[DataRequired()])
+    uni_id = StringField('University ID', validators=[DataRequired()])
     uni_pass = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 ```
@@ -92,6 +92,7 @@ def webhook():
         return "Verification token mismatch", 403
 
     data = request.get_json()
+    sender_id = data['keys-to-unique-id']
     # rest of the code
     return prepare_json(response)
 ```
@@ -209,7 +210,7 @@ def parse_message(data, uid):
         If intent is not handled by app, the response is created by Dialogflow.
     """
    
-    if not timetable.check_loggedIn(r['guid']):
+    if not timetable.check_loggedIn(r['uni_id']):
         # login
     
         if not login_result:

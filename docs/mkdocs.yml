@@ -1,6 +1,0 @@
-site_name: Boyd Bot (Messenger)
-nav:
-    - Home: index.md
-    - app.py: app.md
-    - timetable.py: timetable.md
-    - facebook.py: facebook.md

@@ -23,8 +23,8 @@ f = Fernet(os.environ["FERNET_KEY"])
 
 class RegisterForm(FlaskForm):
     fb_id = HiddenField('fb_id')
-    gla_id = StringField('GUID', validators=[DataRequired()])
-    gla_pass = PasswordField('Password', validators=[DataRequired()])
+    uni_id = StringField('University ID', validators=[DataRequired()])
+    uni_pass = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
 
@@ -41,7 +41,7 @@ def webhook():
 
     data = request.get_json()
 
-    # This area is a little delicate. WIP
+    # This area is a little delicate due to Dialogflow. WIP
     try:
         sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
     except KeyError:
@@ -51,14 +51,17 @@ def webhook():
         response = parse_message(data, sender_id)
 
     elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
-        response = "Doesn't seem like you've registered yet.\nRegister here: {}/register?key={}".format(app_url, sender_id)
+        response = ("It doesn't seem like you've registered yet! :(\n"
+                    "Register here: {}/register?key={}").format(app_url, sender_id)
     
     else:
-        user_data = facebook.verify(sender_id, PAGE_ACCESS_TOKEN)
+        user_data = facebook.get_user_data(sender_id, PAGE_ACCESS_TOKEN)
         if 'error' in user_data:
+            log("{} is not a valid Facebook user".format(sender_id))
             return
         collection.insert_one({"_id": wait_id+sender_id})
-        response = "Hey there, {}! To get started, register here: {}/register?key={}".format(user_data['first_name'], app_url, sender_id)
+        response = ("Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
+                    "To get started, register here: {}/register?key={}").format(user_data['first_name'], app_url, sender_id)
 
     return prepare_json(response)
 
@@ -68,22 +71,23 @@ def new_user_registration():
 
     if request.method == 'GET':
         pk = request.args.get('key')
-        return render_template('register.html', form=RegisterForm(fb_id=pk), message="") if collection.count_documents({"_id": wait_id+str(pk)}) > 0 else redirect('/')
+        return render_template('register.html', form=RegisterForm(fb_id=pk), message="") \
+            if collection.count_documents({"_id": wait_id+str(pk)}) > 0 else redirect('/')
     
     else:
         fb_id = request.form.get('fb_id')
-        gla_id = request.form.get('gla_id')
-        gla_pass = request.form.get('gla_pass')
-        login_result = timetable.login(gla_id, gla_pass)
+        uni_id = request.form.get('uni_id')
+        uni_pass = request.form.get('uni_pass')
+        login_result = timetable.login(uni_id, uni_pass)
         log("{} undergoing registration. Result: {}".format(fb_id, login_result))
 
         if not login_result:
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Invalid credentials.")
         
-        collection.insert_one({"_id": fb_id, "guid": gla_id, "gupw": f.encrypt(gla_pass.encode())})
+        collection.insert_one({"_id": fb_id, "uni_id": uni_id, "uni_pw": f.encrypt(uni_pass.encode())})
         collection.delete_one({"_id": wait_id+fb_id})
-        facebook.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")        # To alert user on Facebook Messenger. This can be removed.
+        facebook.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
 
 
@@ -107,10 +111,22 @@ def handle_intent(data, r):
                 return "Deleted! :) "
 
             elif intent['displayName'].lower() == 'read next':
-                return timetable.read_date(r['guid'])
+                return timetable.read_date(r['uni_id'])
             
             elif intent['displayName'].lower() == 'read timetable':
-                return timetable.read_date(r['guid'], data['queryResult']['parameters']['date-time'])
+
+                param = data['queryResult']['parameters']['date-time']
+                # looks like a bunch of if-else statements; this is WIP
+                if 'datetime' in param:
+                    return timetable.read_date(r['uni_id'], param['date-time'])
+                elif 'startDateTime' in param:
+                    return timetable.read_date(r['uni_id'], param['startDateTime'], param['endDateTime'])
+                elif 'startDate' in param:
+                    return timetable.read_date(r['uni_id'], param['startDate'], param['endDate'])
+                else:
+                    return timetable.read_date(r['uni_id'], param[:10]+"T00:00:00+"+param[20:25])
+
+                return timetable.read_date(r['uni_id'], data['queryResult']['parameters']['date-time'])
 
         return
 
@@ -123,15 +139,16 @@ def parse_message(data, uid):
 
     r = collection.find_one({"_id": uid})
     
-    if not timetable.check_loggedIn(r['guid']):
+    if not timetable.check_loggedIn(r['uni_id']):
         log("{} logging in again.".format(uid))
-        login_result = timetable.login(r['guid'], (f.decrypt(r['gupw'])).decode())
+        login_result = timetable.login(r['uni_id'], (f.decrypt(r['uni_pw'])).decode())
     
         if not login_result:
             log("{} failed to log in.".format(uid))
             collection.delete_one({"_id": uid})
             collection.insert_one({"_id": wait_id+uid})
-            return "Whoops! Something went wrong; maybe your login details changed?\nRegister here: {}/register?key={}".format(app_url, uid)
+            return ("Whoops! Something went wrong; maybe your login details changed?\n"
+                    "Register here: {}/register?key={}").format(app_url, uid)
     
     return handle_intent(data, r)
 

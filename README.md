@@ -2,7 +2,7 @@
 [![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
 [![Codacy grade](https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square)](https://app.codacy.com/manual/ineshbose/boyd_bot_messenger)
 [![License](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
-[![Read the Docs](https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square)](https://boyd-bot-messenger.readthedocs.io/en/latest/docs/)
+[![Read the Docs](https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square)](https://boyd-bot-messenger.readthedocs.io/en/latest/)
 [![Facebook](https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook)](https://www.facebook.com/uofgbot)
 [![Messenger](https://img.shields.io/badge/Messenger--informational?style=flat-square&logo=messenger)](https://m.me/uofgbot)
 [![Behance](https://img.shields.io/badge/Behance--informational?style=flat-square&logo=behance)](https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot)
@@ -46,9 +46,9 @@ Access tokens, keys, etc. have been hidden from the repository for obvious reaso
 ```python
 import os
 
-xyz = os.environ.get("XYZ_KEY")
+xyz = os.environ["XYZ_KEY"]
 ```
-You **must** replace these with your own. You can either just replace `os.environ.get()` with the value (**this is discouraged**), or use
+You **must** replace these with your own. You can either just replace `os.environ[]` with the value (**this is discouraged**), or use
 ```sh
 $ set XYZ_KEY="random_key_value"
 ```
@@ -64,7 +64,7 @@ This version uses some external services that should easily be replaceable.
 * [mongoDB](https://www.mongodb.com/): This is to store user details to acquire their timetable while being fast and convenient.
 
 ### Instructions
-The code is documented using _docstrings_ on [Read the Docs](https://boyd-bot-messenger.readthedocs.io/en/latest/docs/); make sure you go through it. Since this repository acts like a template, there is not much to change. Much of it is mentioned, for example
+The code is documented using _docstrings_ on [Read the Docs](https://boyd-bot-messenger.readthedocs.io/en/latest/); make sure you go through it. Since this repository acts like a template, there is not much to change. Much of it is mentioned, for example
 ```python
 tmzn = pytz.timezone('Europe/London')   # Timezone
 cal_url = "link/to/timetable.ics"       # University ICS link
@@ -81,7 +81,7 @@ Contributions are more than welcome in any form! :smile:<br />
 
 ### To-Do
 There are some planned updates for this project. Feel free to help out in order to complete these.
-- [ ] Separate Documentation from Code
+- [x] Separate Documentation from Code
 - [x] Read Next Class
 - [ ] Locations
 - [ ] Book Rooms (might have to ditch considering `selenium` is removed)

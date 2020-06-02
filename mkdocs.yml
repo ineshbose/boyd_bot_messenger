@@ -1,0 +1,12 @@
+site_name: Boyd Bot (Messenger)
+repo_url: https://github.com/ineshbose/boyd_bot_messenger
+repo_name: boyd_bot_messenger
+
+nav:
+    - Home: index.md
+    - app.py: app.md
+    - timetable.py: timetable.md
+    - facebook.py: facebook.md
+
+plugins:
+    - search

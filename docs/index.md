@@ -7,7 +7,7 @@
 [![Behance](https://img.shields.io/badge/Behance--informational?style=flat-square&logo=behance)](https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot)
 
 This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
-**The documentation has been separated to declutter the source code.**
+**The documentation was separated to declutter the source code.**
 
 ## Setup
 
@@ -59,3 +59,15 @@ Templates should also be tailored to your need. Go through the files in [templat
 
 ### Deployment
 Be sure to do your research on where and how to deploy your code! Make sure that access tokens, keys, etc. are changed, and, along with the code & database, are **secure**.
+
+## License
+
+### MIT License
+
+Copyright (c) 2020, Inesh Bose
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

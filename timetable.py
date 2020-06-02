@@ -28,8 +28,8 @@ def format_event(event):
 
 def read_date(uid, start_date=None, end_date=None):
 
-    date1 = dtparse(start_date).replace(hour=0, minute=0, second=0, tzinfo=tmzn) if start_date!=None else tmzn.localize(datetime.datetime.now())
-    date2 = dtparse(end_date) if end_date!=None else date1.replace(hour=23, minute=59, second=59, tzinfo=tmzn)
+    date1 = start_date if start_date else tmzn.localize(datetime.datetime.now())
+    date2 = end_date if end_date else date1.replace(hour=23, minute=59, second=59)
     message = "You have..\n\n"
     
     for event in calendars[uid].walk('vevent'):
