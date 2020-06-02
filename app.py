@@ -117,8 +117,8 @@ def handle_intent(data, r):
 
                 param = data['queryResult']['parameters']['date-time']
                 # looks like a bunch of if-else statements; this is WIP
-                if 'datetime' in param:
-                    return timetable.read_date(r['uni_id'], param['date-time'])
+                if 'date_time' in param:
+                    return timetable.read_date(r['uni_id'], param['date_time'])
                 elif 'startDateTime' in param:
                     return timetable.read_date(r['uni_id'], param['startDateTime'], param['endDateTime'])
                 elif 'startDate' in param:

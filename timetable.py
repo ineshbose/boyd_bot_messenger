@@ -3,7 +3,7 @@ from icalendar import Calendar
 from dateutil.parser import parse as dtparse
 
 
-tmzn = pytz.timezone('Europe/London')
+tmzn = pytz.timezone('UTC')
 cal_url = "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"
 req = {}
 calendars = {}
@@ -21,19 +21,20 @@ def login(uid, pw):
 
 
 def format_event(event):
-    return event['summary'].split(')')[0]+')\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' \
-        + event['location'] + '.\n\n' if '(' in event['summary'] else event['summary']+'\nfrom '  + event['dtstart'].dt.strftime('%I:%M%p') + ' to ' \
-            + event['dtend'].dt.strftime('%I:%M%p') + '\nat ' + event['location'] + '.\n\n'
+    return "📝 {}\n🕘 {} - {}\n📅 {}\n📌 {}\n\n".format(event['summary'].split(')')[0]+')' 
+    if '(' in event['summary'] else event['summary'], event['dtstart'].dt.strftime('%I:%M%p'),
+    event['dtend'].dt.strftime('%I:%M%p'), event['dtstart'].dt.strftime('%d %B %y (%A)'), event['location'])
 
 
 def read_date(uid, start_date=None, end_date=None):
 
-    date1 = start_date if start_date else tmzn.localize(datetime.datetime.now())
-    date2 = end_date if end_date else date1.replace(hour=23, minute=59, second=59)
+    date1 = dtparse(start_date).replace(tzinfo=tmzn) if start_date else datetime.datetime.now(tz=tmzn)
+    date2 = dtparse(end_date).replace(tzinfo=tmzn) if end_date else date1.replace(hour=23, minute=59, second=59)
+    if (date2 - date1).days > 3: return "Big difference between the dates."    # To be fixed
     message = "You have..\n\n"
     
     for event in calendars[uid].walk('vevent'):
-        if event['dtstart'].dt > date1 and event['dtend'].dt < date2:
+        if event['dtstart'].dt >= date1 and event['dtend'].dt <= date2:
             message+=format_event(event)
             if start_date == None: break
 
