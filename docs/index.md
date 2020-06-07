@@ -1,7 +1,9 @@
 # Boyd Bot (Messenger)
 [![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
 [![Codacy grade](https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square)](https://app.codacy.com/manual/ineshbose/boyd_bot_messenger)
-[![License](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/blob/master/LICENSE)
+[![Read the Docs](https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square)](https://boyd-bot-messenger.readthedocs.io/en/latest/)
+[![License](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
+[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ineshbose/boyd_bot_messenger?label=version&style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/commits)
 [![Facebook](https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook)](https://www.facebook.com/uofgbot)
 [![Messenger](https://img.shields.io/badge/Messenger--informational?style=flat-square&logo=messenger)](https://m.me/uofgbot)
 [![Behance](https://img.shields.io/badge/Behance--informational?style=flat-square&logo=behance)](https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot)
@@ -39,7 +41,7 @@ $ set XYZ_KEY="random_key_value"
 
 
 ## Using For Your University
-It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). The following are considerations / instructions that you should know about if you aren't aware:
+It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can also [use this repository as a template](https://github.com/ineshbose/boyd_bot_messenger/generate). A good idea is to start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). The following are considerations / instructions that you should know about if you aren't aware:
 
 ### Services
 This version uses some external services that should easily be replaceable.

@@ -7,3 +7,4 @@ This is the registration form. Tailor this according to your university.
 ```
 
 ## Rest of the Templates
+The theme used is [Grayscale from Start Bootstrap](https://startbootstrap.com/themes/grayscale/).

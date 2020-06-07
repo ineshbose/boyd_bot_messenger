@@ -9,33 +9,27 @@ app_url = os.environ["APP_URL"]
 # Flask Secret Key to enable FlaskForm
 app.config['SECRET_KEY'] = os.environ["FLASK_KEY"]
 
-# Facebook Page Access Token
-PAGE_ACCESS_TOKEN = os.environ["PAGE_ACCESS_TOKEN"]
-
 # Webhook Token for GET request
 webhook_token = os.environ["VERIFY_TOKEN"]
 
 # Webhook Argument Name
 wb_arg_name = os.environ["WB_ARG_NAME"]
 
-# Mongo Cluster
-cluster = MongoClient(os.environ["MONGO_TOKEN"])
+# Facebook Page Access Token to use Send/Graph API
+facebook = Facebook(os.environ["PAGE_ACCESS_TOKEN"])
 
-# Mongo Database in the Cluster
-db = cluster[os.environ["FIRST_CLUSTER"]]
+# MongoDB data
+db = Mongo(os.environ["MONGO_TOKEN"], os.environ["FIRST_CLUSTER"],
+            os.environ["COLLECTION_NAME"], os.environ["WAIT_ID"])
 
-# Mongo Collection in the Database
-collection = db[os.environ["COLLECTION_NAME"]]
-
-# ID to distinguish between registered and in-registration users
-wait_id = os.environ["WAIT_ID"]
+# Initialize class Dialogflow
+df = Dialogflow()
 
 # Encryption key using Fernet
 f = Fernet(os.environ["FERNET_KEY"])
 ```
 
 ## Packages Used
-* [pymongo](https://github.com/mongodb/mongo-python-driver)
 * [flask](https://github.com/pallets/flask)
 * [flask_wtf](https://github.com/lepture/flask-wtf)
 * [wtforms](https://github.com/wtforms/wtforms)
@@ -118,7 +112,7 @@ def new_user_registration():
         # render template if URL argument found in database
     else:
         # try login
-        facebook.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")    # To alert user on Facebook Messenger. This can be removed.
+        facebook.send_message(fb_id, "Alrighty! We can get started. :D")    # To alert user on Facebook Messenger. This can be removed.
         return
 ```
 

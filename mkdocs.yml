@@ -6,9 +6,11 @@ nav:
     - Home: index.md
     - app.py: app.md
     - timetable.py: timetable.md
-    - facebook.py: facebook.md
+    - services.py: services.md
     - Templates: templates.md
-    - External Services: services.md
 
 plugins:
     - search
+
+theme:
+    name: material

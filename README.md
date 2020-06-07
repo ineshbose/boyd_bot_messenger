@@ -1,4 +1,4 @@
-# :speech_balloon: Boyd Bot (Messenger)
+# 💬 Boyd Bot (Messenger)
 [![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
 [![Codacy grade](https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square)](https://app.codacy.com/manual/ineshbose/boyd_bot_messenger)
 [![Read the Docs](https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square)](https://boyd-bot-messenger.readthedocs.io/en/latest/)
@@ -56,7 +56,7 @@ $ set XYZ_KEY="random_key_value"
 
 
 ## 🏛️ Want to use this for your university? [Fork it!](https://github.com/ineshbose/boyd_bot_messenger/fork)
-It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). The following are considerations / instructions that you should know about if you aren't aware:
+It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can also [use this repository as a template](https://github.com/ineshbose/boyd_bot_messenger/generate). A good idea is to start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). The following are considerations / instructions that you should know about if you aren't aware:
 
 ### Services
 This version uses some external services that should easily be replaceable.

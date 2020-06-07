@@ -1,6 +1,5 @@
-import os, json
-import timetable, facebook
-from pymongo import MongoClient
+import os, json, timetable
+from services import Facebook, Mongo, Dialogflow
 from flask_wtf import FlaskForm
 from cryptography.fernet import Fernet
 from wtforms.validators import DataRequired
@@ -11,13 +10,12 @@ from flask import Flask, request, redirect, render_template, make_response
 app = Flask(__name__)
 app_url = os.environ["APP_URL"]
 app.config['SECRET_KEY'] = os.environ["FLASK_KEY"]
-PAGE_ACCESS_TOKEN = os.environ["PAGE_ACCESS_TOKEN"]
 webhook_token = os.environ["VERIFY_TOKEN"]
 wb_arg_name = os.environ["WB_ARG_NAME"]
-cluster = MongoClient(os.environ["MONGO_TOKEN"])
-db = cluster[os.environ["FIRST_CLUSTER"]]
-collection = db[os.environ["COLLECTION_NAME"]]
-wait_id = os.environ["WAIT_ID"]
+facebook = Facebook(os.environ["PAGE_ACCESS_TOKEN"])
+db = Mongo(os.environ["MONGO_TOKEN"], os.environ["FIRST_CLUSTER"],
+            os.environ["COLLECTION_NAME"], os.environ["WAIT_ID"])
+df = Dialogflow()
 f = Fernet(os.environ["FERNET_KEY"])
 
 
@@ -45,19 +43,19 @@ def webhook():
     try: sender_id = data['originalDetectIntentRequest']['payload']['data']['sender']['id']
     except KeyError: return
     
-    if collection.count_documents({"_id": sender_id}) > 0:
+    if db.exists(sender_id):
         response = parse_message(data, sender_id)
 
-    elif collection.count_documents({"_id": wait_id+sender_id}) > 0:
+    elif db.exists_waiting(sender_id):
         response = ("It doesn't seem like you've registered yet.\n"
                     "Register here: {}/register?key={}").format(app_url, sender_id)
     
     else:
-        user_data = facebook.get_user_data(sender_id, PAGE_ACCESS_TOKEN)
+        user_data = facebook.get_user_data(sender_id)
         if 'error' in user_data:
             log("{} is not a valid Facebook user".format(sender_id))
             return
-        collection.insert_one({"_id": wait_id+sender_id})
+        db.insert_waiting(sender_id)
         response = ("Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
                     "To get started, register here: {}/register?key={}").format(user_data['first_name'], app_url, sender_id)
 
@@ -70,7 +68,7 @@ def new_user_registration():
     if request.method == 'GET':
         pk = request.args.get('key')
         return render_template('register.html', form=RegisterForm(fb_id=pk), message="") \
-            if collection.count_documents({"_id": wait_id+str(pk)}) > 0 else redirect('/')
+            if db.exists_waiting(pk) else redirect('/')
     
     else:
         fb_id = request.form.get('fb_id')
@@ -83,9 +81,9 @@ def new_user_registration():
             form = RegisterForm(fb_id=fb_id)
             return render_template('register.html', form=form, message="Invalid credentials.")
         
-        collection.insert_one({"_id": fb_id, "uni_id": uni_id, "uni_pw": f.encrypt(uni_pass.encode())})
-        collection.delete_one({"_id": wait_id+fb_id})
-        facebook.send_message(fb_id, PAGE_ACCESS_TOKEN, "Alrighty! We can get started. :D")
+        db.insert({"_id": fb_id, "uni_id": uni_id, "uni_pw": f.encrypt(uni_pass.encode())})
+        db.delete_waiting(fb_id)
+        facebook.send_message(fb_id, "Alrighty! We can get started. :D")
         return render_template('register.html', success='Login successful! You can now close this page and chat to the bot.')
 
 
@@ -107,25 +105,17 @@ def handle_intent(data, r):
         if 'displayName' not in intent:
             return
 
-        if intent['displayName'].lower() == 'delete data':
-            collection.delete_one({"_id": r['_id']})
-            return "Deleted! :) "
+        intent_name = intent['displayName'].lower()
 
-        elif intent['displayName'].lower() == 'read next':
-            return timetable.read_schedule(r['uni_id'])
-        
-        elif intent['displayName'].lower() == 'read timetable':
+        def delete_data(uid, data):
+            return "Deleted! :)" if db.delete(r['_id']) else "Something went wrong. :("
 
-            param = data['queryResult']['parameters']['date-time']
-            # looks like a bunch of if-else statements; this is WIP
-            if 'date_time' in param:
-                return timetable.read_schedule(r['uni_id'], param['date_time'])
-            elif 'startDateTime' in param:
-                return timetable.read_schedule(r['uni_id'], param['startDateTime'], param['endDateTime'])
-            elif 'startDate' in param:
-                return timetable.read_schedule(r['uni_id'], param['startDate'], param['endDate'])
-            else:
-                return timetable.read_schedule(r['uni_id'], param[:10]+"T00:00:00+"+param[20:25])
+        intent_linking = {
+            "delete data": delete_data,
+            "read next": df.read_next,
+            "read timetable": df.read_timetable,
+        }
+        return intent_linking[intent_name](r['uni_id'], data) if intent_name in intent_linking else None
 
     except Exception as e:
         log("Exception ({}) thrown: {}. {} sent '{}'.".format(type(e).__name__, e, r['_id'], data['queryResult']['queryText']))
@@ -134,7 +124,7 @@ def handle_intent(data, r):
 
 def parse_message(data, uid):
 
-    r = collection.find_one({"_id": uid})
+    r = db.find(uid)
     
     if not timetable.check_loggedIn(r['uni_id']):
         log("{} logging in again.".format(uid))
@@ -142,8 +132,8 @@ def parse_message(data, uid):
     
         if not login_result:
             log("{} failed to log in.".format(uid))
-            collection.delete_one({"_id": uid})
-            collection.insert_one({"_id": wait_id+uid})
+            db.delete(uid)
+            db.insert_waiting(uid)
             return ("Whoops! Something went wrong; maybe your login details changed?\n"
                     "Register here: {}/register?key={}").format(app_url, uid)
     
