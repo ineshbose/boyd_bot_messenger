@@ -1,12 +1,21 @@
-# 💬 Boyd Bot (Messenger)
-[![GitHub deployments](https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/deployments)
-[![Codacy grade](https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square)](https://app.codacy.com/manual/ineshbose/boyd_bot_messenger)
-[![Read the Docs](https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square)](https://boyd-bot-messenger.readthedocs.io/en/latest/)
-[![License](https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square)](LICENSE)
-[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ineshbose/boyd_bot_messenger?label=version&style=flat-square)](https://github.com/ineshbose/boyd_bot_messenger/commits)
-[![Facebook](https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook)](https://www.facebook.com/uofgbot)
-[![Messenger](https://img.shields.io/badge/Messenger--informational?style=flat-square&logo=messenger)](https://m.me/uofgbot)
-[![Behance](https://img.shields.io/badge/Behance--informational?style=flat-square&logo=behance)](https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot)
+<h1 align="center">💬 Boyd Bot (Messenger)</h2>
+<p align="center">
+<a href="https://github.com/ineshbose/boyd_bot_messenger/deployments" target="_blank"><img alt="GitHub deployments" src="https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square"></a>
+<a href="https://app.codacy.com/manual/ineshbose/boyd_bot_messenger" target="_blank"><img alt="Codacy grade" src="https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square"></a>
+<a href="https://github.com/ineshbose/boyd_bot_messenger/releases" target="_blank"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/ineshbose/boyd_bot_messenger?label=version&style=flat-square"></a>
+<a href="https://boyd-bot-messenger.readthedocs.io/en/latest/" target="_blank"><img alt="Read the Docs" src="https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square"></a>
+<a href="https://github.com/PyCQA/bandit" target="_blank"><img alt="Security: bandit" src="https://img.shields.io/badge/security-bandit-yellow.svg?style=flat-square"></a>
+<a href="https://github.com/psf/black" target="_blank"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square"></a>
+<br>
+<a href="https://github.com/ineshbose/boyd_bot_messenger/blob/master/LICENSE" target="_blank"><img alt="License" src="https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square"></a>
+<a href="https://www.firsttimersonly.com/" target="_blank"><img alt="first-timers-only" src="https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square"></a>
+<img src="https://madewithlove.now.sh/gb?heart=true&template=flat-square&text=Glasgow" alt="Made with love in Glasgow">
+</p>
+<p align="center">
+<a href="https://www.facebook.com/uofgbot" target="_blank"><img alt="Facebook" src="https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook"></a>
+<a href="https://m.me/uofgbot" target="_blank"><img alt="Messenger" src="https://img.shields.io/badge/Messenger--informational?style=flat-square&logo=messenger"></a>
+<a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot" target="_blank"><img alt="Behance" src="https://img.shields.io/badge/Behance--informational?style=flat-square&logo=behance"></a>
+</p>
 
 This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
 

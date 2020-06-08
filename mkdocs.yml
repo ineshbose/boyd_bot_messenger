@@ -7,10 +7,14 @@ nav:
     - app.py: app.md
     - timetable.py: timetable.md
     - services.py: services.md
-    - Templates: templates.md
+    - views.py & templates: views.md
 
 plugins:
     - search
 
 theme:
     name: material
+
+markdown_extensions:
+    - codehilite:
+        linenums: true

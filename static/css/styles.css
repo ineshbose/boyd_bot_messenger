@@ -322,7 +322,7 @@ progress {
   vertical-align: baseline;
 }
 
-[type=number]::-webkit-inner-spin-button,
+[type=nuer]::-webkit-inner-spin-button,
 [type=number]::-webkit-outer-spin-button {
   height: auto;
 }
@@ -7638,7 +7638,7 @@ button.bg-black:focus {
 
 .mb-0,
 .my-0 {
-  margin-bottom: 0 !important;
+  margin-bottom: 5 !important;
 }
 
 .ml-0,
@@ -10307,7 +10307,7 @@ body {
 
 .signup-section {
   padding: 10rem 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000000 100%), url("../assets/img/bg-signup.jpg");
+  background: linear-gradient(#007bff, #000000);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;

@@ -82,13 +82,22 @@ Most functions are one-liners and easily explainable through their names.
 ## [Dialogflow](https://dialogflow.com/)
 Implemented in `class Dialogflow`. This function, however, doesn't use any features of Dialogflow but handles intents externally to declutter `app.py`.
 
-### read_next()
+### `get_id()`
+```python
+def get_id(self, data):
+    try:
+        return data["key-to-id"]
+    except KeyError:
+        return None
+```
+
+### `read_next()`
 ```python
 def read_next(self, uid, data):
     return timetable.read_schedule(uid)
 ```
 
-### read_timetable()
+### `read_timetable()`
 ```python
 def read_timetable(self, uid, data):
     param = data['queryResult']['parameters']['date-time']

@@ -2,7 +2,24 @@
 
 This script is the Flask app. It is the only script to have access to the keys and enables webhook.
 
+
+## Packages Used
+* [flask](https://github.com/pallets/flask)
+* [flask_wtf](https://github.com/lepture/flask-wtf)
+* [wtforms](https://github.com/wtforms/wtforms)
+* [cryptography](https://github.com/pyca/cryptography)
+
+
 ```python
+# Flask App Properties
+app = Flask(__name__)
+## Link views.py to app
+app.register_blueprint(pages)
+## Enable logging despite debug = False
+app.logger.setLevel(logging.DEBUG)
+## Disable logging for POST / GET status
+logging.getLogger('werkzeug').setLevel(logging.ERROR)
+
 # App URL as variable to easily change it
 app_url = os.environ["APP_URL"]
 
@@ -28,12 +45,6 @@ df = Dialogflow()
 # Encryption key using Fernet
 f = Fernet(os.environ["FERNET_KEY"])
 ```
-
-## Packages Used
-* [flask](https://github.com/pallets/flask)
-* [flask_wtf](https://github.com/lepture/flask-wtf)
-* [wtforms](https://github.com/wtforms/wtforms)
-* [cryptography](https://github.com/pyca/cryptography)
 
 
 ## `RegisterForm()`
@@ -86,7 +97,7 @@ def webhook():
         return "Verification token mismatch", 403
 
     data = request.get_json()
-    sender_id = data['keys-to-unique-id']
+    sender_id = df.get_id()
     # rest of the code
     return prepare_json(response)
 ```
@@ -218,7 +229,7 @@ def parse_message(data, uid):
 ## `log()`
 ```python
 def log(message):
-    """Logs details onto the terminal of server.
+    """Logs details onto the terminal of server using Flask.
 
     This function can be changed to how logging is intended.
 
@@ -227,5 +238,5 @@ def log(message):
     message : str
         The message to log.
     """
-    print(message)          # print() is not good practice. Will be replaced.
+    app.logger.info(message)
 ```

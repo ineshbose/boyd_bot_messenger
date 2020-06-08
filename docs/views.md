@@ -1,3 +1,6 @@
+# [views.py](https://github.com/ineshbose/boyd_bot_messenger/blob/master/views.py)
+This script contains all simple views for the app and are linked using `Blueprint`.
+
 # Templates
 
 ## `register.html`
