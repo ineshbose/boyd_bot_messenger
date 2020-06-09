@@ -1,4 +1,5 @@
-import requests, datetime, pytz
+import requests, pytz
+from datetime import datetime
 from icalendar import Calendar
 from dateutil.parser import parse as dtparse
 
@@ -10,7 +11,6 @@ calendars = {}
 
 
 def login(uid, pw):
-
     req[uid] = requests.get(cal_url, auth=(uid, pw))
 
     try:
@@ -27,7 +27,7 @@ def format_event(event):
         else event["summary"],
         event["dtstart"].dt.strftime("%I:%M%p"),
         event["dtend"].dt.strftime("%I:%M%p"),
-        event["dtstart"].dt.strftime("%d %B %y (%A)"),
+        event["dtstart"].dt.strftime("%d %B %Y (%A)"),
         event["location"],
     )
 
@@ -37,7 +37,7 @@ def read(uid, start_date=None, end_date=None):
     date1 = (
         dtparse(start_date).replace(tzinfo=tmzn)
         if start_date
-        else datetime.datetime.now(tz=tmzn)
+        else datetime.now(tz=tmzn)
     )
     date2 = (
         dtparse(end_date).replace(tzinfo=tmzn)
@@ -49,7 +49,7 @@ def read(uid, start_date=None, end_date=None):
     for event in calendars[uid].walk("vevent"):
         if event["dtstart"].dt >= date1 and event["dtend"].dt <= date2:
             class_list.append(format_event(event))
-            if start_date == None:
+            if not start_date:
                 break
 
     if not class_list:
@@ -59,7 +59,10 @@ def read(uid, start_date=None, end_date=None):
     return (
         message
         if len(message) < 2000
-        else "I'm afraid there are too many classes to fit in one message. :("
+        else [
+            "\n".join(li)
+            for li in [class_list[i : i + 10] for i in range(0, len(class_list), 10)]
+        ]
     )
 
 

@@ -1,5 +1,6 @@
-import requests, timetable
+import requests, timetable, json
 from pymongo import MongoClient
+from flask import make_response
 
 
 class Facebook:
@@ -90,3 +91,17 @@ class Dialogflow:
         return timetable.read(
             uid, *(param_link.get(next(iter(param)), param_link["default"])())
         )
+
+    def prepare_json(self, message):
+        res = {"fulfillmentMessages": []}
+
+        if isinstance(message, list):
+            for m in message:
+                res["fulfillmentMessages"].append({"text": {"text": [m]}})
+        else:
+            res["fulfillmentMessages"].append({"text": {"text": [message]}})
+
+        res = json.dumps(res, indent=4)
+        r = make_response(res)
+        r.headers["Content-Type"] = "application/json"
+        return r

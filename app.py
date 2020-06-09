@@ -1,11 +1,8 @@
-import os, json, timetable, logging
-from views import pages
+import os, timetable, logging
+from views import pages, RegisterForm
 from services import Facebook, Mongo, Dialogflow
-from flask_wtf import FlaskForm
 from cryptography.fernet import Fernet
-from wtforms.validators import DataRequired
-from wtforms import StringField, PasswordField, SubmitField, HiddenField
-from flask import Flask, request, redirect, render_template, make_response
+from flask import Flask, request, redirect, render_template
 
 
 app = Flask(__name__)
@@ -27,15 +24,11 @@ df = Dialogflow()
 f = Fernet(os.environ["FERNET_KEY"])
 
 
-class RegisterForm(FlaskForm):
-    fb_id = HiddenField("fb_id")
-    uni_id = StringField("University ID", validators=[DataRequired()])
-    uni_pass = PasswordField("Password", validators=[DataRequired()])
-    submit = SubmitField("Login")
-
-
-@app.route("/webhook", methods=["POST"])
+@app.route("/webhook", methods=["GET", "POST"])
 def webhook():
+
+    if request.method == "GET":
+        return redirect("/")
 
     if not request.headers.get(wb_arg_name) == webhook_token:
         return "Verification token mismatch", 403
@@ -44,7 +37,7 @@ def webhook():
     sender_id = df.get_id(data)
 
     if not sender_id:
-        return
+        return df.prepare_json("Hello, developer.")
 
     if db.exists(sender_id):
         response = parse_message(data, sender_id)
@@ -66,16 +59,18 @@ def webhook():
             "To get started, register here: {}/register?key={}"
         ).format(user_data["first_name"], app_url, sender_id)
 
-    return prepare_json(response)
+    return df.prepare_json(response)
 
 
 @app.route("/register", methods=["GET", "POST"])
 def new_user_registration():
 
     if request.method == "GET":
+
         if "key" not in request.args:
             return redirect("/")
         pk = request.args.get("key")
+
         return (
             render_template("register.html", form=RegisterForm(fb_id=pk), message="")
             if db.exists_waiting(pk)
@@ -105,17 +100,6 @@ def new_user_registration():
             "register.html",
             success="Login successful! You can now close this page and chat to the bot.",
         )
-
-
-def prepare_json(message):
-
-    res = {
-        "fulfillmentText": message,
-    }
-    res = json.dumps(res, indent=4)
-    r = make_response(res)
-    r.headers["Content-Type"] = "application/json"
-    return r
 
 
 def handle_intent(data, r):

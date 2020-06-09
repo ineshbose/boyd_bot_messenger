@@ -1,6 +1,60 @@
 # [views.py](https://github.com/ineshbose/boyd_bot_messenger/blob/master/views.py)
 This script contains all simple views for the app and are linked using `Blueprint`.
 
+## Packages Used
+* [flask_wtf](https://github.com/lepture/flask-wtf)
+* [wtforms](https://github.com/wtforms/wtforms)
+
+## `RegisterForm()`
+```python
+class RegisterForm(FlaskForm):
+    """Registration form for users.
+
+    Contains 3 essential input fields (+ 1 `SubmitField`).
+    """
+    fb_id = HiddenField("fb_id")
+    uni_id = StringField("University ID", validators=[DataRequired()])
+    uni_pass = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
+```
+
+
+## Pages
+```python
+@app.route("/")
+def index():
+    """
+    Returns index() view for the app.
+    """
+    return render_template("index.html")
+
+
+
+@pages.route("/privacy")
+def privacy():
+    """
+    Returns privacy() view for the app.
+    """
+    return render_template("privacy.html")
+
+
+@pages.route("/terms")
+def terms():
+    """
+    Returns terms() view for the app.
+    """
+    return render_template("terms.html")
+
+
+@pages.app_errorhandler(404)
+def page_not_found(e):
+    """
+    Handles 404 error for the app.
+    """
+    return render_template("404.html"), 404
+
+```
+
 # Templates
 
 ## `register.html`

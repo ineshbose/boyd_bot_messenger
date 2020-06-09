@@ -3,7 +3,7 @@ This script handles going through the timetables.
 
 ```python
 # Used to localize time and compare datetimes
-tmzn = pytz.timezone('Europe/London')
+tmzn = pytz.timezone("Europe/London")
 
 # This can be changed to any university's URL
 cal_url = "link/to/timetable.ics"
@@ -70,7 +70,7 @@ def format_event(event):
     Parameters
     ----------
     event :
-        An event in icalendar.Calendar['vevent'].
+        An event in icalendar.Calendar["vevent"].
 
     Returns
     -------

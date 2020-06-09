@@ -5,8 +5,6 @@ This script is the Flask app. It is the only script to have access to the keys a
 
 ## Packages Used
 * [flask](https://github.com/pallets/flask)
-* [flask_wtf](https://github.com/lepture/flask-wtf)
-* [wtforms](https://github.com/wtforms/wtforms)
 * [cryptography](https://github.com/pyca/cryptography)
 
 
@@ -18,13 +16,13 @@ app.register_blueprint(pages)
 ## Enable logging despite debug = False
 app.logger.setLevel(logging.DEBUG)
 ## Disable logging for POST / GET status
-logging.getLogger('werkzeug').setLevel(logging.ERROR)
+logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 # App URL as variable to easily change it
 app_url = os.environ["APP_URL"]
 
 # Flask Secret Key to enable FlaskForm
-app.config['SECRET_KEY'] = os.environ["FLASK_KEY"]
+app.config["SECRET_KEY"] = os.environ["FLASK_KEY"]
 
 # Webhook Token for GET request
 webhook_token = os.environ["VERIFY_TOKEN"]
@@ -47,50 +45,24 @@ f = Fernet(os.environ["FERNET_KEY"])
 ```
 
 
-## `RegisterForm()`
-```python
-class RegisterForm(FlaskForm):
-    """Registration form for users.
-
-    Contains 3 essential input fields (+ 1 `SubmitField`).
-    """
-    fb_id = HiddenField('fb_id')
-    uni_id = StringField('University ID', validators=[DataRequired()])
-    uni_pass = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
-```
-
-
-## `index()`
-```python
-@app.route('/')
-def index():
-    """Returns index() view for the app.
-
-    Returns
-    -------
-    template
-        The home page for the app corresponding the URL (`app_url`+'/').
-    """
-    return render_template('index.html')
-```
-
-
 
 ## `webhook()`
 ```python
-@app.route('/webhook', methods=['POST'])
+@app.route("/webhook", methods=["GET","POST"])
 def webhook():
     """Enables webhook for the app.
 
     A method to handle POST requests with the app from Dialogflow.
-    GET requests can be added if required.
     
     Returns
     -------
     json
         The response to POST request.
     """
+
+    if request.method == "GET":
+        # GET method has no use
+        return redirect("/")
 
     # This is to enable authorisation of POST requests
     if not request.headers.get(wb_arg_name) == webhook_token:
@@ -106,7 +78,7 @@ def webhook():
 
 ## `new_user_registration()`
 ```python
-@app.route('/register', methods=['GET', 'POST'])
+@app.route("/register", methods=["GET", "POST"])
 def new_user_registration():
     """Registration for a new user.
 
@@ -125,34 +97,6 @@ def new_user_registration():
         # try login
         facebook.send_message(fb_id, "Alrighty! We can get started. :D")    # To alert user on Facebook Messenger. This can be removed.
         return
-```
-
-
-
-## `prepare_json()`
-```python
-def prepare_json(message):
-    """Prepares a formatted JSON containing the message.
-
-    To return a message from a POST request, Dialogflow requires a formatted JSON.
-    Using `pymessenger` to send messages would not be good practice.
-
-    Parameters
-    ----------
-    message : str
-        The message to return.
-
-    Returns
-    -------
-    json
-        A formatted JSON for Dialogflow with the message.
-    """
-
-    res = { 'fulfillmentText': message, }
-    res = json.dumps(res, indent=4)
-    r = make_response(res)
-    r.headers['Content-Type'] = 'application/json'
-    return r
 ```
 
 
@@ -215,7 +159,7 @@ def parse_message(data, uid):
         If intent is not handled by app, the response is created by Dialogflow.
     """
    
-    if not timetable.check_loggedIn(r['uni_id']):
+    if not timetable.check_loggedIn(r["uni_id"]):
         # login
     
         if not login_result:

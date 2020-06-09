@@ -2,14 +2,15 @@
 <p align="center">
 <a href="https://github.com/ineshbose/boyd_bot_messenger/deployments" target="_blank"><img alt="GitHub deployments" src="https://img.shields.io/github/deployments/ineshbose/boyd_bot_messenger/boydbot?style=flat-square"></a>
 <a href="https://app.codacy.com/manual/ineshbose/boyd_bot_messenger" target="_blank"><img alt="Codacy grade" src="https://img.shields.io/codacy/grade/a0e3d46567f54d5790b43445759eb749?style=flat-square"></a>
-<a href="https://github.com/ineshbose/boyd_bot_messenger/releases" target="_blank"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/ineshbose/boyd_bot_messenger?label=version&style=flat-square"></a>
+<a href="https://codeclimate.com/github/ineshbose/boyd_bot_messenger" target="_blank"><img alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability/ineshbose/boyd_bot_messenger?style=flat-square"></a>
 <a href="https://boyd-bot-messenger.readthedocs.io/en/latest/" target="_blank"><img alt="Read the Docs" src="https://img.shields.io/readthedocs/boyd-bot-messenger?style=flat-square"></a>
+<a href="https://github.com/ineshbose/boyd_bot_messenger/releases" target="_blank"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/ineshbose/boyd_bot_messenger?label=version&style=flat-square"></a>
 <a href="https://github.com/PyCQA/bandit" target="_blank"><img alt="Security: bandit" src="https://img.shields.io/badge/security-bandit-yellow.svg?style=flat-square"></a>
 <a href="https://github.com/psf/black" target="_blank"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square"></a>
 <br>
 <a href="https://github.com/ineshbose/boyd_bot_messenger/blob/master/LICENSE" target="_blank"><img alt="License" src="https://img.shields.io/github/license/ineshbose/boyd_bot_messenger?style=flat-square"></a>
 <a href="https://www.firsttimersonly.com/" target="_blank"><img alt="first-timers-only" src="https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square"></a>
-<img src="https://madewithlove.now.sh/gb?heart=true&template=flat-square&text=Glasgow" alt="Made with love in Glasgow">
+<a href="https://github.com/ineshbose/boyd_bot_messenger/pulse" target="_blank"><img src="https://madewithlove.now.sh/gb?heart=true&template=flat-square&text=Glasgow" alt="Made with love in Glasgow"></a>
 </p>
 <p align="center">
 <a href="https://www.facebook.com/uofgbot" target="_blank"><img alt="Facebook" src="https://img.shields.io/badge/Facebook--informational?style=flat-square&logo=facebook"></a>
@@ -61,7 +62,7 @@ This version uses some external services that should easily be replaceable.
 ### Instructions
 The code is documented using _docstrings_ on [Read the Docs](https://boyd-bot-messenger.readthedocs.io/en/latest/); make sure you go through it. Since this repository acts like a template, there is not much to change. Much of it is mentioned, for example
 ```python
-tmzn = pytz.timezone('Europe/London')   # Timezone
+tmzn = pytz.timezone("Europe/London")   # Timezone
 cal_url = "link/to/timetable.ics"       # University ICS link
 ```
  

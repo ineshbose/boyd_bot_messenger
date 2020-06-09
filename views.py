@@ -1,7 +1,17 @@
 from flask import Blueprint, render_template
+from flask_wtf import FlaskForm
+from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, SubmitField, HiddenField
 
 
 pages = Blueprint("pages", __name__, template_folder="templates")
+
+
+class RegisterForm(FlaskForm):
+    fb_id = HiddenField("fb_id")
+    uni_id = StringField("University ID", validators=[DataRequired()])
+    uni_pass = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
 
 
 @pages.route("/")

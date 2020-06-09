@@ -42,7 +42,7 @@ def send_message(uid, message):
         }
     }
     
-    return requests.post('https://graph.facebook.com/v7.0/me/messages?access_token={}'.format(self.access_token), json=data)
+    return requests.post("https://graph.facebook.com/v7.0/me/messages?access_token={}".format(self.access_token), json=data)
 ```
 
 
@@ -80,7 +80,7 @@ Most functions are one-liners and easily explainable through their names.
 
 
 ## [Dialogflow](https://dialogflow.com/)
-Implemented in `class Dialogflow`. This function, however, doesn't use any features of Dialogflow but handles intents externally to declutter `app.py`.
+Implemented in `class Dialogflow`. This function, however, doesn"t use any features of Dialogflow but handles intents externally to declutter `app.py`.
 
 ### `get_id()`
 ```python
@@ -100,15 +100,41 @@ def read_next(self, uid, data):
 ### `read_timetable()`
 ```python
 def read_timetable(self, uid, data):
-    param = data['queryResult']['parameters']['date-time']
+    param = data["queryResult"]["parameters"]["date-time"]
 
     param_link = {
-        'date_time': lambda: (param['date_time'],),
-        'startDateTime': lambda: (param['startDateTime'], param['endDateTime']),
-        'startDate': lambda: (param['startDate'], param['endDate']),
-        'startTime': lambda: (param['startTime'], param['endTime']),
-        'default': lambda: ((param[:10]+"T00:00:00"+param[19:len(param)]),),
+        "date_time": lambda: (param["date_time"],),
+        "startDateTime": lambda: (param["startDateTime"], param["endDateTime"]),
+        "startDate": lambda: (param["startDate"], param["endDate"]),
+        "startTime": lambda: (param["startTime"], param["endTime"]),
+        "default": lambda: ((param[:10]+"T00:00:00"+param[19:len(param)]),),
     }
 
-    return timetable.read_schedule(uid, *(param_link.get(next(iter(param)), param_link['default'])()))
+    return timetable.read_schedule(uid, *(param_link.get(next(iter(param)), param_link["default"])()))
+```
+
+
+### `prepare_json()`
+```python
+def prepare_json(message):
+    """Prepares a formatted JSON containing the message.
+
+    To return a message from a POST request, Dialogflow requires a formatted JSON.
+
+    Parameters
+    ----------
+    message : str
+        The message to return.
+
+    Returns
+    -------
+    json
+        A formatted JSON for Dialogflow with the message.
+    """
+
+    res = { "fulfillmentText": message, }   # May vary(?)
+    res = json.dumps(res, indent=4)
+    r = make_response(res)
+    r.headers["Content-Type"] = "application/json"
+    return r
 ```
