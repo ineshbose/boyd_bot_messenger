@@ -8,7 +8,7 @@ pages = Blueprint("pages", __name__, template_folder="templates")
 
 
 class RegisterForm(FlaskForm):
-    fb_id = HiddenField("fb_id")
+    uid = HiddenField("uid")
     uni_id = StringField("University ID", validators=[DataRequired()])
     uni_pass = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")

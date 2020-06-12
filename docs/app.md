@@ -1,12 +1,18 @@
-# [app.py](https://github.com/ineshbose/boyd_bot_messenger/blob/master/app.py)
+# [`app.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/app.py)
 
 This script is the Flask app. It is the only script to have access to the keys and enables webhook.
 
 
 ## Packages Used
+
 * [flask](https://github.com/pallets/flask)
 * [cryptography](https://github.com/pyca/cryptography)
 
+
+
+## Setup
+
+The app is initialized using the following lines. All environment variables are loaded onto the scripts.
 
 ```python
 # Flask App Properties
@@ -47,140 +53,81 @@ f = Fernet(os.environ["FERNET_KEY"])
 
 
 ## `webhook()`
+
+Enables webhook with the service (like Dialogflow or Facebook Messenger). The request data is fetched (in JSON) and used by other functions. The `GET` method does not have any use but rather redirects users that navigate to `url+"/webhook"`.
+
 ```python
-@app.route("/webhook", methods=["GET","POST"])
-def webhook():
-    """Enables webhook for the app.
+>>> import requests
+>>> requests.post(app_url+"webhook/", headers={wb_arg_name: webhook_token})
+<Response [200]>
 
-    A method to handle POST requests with the app from Dialogflow.
-    
-    Returns
-    -------
-    json
-        The response to POST request.
-    """
-
-    if request.method == "GET":
-        # GET method has no use
-        return redirect("/")
-
-    # This is to enable authorisation of POST requests
-    if not request.headers.get(wb_arg_name) == webhook_token:
-        return "Verification token mismatch", 403
-
-    data = request.get_json()
-    sender_id = df.get_id()
-    # rest of the code
-    return prepare_json(response)
+>>> requests.get(app_url+"webhook/").url
+%APP_URL%
 ```
+
+|   Returns   |
+|-------------|
+| **`dict`**  |
 
 
 
 ## `new_user_registration()`
+
+Registers users to the application by verifying login credentials and adding them in the database. Using `wait_id`, in-registration user is distinguished and then logged in using `timetable.login()`.
+
 ```python
-@app.route("/register", methods=["GET", "POST"])
-def new_user_registration():
-    """Registration for a new user.
-
-    Using `wait_id`, in-registration user is distinguished and then logged in using `timetable.login()` and depending
-    on returned boolean value, the page is re-rendered.
-
-    Returns
-    -------
-    template
-        Depending on login, the page is rendered again.
-    """
-    
-    if request.method == "GET":
-        # render template if URL argument found in database
-    else:
-        # try login
-        facebook.send_message(fb_id, "Alrighty! We can get started. :D")    # To alert user on Facebook Messenger. This can be removed.
-        return
+>>> import requests
+>>> requests.post(app_url+"register/key=123", 
+                  data={"uni_id": "random_id", "uni_pw": "random_pass"}).url
+%APP_URL%
 ```
 
+|   Returns   |
+|-------------|
+| **`None`**  |
 
 
-## `handle_intent()`
+
+## `handle_intent(request_data, uid, uni_id)`
+
+Generates response for message if an intent is found. If the response is not handled by the app, the service (Dialogflow) takes care of it. This function features a dictionary to map intents to functions in order to avoid a `if-elif-...-else` ladder.
+
 ```python
-def handle_intent(data, r):
-    """Checks intent for a message and creates response.
-
-    If an intent is found in a message, a response is returned.
-    Put all intents handled by the app here.
-
-    Parameters
-    ----------
-    data :
-        The JSON of the POST request.
-    r :
-        The details of the user on Mongo.
-
-    Returns
-    -------
-    str
-        The response if intent is satisfied
-
-    null
-        If intent is not handled by the app, Dialogflow creates response.
-    """
-
-    try:
-        # if intent1: return something
-        # elif intent2: return something else
-        # else:
-        return
-    except:
-        # return exception message
+>>> handle_intent({"keys-to-intent": "delete data"}, "1234567890", "123456Z")
+Something went wrong. :(
 ```
 
+|                                                               Parameters                                                                      |                  Returns                        |
+|-----------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| **`request_data`:** the POST request dictionary<br>**`uid`:** the unique sender ID of the user<br>**`uni_id`:** the university ID of the user | **`str`:** the response<br>**`None`:** if response is not handled by app |
 
 
-## `parse_message()`
+
+## `user_gateway(request_data, uid)`
+
+Acts as a gateway for all messages before understanding intents and user attributes by enabling login-integrity and fetching data from the database.
+
 ```python
-def parse_message(data, uid):
-    """Parses the message of the user.
-
-    The main method handling log in and intents for the message.
-
-    Parameters
-    ----------
-    data :
-        The JSON of the POST request.
-    uid : str
-        The unique ID for the Facebook user of the app.
-
-    Returns
-    -------
-    str
-        A response for the message.
-
-    null
-        If intent is not handled by app, the response is created by Dialogflow.
-    """
-   
-    if not timetable.check_loggedIn(r["uni_id"]):
-        # login
-    
-        if not login_result:
-            # login failed
-    
-    return handle_intent(data, r)
+>>> user_gateway({"queryText": "hi there"}, "1234567890")
+APP: 1234567890 logging in again.
+Hey there!
 ```
 
+|                                       Parameters                                               |                                  Returns                                 |
+|------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| **`request_data`:** the POST request dictionary<br>**`uid`:** the unique sender ID of the user | **`str`:** the response<br>**`None`:** if response is not handled by app |
 
 
-## `log()`
+
+## `log(message)`
+
+Prints essential information on the console of the server. This helps in easily changing the process of keeping logs.
+
 ```python
-def log(message):
-    """Logs details onto the terminal of server using Flask.
-
-    This function can be changed to how logging is intended.
-
-    Parameters
-    ----------
-    message : str
-        The message to log.
-    """
-    app.logger.info(message)
+>>> log("lorem ipsum")
+APP: lorem ipsum
 ```
+
+|                 Parameters              |    Returns  |
+|-----------------------------------------|-------------|
+| **`message`:** the message to log       | **`None`**  |

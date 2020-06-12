@@ -16,5 +16,4 @@ theme:
     name: material
 
 markdown_extensions:
-    - codehilite:
-        linenums: true
+    - codehilite

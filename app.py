@@ -33,14 +33,14 @@ def webhook():
     if not request.headers.get(wb_arg_name) == webhook_token:
         return "Verification token mismatch", 403
 
-    data = request.get_json()
-    sender_id = df.get_id(data)
+    request_data = request.get_json()
+    sender_id = df.get_id(request_data)
 
     if not sender_id:
         return df.prepare_json("Hello, developer.")
 
     if db.exists(sender_id):
-        response = parse_message(data, sender_id)
+        response = user_gateway(request_data, sender_id)
 
     elif db.exists_waiting(sender_id):
         response = (
@@ -69,42 +69,43 @@ def new_user_registration():
 
         if "key" not in request.args:
             return redirect("/")
+        
         pk = request.args.get("key")
 
         return (
-            render_template("register.html", form=RegisterForm(fb_id=pk), message="")
+            render_template("register.html", form=RegisterForm(uid=pk), message="")
             if db.exists_waiting(pk)
             else redirect("/")
         )
 
     else:
-        fb_id = request.form.get("fb_id")
+        uid = request.form.get("uid")
         uni_id = request.form.get("uni_id")
         uni_pass = request.form.get("uni_pass")
         login_result = timetable.login(uni_id, uni_pass)
-        log("{} undergoing registration. Result: {}".format(fb_id, login_result))
+        log("{} undergoing registration. Result: {}".format(uid, login_result))
 
         if not login_result:
             return render_template(
                 "register.html",
-                form=RegisterForm(fb_id=fb_id),
+                form=RegisterForm(uid=uid),
                 message="Invalid credentials.",
             )
 
         db.insert(
-            {"_id": fb_id, "uni_id": uni_id, "uni_pw": f.encrypt(uni_pass.encode())}
+            {"_id": uid, "uni_id": uni_id, "uni_pw": f.encrypt(uni_pass.encode())}
         )
-        db.delete_waiting(fb_id)
-        facebook.send_message(fb_id, "Alrighty! We can get started. :D")
+        db.delete_waiting(uid)
+        facebook.send_message(uid, "Alrighty! We can get started. :D")
         return render_template(
             "register.html",
             success="Login successful! You can now close this page and chat to the bot.",
         )
 
 
-def handle_intent(data, r):
+def handle_intent(request_data, uid, uni_id):
 
-    intent = data["queryResult"]["intent"]
+    intent = request_data["queryResult"]["intent"]
 
     try:
 
@@ -113,9 +114,9 @@ def handle_intent(data, r):
 
         intent_name = intent["displayName"].lower()
         intent_linking = {
-            "delete data": lambda: df.delete_data(r["_id"], db),
-            "read next": lambda: df.read_next(r["uni_id"]),
-            "read timetable": lambda: df.read_timetable(r["uni_id"], data),
+            "delete data": lambda: df.delete_data(uid, db),
+            "read next": lambda: df.read_next(uni_id),
+            "read timetable": lambda: df.read_timetable(uni_id, request_data),
         }
 
         return intent_linking[intent_name]() if intent_name in intent_linking else None
@@ -123,19 +124,19 @@ def handle_intent(data, r):
     except Exception as e:
         log(
             "Exception ({}) thrown: {}. {} sent '{}'.".format(
-                type(e).__name__, e, r["_id"], data["queryResult"]["queryText"]
+                type(e).__name__, e, uid, request_data["queryResult"]["queryText"]
             )
         )
         return "I'm sorry, something went wrong understanding that. :("
 
 
-def parse_message(data, uid):
+def user_gateway(request_data, uid):
 
-    r = db.find(uid)
+    user_data = db.find(uid)
 
-    if not timetable.check_loggedIn(r["uni_id"]):
+    if not timetable.check_loggedIn(user_data["uni_id"]):
         log("{} logging in again.".format(uid))
-        login_result = timetable.login(r["uni_id"], (f.decrypt(r["uni_pw"])).decode())
+        login_result = timetable.login(user_data["uni_id"], (f.decrypt(user_data["uni_pw"])).decode())
 
         if not login_result:
             log("{} failed to log in.".format(uid))
@@ -146,7 +147,7 @@ def parse_message(data, uid):
                 "Register here: {}/register?key={}"
             ).format(app_url, uid)
 
-    return handle_intent(data, r)
+    return handle_intent(request_data, uid, user_data["uni_id"])
 
 
 def log(message):

@@ -1,25 +1,37 @@
-# [views.py](https://github.com/ineshbose/boyd_bot_messenger/blob/master/views.py)
+# [`Views & Templates`](#)
+
 This script contains all simple views for the app and are linked using `Blueprint`.
 
-## Packages Used
+
+
+## [`views.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/views.py)
+
+All simple views are rendered using `render_template()`.
+
+
+### Packages Used
+
 * [flask_wtf](https://github.com/lepture/flask-wtf)
 * [wtforms](https://github.com/wtforms/wtforms)
 
-## `RegisterForm()`
+
+
+### `RegisterForm`
+
+`FlaskForm` with necessary details to register a user.
+
 ```python
 class RegisterForm(FlaskForm):
-    """Registration form for users.
-
-    Contains 3 essential input fields (+ 1 `SubmitField`).
-    """
-    fb_id = HiddenField("fb_id")
+    uid = HiddenField("uid")
     uni_id = StringField("University ID", validators=[DataRequired()])
     uni_pass = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 ```
 
 
-## Pages
+
+### `views`
+
 ```python
 @app.route("/")
 def index():
@@ -55,13 +67,19 @@ def page_not_found(e):
 
 ```
 
-# Templates
 
-## `register.html`
+
+## [templates](https://github.com/ineshbose/boyd_bot_messenger/blob/master/templates)
+
+### `register.html`
+
 This is the registration form. Tailor this according to your university.
+
 ```html
 <!-- It's a good idea to style the registration form with a theme that is familiar to users and can get their trust.-->
 ```
 
-## Rest of the Templates
+
+### Rest of the Templates
+
 The theme used is [Grayscale from Start Bootstrap](https://startbootstrap.com/themes/grayscale/).
