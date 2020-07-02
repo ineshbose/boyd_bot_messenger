@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from flask import make_response
 
 
-class Facebook:
+class Platform:
     def __init__(self, access_token):
         self.access_token = access_token
 
@@ -31,7 +31,7 @@ class Facebook:
         return req.json()
 
 
-class Mongo:
+class Database:
     def __init__(self, cluster, db, collection, wait_id):
         self.cluster = MongoClient(cluster)
         self.db = self.cluster[db]
@@ -51,16 +51,19 @@ class Mongo:
         return self.collection.count_documents({"_id": uid})
 
     def delete_waiting(self, uid):
-        return self.collection.delete_one({"_id": self.wait_id + uid}).deleted_count
+        return self.delete(self.wait_id + uid)
 
     def insert_waiting(self, uid):
-        return self.collection.insert_one({"_id": self.wait_id + uid})
+        return self.insert({"_id": self.wait_id + uid})
 
     def exists_waiting(self, uid):
-        return self.collection.count_documents({"_id": self.wait_id + uid})
+        return self.exists(self.wait_id + uid)
+
+    def insert_data(self, uid, uni_id, uni_pw):
+        return self.insert({"_id": uid, "uni_id": uni_id, "uni_pw": uni_pw})
 
 
-class Dialogflow:
+class Parser:
     def __init__(self):
         pass
 
@@ -74,32 +77,48 @@ class Dialogflow:
     def delete_data(self, uid, db):
         return "Deleted! :)" if db.delete(uid) else "Something went wrong. :("
 
-    def read_next(self, uid):
-        return timetable.read(uid)
-
     def read_timetable(self, uid, data):
-        param = data["queryResult"]["parameters"]["date-time"]
 
-        param_link = {
-            "date_time": lambda: (param["date_time"],),
-            "startDateTime": lambda: (param["startDateTime"], param["endDateTime"]),
-            "startDate": lambda: (param["startDate"], param["endDate"]),
-            "startTime": lambda: (param["startTime"], param["endTime"]),
-            "default": lambda: ((param[:10] + "T00:00:00" + param[19 : len(param)]),),
-        }
+        param = data["queryResult"]["parameters"]
+        args = []
+        dtparam = next(iter(param["date-time"]), None)
 
-        return timetable.read(
-            uid, *(param_link.get(next(iter(param)), param_link["default"])())
-        )
+        if not dtparam:
+            args.extend([None, None])
 
-    def prepare_json(self, message):
-        res = {"fulfillmentMessages": []}
+        else:
+
+            param_link = {
+                "date_time": lambda: [dtparam["date_time"], None,],
+                "startDateTime": lambda: [
+                    dtparam["startDateTime"],
+                    dtparam["endDateTime"],
+                ],
+                "startDate": lambda: [dtparam["startDate"], dtparam["endDate"]],
+                "startTime": lambda: [dtparam["startTime"], dtparam["endTime"]],
+                "default": lambda: [
+                    (dtparam[:10] + "T00:00:00" + dtparam[19 : len(dtparam)]),
+                    None,
+                ],
+            }
+
+            args.extend(param_link.get(next(iter(dtparam)), param_link["default"])())
+
+        args.append(next(iter(param["class-name"]), None))
+
+        return timetable.read(uid, *args)
+
+    def prepare_json(self, message=None, context=None):
+        res = {"fulfillmentMessages": [], "outputContexts": []}
 
         if isinstance(message, list):
             for m in message:
                 res["fulfillmentMessages"].append({"text": {"text": [m]}})
         else:
             res["fulfillmentMessages"].append({"text": {"text": [message]}})
+
+        if context:
+            res["outputContexts"].append(context)
 
         res = json.dumps(res, indent=4)
         r = make_response(res)

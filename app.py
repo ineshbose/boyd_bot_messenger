@@ -1,6 +1,6 @@
 import os, timetable, logging
 from views import pages, RegisterForm
-from services import Facebook, Mongo, Dialogflow
+from services import Platform, Database, Parser
 from cryptography.fernet import Fernet
 from flask import Flask, request, redirect, render_template
 
@@ -13,14 +13,14 @@ app_url = os.environ["APP_URL"]
 app.config["SECRET_KEY"] = os.environ["FLASK_KEY"]
 webhook_token = os.environ["VERIFY_TOKEN"]
 wb_arg_name = os.environ["WB_ARG_NAME"]
-facebook = Facebook(os.environ["PAGE_ACCESS_TOKEN"])
-db = Mongo(
-    os.environ["MONGO_TOKEN"],
-    os.environ["FIRST_CLUSTER"],
-    os.environ["COLLECTION_NAME"],
-    os.environ["WAIT_ID"],
+platform = Platform(access_token=os.environ["PAGE_ACCESS_TOKEN"])
+db = Database(
+    cluster=os.environ["MONGO_TOKEN"],
+    db=os.environ["FIRST_CLUSTER"],
+    collection=os.environ["COLLECTION_NAME"],
+    wait_id=os.environ["WAIT_ID"],
 )
-df = Dialogflow()
+parser = Parser()
 f = Fernet(os.environ["FERNET_KEY"])
 
 
@@ -34,10 +34,10 @@ def webhook():
         return "Verification token mismatch", 403
 
     request_data = request.get_json()
-    sender_id = df.get_id(request_data)
+    sender_id = parser.get_id(request_data)
 
     if not sender_id:
-        return df.prepare_json("Hello, developer.")
+        return parser.prepare_json("Hello, developer.")
 
     if db.exists(sender_id):
         response = user_gateway(request_data, sender_id)
@@ -45,21 +45,21 @@ def webhook():
     elif db.exists_waiting(sender_id):
         response = (
             "It doesn't seem like you've registered yet.\n"
-            "Register here: {}/register?key={}"
+            "Register here: {}/register?id={}"
         ).format(app_url, sender_id)
 
     else:
-        user_data = facebook.get_user_data(sender_id)
+        user_data = platform.get_user_data(sender_id)
         if "error" in user_data:
             return log("{} is not a valid Facebook user".format(sender_id))
 
         db.insert_waiting(sender_id)
         response = (
             "Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
-            "To get started, register here: {}/register?key={}"
+            "To get started, register here: {}/register?id={}"
         ).format(user_data["first_name"], app_url, sender_id)
 
-    return df.prepare_json(response)
+    return parser.prepare_json(response)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -67,10 +67,10 @@ def new_user_registration():
 
     if request.method == "GET":
 
-        if "key" not in request.args:
+        if "id" not in request.args:
             return redirect("/")
-        
-        pk = request.args.get("key")
+
+        pk = request.args.get("id")
 
         return (
             render_template("register.html", form=RegisterForm(uid=pk), message="")
@@ -81,8 +81,8 @@ def new_user_registration():
     else:
         uid = request.form.get("uid")
         uni_id = request.form.get("uni_id")
-        uni_pass = request.form.get("uni_pass")
-        login_result = timetable.login(uni_id, uni_pass)
+        uni_pw = request.form.get("uni_pw")
+        login_result = timetable.login(uni_id, uni_pw)
         log("{} undergoing registration. Result: {}".format(uid, login_result))
 
         if not login_result:
@@ -92,11 +92,9 @@ def new_user_registration():
                 message="Invalid credentials.",
             )
 
-        db.insert(
-            {"_id": uid, "uni_id": uni_id, "uni_pw": f.encrypt(uni_pass.encode())}
-        )
+        db.insert_data(uid, uni_id, f.encrypt(uni_pw.encode()))
         db.delete_waiting(uid)
-        facebook.send_message(uid, "Alrighty! We can get started. :D")
+        platform.send_message(uid, "Alrighty! We can get started. :D")
         return render_template(
             "register.html",
             success="Login successful! You can now close this page and chat to the bot.",
@@ -114,9 +112,8 @@ def handle_intent(request_data, uid, uni_id):
 
         intent_name = intent["displayName"].lower()
         intent_linking = {
-            "delete data": lambda: df.delete_data(uid, db),
-            "read next": lambda: df.read_next(uni_id),
-            "read timetable": lambda: df.read_timetable(uni_id, request_data),
+            "delete data": lambda: parser.delete_data(uid, db),
+            "read timetable": lambda: parser.read_timetable(uni_id, request_data),
         }
 
         return intent_linking[intent_name]() if intent_name in intent_linking else None
@@ -136,7 +133,9 @@ def user_gateway(request_data, uid):
 
     if not timetable.check_loggedIn(user_data["uni_id"]):
         log("{} logging in again.".format(uid))
-        login_result = timetable.login(user_data["uni_id"], (f.decrypt(user_data["uni_pw"])).decode())
+        login_result = timetable.login(
+            user_data["uni_id"], (f.decrypt(user_data["uni_pw"])).decode()
+        )
 
         if not login_result:
             log("{} failed to log in.".format(uid))
@@ -144,7 +143,7 @@ def user_gateway(request_data, uid):
             db.insert_waiting(uid)
             return (
                 "Whoops! Something went wrong; maybe your login details changed?\n"
-                "Register here: {}/register?key={}"
+                "Register here: {}/register?id={}"
             ).format(app_url, uid)
 
     return handle_intent(request_data, uid, user_data["uni_id"])

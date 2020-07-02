@@ -1,5 +1,6 @@
 import requests, pytz
 from datetime import datetime
+from fuzzywuzzy import fuzz
 from icalendar import Calendar
 from dateutil.parser import parse as dtparse
 
@@ -28,11 +29,18 @@ def format_event(event):
         event["dtstart"].dt.strftime("%I:%M%p"),
         event["dtend"].dt.strftime("%I:%M%p"),
         event["dtstart"].dt.strftime("%d %B %Y (%A)"),
-        event["location"],
+        event["location"] if "location" in event else "Location Not Found",
     )
 
 
-def read(uid, start_date=None, end_date=None):
+def jsonify_desc(event):
+    return dict(
+        (k.strip(), v.strip())
+        for k, v in (item.split(":") for item in event["description"].splitlines())
+    )
+
+
+def read(uid, start_date=None, end_date=None, class_name=None):
 
     date1 = (
         dtparse(start_date).replace(tzinfo=tmzn)
@@ -48,9 +56,17 @@ def read(uid, start_date=None, end_date=None):
 
     for event in calendars[uid].walk("vevent"):
         if event["dtstart"].dt >= date1 and event["dtend"].dt <= date2:
-            class_list.append(format_event(event))
+
             if not start_date:
+                class_list.append(format_event(event))
                 break
+
+            if class_name:
+                if fuzz.partial_ratio(class_name, event["summary"]) > 30:
+                    class_list.append(format_event(event))
+            
+            else:
+                class_list.append(format_event(event))
 
     if not class_list:
         return "There seem to be no classes. :D"
@@ -58,7 +74,7 @@ def read(uid, start_date=None, end_date=None):
     message = "You have..\n\n" + ("\n".join(class_list))
     return (
         message
-        if len(message) < 2000
+        if len(message) < 2000  # Most services have a limit of 2000 characters
         else [
             "\n".join(li)
             for li in [class_list[i : i + 10] for i in range(0, len(class_list), 10)]

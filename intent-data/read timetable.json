@@ -1,5 +1,5 @@
 {
-  "id": "15101bbf-819c-455e-a346-fb29b009cd1b",
+  "id": "6d63276e-4852-4cce-aed1-998d8097b040",
   "name": "read timetable",
   "auto": true,
   "condition": "",
@@ -26,13 +26,36 @@
           "defaultValue": "",
           "name": "date-time",
           "dataType": "@sys.date-time",
-          "isList": false,
-          "required": true,
-          "prompts": [
-            "When?",
-            "Please specify the date."
-          ],
+          "isList": true,
+          "required": false,
+          "prompts": [],
           "value": "$date-time",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "class-type",
+          "dataType": "@class-type",
+          "isList": true,
+          "required": false,
+          "prompts": [],
+          "value": "$class-type",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "class-name",
+          "dataType": "@class-name",
+          "isList": true,
+          "required": false,
+          "prompts": [],
+          "value": "$class-name",
           "outputDialogContexts": []
         }
       ],
@@ -54,67 +77,209 @@
       "isTemplate": false,
       "data": [
         {
-          "text": "classes between ",
+          "text": "when is ",
           "userDefined": false
         },
         {
-          "text": "tuesday 9am",
+          "text": "oose",
+          "userDefined": false,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "e32c768b-06f7-493f-a9dd-a9e5f5ac53e4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": false,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "0ffae37c-039f-47c8-b8ce-1dc3aba8ad8d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": false,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "march 3 2020",
           "userDefined": false,
           "alias": "date-time",
           "meta": "@sys.date-time"
-        },
+        }
+      ],
+      "count": 0,
+      "id": "b70a29fc-0277-41c2-adcf-44a505e1ebc1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
         {
-          "text": " and ",
+          "text": "when do i have ",
           "userDefined": false
         },
         {
-          "text": "friday 11pm",
+          "text": "OOSE",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
           "userDefined": false,
           "alias": "date-time",
           "meta": "@sys.date-time"
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "b1c2c1a8-b2f4-483e-a40c-b93c0a42ca98",
       "updated": null
     },
     {
       "isTemplate": false,
       "data": [
         {
-          "text": "monday 9am",
-          "userDefined": true,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": null,
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "classes after ",
-          "userDefined": false
+          "text": "tutorials",
+          "userDefined": false,
+          "alias": "class-type",
+          "meta": "@class-type"
         },
         {
-          "text": "11am",
-          "userDefined": true,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
+          "text": " next",
+          "userDefined": false
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "c633d44f-d6dc-44e5-870e-50b90032a8de",
       "updated": null
     },
     {
       "isTemplate": false,
       "data": [
         {
-          "text": "What ",
+          "text": "what do i have next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "0934d4c6-8a2f-46ec-9bff-dbb90767231c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "up next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "6116105f-ad97-4584-9d95-dfde3a9af49b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "what do i have up next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d295deb6-767d-4b54-bfdc-f93ec6077e8a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "class up next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e1ecba49-c595-473c-a520-4f0f6cca27be",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4e4ccc1f-9123-4f89-a2b8-111d7d83c226",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "what do i have now",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "1a69f345-32d1-4421-8fd2-87b525a8b6ce",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes now",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "0613c6b9-cd52-4c1b-a747-ce9ef1a38c1a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "now",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e92b0c38-e599-4373-a01e-1a05f87971d6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "what ",
           "userDefined": false
         },
         {
@@ -124,82 +289,12 @@
           "alias": null
         },
         {
-          "text": " do I have",
-          "userDefined": false
-        }
-      ],
-      "count": 0,
-      "id": null,
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "Schedule",
-          "userDefined": true,
-          "meta": "@sys.ignore",
-          "alias": null
-        },
-        {
-          "text": " for ",
-          "userDefined": false
-        },
-        {
-          "text": "Wednesday",
-          "userDefined": true,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": null,
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "Lectures",
-          "userDefined": true,
-          "meta": "@sys.ignore",
-          "alias": null
-        },
-        {
-          "text": " on ",
-          "userDefined": false
-        },
-        {
-          "text": "Monday",
-          "userDefined": true,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": null,
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "What ",
-          "userDefined": false
-        },
-        {
-          "text": "lectures",
-          "userDefined": true,
-          "meta": "@sys.ignore",
-          "alias": null
-        },
-        {
-          "text": " do I have ",
+          "text": " do i have ",
           "userDefined": false
         },
         {
           "text": "today",
-          "userDefined": true,
+          "userDefined": false,
           "alias": "date-time",
           "meta": "@sys.date-time"
         },
@@ -209,61 +304,15 @@
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "5bfa40fc-bca5-4747-ac1e-0d0015fb9cf0",
       "updated": null
     },
     {
       "isTemplate": false,
       "data": [
         {
-          "text": "Day after ",
-          "userDefined": false
-        },
-        {
-          "text": "tomorrow",
-          "userDefined": true,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": null,
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "Tomorrow",
-          "userDefined": true,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": null,
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "Today",
-          "userDefined": true,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": null,
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "Classes",
-          "userDefined": true,
+          "text": "classes",
+          "userDefined": false,
           "meta": "@sys.ignore",
           "alias": null
         },
@@ -273,37 +322,79 @@
         },
         {
           "text": "tomorrow",
-          "userDefined": true,
+          "userDefined": false,
           "alias": "date-time",
           "meta": "@sys.date-time"
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "10a97597-0274-49ea-b088-5d88c094cf39",
       "updated": null
     },
     {
       "isTemplate": false,
       "data": [
         {
-          "text": "What ",
+          "text": "today",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "059dd2e8-0fe3-4d67-90e2-1e039b6bf0c6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "tomorrow",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "cc4e4e48-1509-4e94-a0e7-72e1b2d01133",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "day after tomorrow",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "cb1a7e8f-f319-4fd4-ae7b-adc6c581bafe",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "what ",
           "userDefined": false
         },
         {
-          "text": "classes",
+          "text": "lectures",
           "userDefined": true,
-          "meta": "@sys.ignore",
-          "alias": null
+          "alias": "class-type",
+          "meta": "@class-type"
         },
         {
-          "text": " do I have ",
+          "text": " do i have ",
           "userDefined": false
         },
         {
           "text": "today",
-          "userDefined": true,
-          "meta": "@sys.ignore",
-          "alias": null
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
         },
         {
           "text": "?",
@@ -311,10 +402,258 @@
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "8a1a0117-3ce7-454b-8bab-f61160190ac6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "lectures",
+          "userDefined": true,
+          "alias": "class-type",
+          "meta": "@class-type"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "monday",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "6a3ceca7-2859-48ee-ab7a-362bba463985",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "schedule for ",
+          "userDefined": false
+        },
+        {
+          "text": "wednesday",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "bb18ee87-5dc7-4f5b-b8e3-3e3b1a8e5929",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "after 11am",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "c8aa334a-03b9-4c49-971a-4e8cb913b7e0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "monday 9am",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "13818aee-e1c9-4845-9e6d-73002c79829e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "between tuesday 9am and friday 11pm",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "430bf57d-a220-41e9-91ac-a3d5649ae9b6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "what do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "today",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": "?",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "23f30248-0c8d-4222-ad69-17165dafee2b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "lectures",
+          "userDefined": true,
+          "alias": "class-type",
+          "meta": "@class-type"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "tutorials",
+          "userDefined": true,
+          "alias": "class-type",
+          "meta": "@class-type"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "today",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "d2ee34a4-4d2d-4661-94a2-a8c22806c05a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "tutorials",
+          "userDefined": true,
+          "alias": "class-type",
+          "meta": "@class-type"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "today",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "38ed9a73-f7ec-49ec-b831-50c4ffdec201",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "what do i have on ",
+          "userDefined": false
+        },
+        {
+          "text": "march 3rd 2020 after 12pm",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "39bd120b-4255-4017-adea-23c54adbebb0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "do i have anything between ",
+          "userDefined": false
+        },
+        {
+          "text": "12pm to 2pm on Feb 14 2020",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": "?",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "12eccb7d-220c-49fa-be43-95e4f99d8235",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "morning",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " to ",
+          "userDefined": false
+        },
+        {
+          "text": "evening",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "45d351d0-031b-43ba-b40c-7c0318fc2551",
       "updated": null
     }
   ],
-  "webhookForSlotFilling": false,
+  "webhookForSlotFilling": true,
   "webhookUsed": true
 }
