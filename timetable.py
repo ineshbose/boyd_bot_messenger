@@ -7,15 +7,15 @@ from dateutil.parser import parse as dtparse
 
 tmzn = pytz.timezone("UTC")
 cal_url = "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"
-req = {}
+fuzz_threshold = 40
 calendars = {}
 
 
-def login(uid, pw):
-    req[uid] = requests.get(cal_url, auth=(uid, pw))
-
+def login(uid, uni_id, uni_pw):
     try:
-        calendars[uid] = Calendar.from_ical(req[uid].content)
+        calendars[uid] = Calendar.from_ical(
+            requests.get(cal_url, auth=(uni_id, uni_pw)).content
+        )
         return True
     except (ValueError, Exception):
         return False
@@ -41,6 +41,23 @@ def jsonify_desc(event):
 
 
 def read(uid, start_date=None, end_date=None, class_name=None):
+    class_list = iterate(uid, start_date, end_date, class_name)
+
+    if not class_list:
+        return ["There seem to be no classes. :D"]
+
+    message = "\n".join(class_list)
+    return (
+        [message]
+        if len(message) < 2000  # Most services have a limit of 2000 characters
+        else [
+            "\n".join(li)
+            for li in [class_list[i : i + 10] for i in range(0, len(class_list), 10)]
+        ]
+    )
+
+
+def iterate(uid, start_date=None, end_date=None, class_name=None):
 
     date1 = (
         dtparse(start_date).replace(tzinfo=tmzn)
@@ -62,24 +79,18 @@ def read(uid, start_date=None, end_date=None, class_name=None):
                 break
 
             if class_name:
-                if fuzz.partial_ratio(class_name, event["summary"]) > 30:
-                    class_list.append(format_event(event))
-            
+                class_name = [class_name] if isinstance(class_name, str) else class_name
+                for c_name in class_name:
+                    if (
+                        fuzz.partial_ratio(c_name.lower(), event["summary"].lower())
+                        > fuzz_threshold
+                    ):
+                        class_list.append(format_event(event))
+
             else:
                 class_list.append(format_event(event))
 
-    if not class_list:
-        return "There seem to be no classes. :D"
-
-    message = "You have..\n\n" + ("\n".join(class_list))
-    return (
-        message
-        if len(message) < 2000  # Most services have a limit of 2000 characters
-        else [
-            "\n".join(li)
-            for li in [class_list[i : i + 10] for i in range(0, len(class_list), 10)]
-        ]
-    )
+    return class_list
 
 
 def check_loggedIn(uid):

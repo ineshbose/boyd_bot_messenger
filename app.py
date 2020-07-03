@@ -1,7 +1,7 @@
-import os, timetable, logging
+import timetable
+import os, logging
 from views import pages, RegisterForm
-from services import Platform, Database, Parser
-from cryptography.fernet import Fernet
+from services import Platform, Database, Parser, Guard
 from flask import Flask, request, redirect, render_template
 
 
@@ -18,10 +18,9 @@ db = Database(
     cluster=os.environ["MONGO_TOKEN"],
     db=os.environ["FIRST_CLUSTER"],
     collection=os.environ["COLLECTION_NAME"],
-    wait_id=os.environ["WAIT_ID"],
 )
 parser = Parser()
-f = Fernet(os.environ["FERNET_KEY"])
+guard = Guard(key=os.environ["FERNET_KEY"])
 
 
 @app.route("/webhook", methods=["GET", "POST"])
@@ -34,32 +33,35 @@ def webhook():
         return "Verification token mismatch", 403
 
     request_data = request.get_json()
-    sender_id = parser.get_id(request_data)
+    sender_id = platform.get_id(request_data)
 
     if not sender_id:
-        return parser.prepare_json("Hello, developer.")
+        return platform.reply("Hello, developer.")
 
-    if db.exists(sender_id):
+    if db.check_registered(sender_id):
         response = user_gateway(request_data, sender_id)
 
-    elif db.exists_waiting(sender_id):
+    elif db.check_in_reg(sender_id):
         response = (
             "It doesn't seem like you've registered yet.\n"
             "Register here: {}/register?id={}"
-        ).format(app_url, sender_id)
+        ).format(app_url, db.get_data(sender_id)["reg_id"])
 
     else:
         user_data = platform.get_user_data(sender_id)
         if "error" in user_data:
-            return log("{} is not a valid Facebook user".format(sender_id))
+            return log("{} is not a valid user".format(sender_id))
 
-        db.insert_waiting(sender_id)
+        hash_id = guard.sha256(sender_id)
+        reg_id = hash_id[:15] if not db.check_reg_data(hash_id[:15]) else hash_id
+        db.insert_in_reg(sender_id, reg_id)
+
         response = (
             "Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
             "To get started, register here: {}/register?id={}"
-        ).format(user_data["first_name"], app_url, sender_id)
+        ).format(user_data["first_name"], app_url, reg_id)
 
-    return parser.prepare_json(response)
+    return platform.reply(response)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -70,30 +72,32 @@ def new_user_registration():
         if "id" not in request.args:
             return redirect("/")
 
-        pk = request.args.get("id")
-
+        reg_id = request.args.get("id")
         return (
-            render_template("register.html", form=RegisterForm(uid=pk), message="")
-            if db.exists_waiting(pk)
+            render_template(
+                "register.html", form=RegisterForm(reg_id=reg_id), message=""
+            )
+            if db.check_reg_data(reg_id)
             else redirect("/")
         )
 
     else:
-        uid = request.form.get("uid")
+        reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
         uni_pw = request.form.get("uni_pw")
-        login_result = timetable.login(uni_id, uni_pw)
+        uid = db.get_user_id(reg_id)
+        login_result = timetable.login(uid, uni_id, uni_pw)
         log("{} undergoing registration. Result: {}".format(uid, login_result))
 
         if not login_result:
             return render_template(
                 "register.html",
-                form=RegisterForm(uid=uid),
+                form=RegisterForm(reg_id=reg_id),
                 message="Invalid credentials.",
             )
 
-        db.insert_data(uid, uni_id, f.encrypt(uni_pw.encode()))
-        db.delete_waiting(uid)
+        db.delete_in_reg(uid, reg_id)
+        db.insert_data(uid, guard.encrypt(uni_id), guard.encrypt(uni_pw))
         platform.send_message(uid, "Alrighty! We can get started. :D")
         return render_template(
             "register.html",
@@ -101,7 +105,7 @@ def new_user_registration():
         )
 
 
-def handle_intent(request_data, uid, uni_id):
+def handle_intent(request_data, uid):
 
     intent = request_data["queryResult"]["intent"]
 
@@ -113,7 +117,7 @@ def handle_intent(request_data, uid, uni_id):
         intent_name = intent["displayName"].lower()
         intent_linking = {
             "delete data": lambda: parser.delete_data(uid, db),
-            "read timetable": lambda: parser.read_timetable(uni_id, request_data),
+            "read timetable": lambda: parser.read_timetable(uid, request_data),
         }
 
         return intent_linking[intent_name]() if intent_name in intent_linking else None
@@ -129,24 +133,30 @@ def handle_intent(request_data, uid, uni_id):
 
 def user_gateway(request_data, uid):
 
-    user_data = db.find(uid)
+    user_data = db.get_data(uid)
 
-    if not timetable.check_loggedIn(user_data["uni_id"]):
+    if not timetable.check_loggedIn(user_data["_id"]):
         log("{} logging in again.".format(uid))
         login_result = timetable.login(
-            user_data["uni_id"], (f.decrypt(user_data["uni_pw"])).decode()
+            user_data["_id"],
+            guard.decrypt(user_data["uni_id"]),
+            guard.decrypt(user_data["uni_pw"]),
         )
 
         if not login_result:
+
             log("{} failed to log in.".format(uid))
-            db.delete(uid)
-            db.insert_waiting(uid)
+            db.delete_data(uid)
+            hash_id = guard.sha256(uid)
+            reg_id = hash_id[:15] if not db.check_reg_data(hash_id[:15]) else hash_id
+            db.insert_in_reg(uid, reg_id)
+
             return (
                 "Whoops! Something went wrong; maybe your login details changed?\n"
                 "Register here: {}/register?id={}"
-            ).format(app_url, uid)
+            ).format(app_url, reg_id)
 
-    return handle_intent(request_data, uid, user_data["uni_id"])
+    return handle_intent(request_data, uid)
 
 
 def log(message):

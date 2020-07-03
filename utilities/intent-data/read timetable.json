@@ -1,6 +1,6 @@
 {
   "id": "6d63276e-4852-4cce-aed1-998d8097b040",
-  "name": "read timetable",
+  "name": "Read Timetable",
   "auto": true,
   "condition": "",
   "conditionalFollowupEvents": [],
@@ -77,18 +77,90 @@
       "isTemplate": false,
       "data": [
         {
+          "text": "philosophy",
+          "userDefined": false,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": false,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes ",
+          "userDefined": false
+        },
+        {
+          "text": "tomorrow",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "8924eb8b-8e41-4396-9e7b-66e43a638038",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "archaeology",
+          "userDefined": false,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes ",
+          "userDefined": false
+        },
+        {
+          "text": "this week",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "d0e9f376-92ec-480c-80fe-6cdafbc668aa",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
           "text": "when is ",
           "userDefined": false
         },
         {
-          "text": "oose",
+          "text": "philosophy",
           "userDefined": false,
           "alias": "class-name",
           "meta": "@class-name"
         }
       ],
       "count": 0,
-      "id": "e32c768b-06f7-493f-a9dd-a9e5f5ac53e4",
+      "id": "f3bb5aad-aa6b-4139-be81-503d22fbcefa",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chemistry",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "0392f51f-1c65-4583-acef-f10c9597f878",
       "updated": null
     },
     {
@@ -131,34 +203,6 @@
       ],
       "count": 0,
       "id": "b70a29fc-0277-41c2-adcf-44a505e1ebc1",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "when do i have ",
-          "userDefined": false
-        },
-        {
-          "text": "OOSE",
-          "userDefined": true,
-          "alias": "class-name",
-          "meta": "@class-name"
-        },
-        {
-          "text": " on ",
-          "userDefined": false
-        },
-        {
-          "text": "feb 14 2020",
-          "userDefined": false,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": "b1c2c1a8-b2f4-483e-a40c-b93c0a42ca98",
       "updated": null
     },
     {

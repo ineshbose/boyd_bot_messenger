@@ -1,0 +1,401 @@
+{
+    "utterances": [
+        {
+            "text": "archaeology classes this week",
+            "entities": [
+                {
+                    "entity": "class-name:class-name",
+                    "start": 0,
+                    "end": 11,
+                    "body": "archaeology",
+                    "entities": []
+                },
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 20,
+                    "end": 29,
+                    "body": "this week",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "can you delete my data",
+            "entities": [],
+            "traits": [],
+            "intent": "Delete_Data"
+        },
+        {
+            "text": "chemistry",
+            "entities": [
+                {
+                    "entity": "class-name:class-name",
+                    "start": 0,
+                    "end": 9,
+                    "body": "chemistry",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "class this afternoon",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 6,
+                    "end": 20,
+                    "body": "this afternoon",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "class up next",
+            "entities": [],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "classes between 12pm to 2pm on Feb 14 2020",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 8,
+                    "end": 42,
+                    "body": "between 12pm to 2pm on Feb 14 2020",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "classes between tuesday 9am and friday 11pm",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 8,
+                    "end": 43,
+                    "body": "between tuesday 9am and friday 11pm",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "classes now",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 8,
+                    "end": 11,
+                    "body": "now",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "day after tomorrow",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 0,
+                    "end": 18,
+                    "body": "day after tomorrow",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "delete data",
+            "entities": [],
+            "traits": [],
+            "intent": "Delete_Data"
+        },
+        {
+            "text": "delete my data",
+            "entities": [],
+            "traits": [],
+            "intent": "Delete_Data"
+        },
+        {
+            "text": "delete the data",
+            "entities": [],
+            "traits": [],
+            "intent": "Delete_Data"
+        },
+        {
+            "text": "lecture on monday",
+            "entities": [
+                {
+                    "entity": "class-type:class-type",
+                    "start": 0,
+                    "end": 7,
+                    "body": "lecture",
+                    "entities": []
+                },
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 8,
+                    "end": 17,
+                    "body": "on monday",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "lectures and tutorials tomorrow",
+            "entities": [
+                {
+                    "entity": "class-type:class-type",
+                    "start": 0,
+                    "end": 8,
+                    "body": "lectures",
+                    "entities": []
+                },
+                {
+                    "entity": "class-type:class-type",
+                    "start": 13,
+                    "end": 22,
+                    "body": "tutorials",
+                    "entities": []
+                },
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 23,
+                    "end": 31,
+                    "body": "tomorrow",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "next",
+            "entities": [],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "now",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 0,
+                    "end": 3,
+                    "body": "now",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "philosophy and psychology classes tomorrow",
+            "entities": [
+                {
+                    "entity": "class-name:class-name",
+                    "start": 0,
+                    "end": 10,
+                    "body": "philosophy",
+                    "entities": []
+                },
+                {
+                    "entity": "class-name:class-name",
+                    "start": 15,
+                    "end": 25,
+                    "body": "psychology",
+                    "entities": []
+                },
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 34,
+                    "end": 42,
+                    "body": "tomorrow",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "psychology on march 3rd",
+            "entities": [
+                {
+                    "entity": "class-name:class-name",
+                    "start": 0,
+                    "end": 10,
+                    "body": "psychology",
+                    "entities": []
+                },
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 11,
+                    "end": 23,
+                    "body": "on march 3rd",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "remove data",
+            "entities": [],
+            "traits": [],
+            "intent": "Delete_Data"
+        },
+        {
+            "text": "remove my data please",
+            "entities": [],
+            "traits": [],
+            "intent": "Delete_Data"
+        },
+        {
+            "text": "tutorials next",
+            "entities": [
+                {
+                    "entity": "class-type:class-type",
+                    "start": 0,
+                    "end": 9,
+                    "body": "tutorials",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "tutorials today",
+            "entities": [
+                {
+                    "entity": "class-type:class-type",
+                    "start": 0,
+                    "end": 9,
+                    "body": "tutorials",
+                    "entities": []
+                },
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 10,
+                    "end": 15,
+                    "body": "today",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "up next",
+            "entities": [],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "what do i have now",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 15,
+                    "end": 18,
+                    "body": "now",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "what do i have on march 3rd after 12pm",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 15,
+                    "end": 38,
+                    "body": "on march 3rd after 12pm",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "what do i have today?",
+            "entities": [
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 15,
+                    "end": 20,
+                    "body": "today",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "what labs do i have today?",
+            "entities": [
+                {
+                    "entity": "class-type:class-type",
+                    "start": 5,
+                    "end": 9,
+                    "body": "labs",
+                    "entities": []
+                },
+                {
+                    "entity": "wit$datetime:datetime",
+                    "start": 20,
+                    "end": 25,
+                    "body": "today",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "when do i have psychology",
+            "entities": [
+                {
+                    "entity": "class-name:class-name",
+                    "start": 15,
+                    "end": 25,
+                    "body": "psychology",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        },
+        {
+            "text": "when is philosophy",
+            "entities": [
+                {
+                    "entity": "class-name:class-name",
+                    "start": 8,
+                    "end": 18,
+                    "body": "philosophy",
+                    "entities": []
+                }
+            ],
+            "traits": [],
+            "intent": "Read_Timetable"
+        }
+    ]
+}

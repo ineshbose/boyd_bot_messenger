@@ -6,7 +6,6 @@ This script is the Flask app. It is the only script to have access to the keys a
 ## Packages Used
 
 * [flask](https://github.com/pallets/flask)
-* [cryptography](https://github.com/pyca/cryptography)
 
 
 
@@ -21,7 +20,7 @@ app = Flask(__name__)
 app.register_blueprint(pages)
 ## Enable logging despite debug = False
 app.logger.setLevel(logging.DEBUG)
-## Disable logging for POST / GET status
+## Disable logging for POST / GET status (Not Recommended)
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 # App URL as variable to easily change it
@@ -36,25 +35,28 @@ webhook_token = os.environ["VERIFY_TOKEN"]
 # Webhook Argument Name
 wb_arg_name = os.environ["WB_ARG_NAME"]
 
-# Facebook Page Access Token to use Send/Graph API
-facebook = Facebook(os.environ["PAGE_ACCESS_TOKEN"])
+# Custom Platform API
+platform = Platform(access_token=os.environ["PAGE_ACCESS_TOKEN"])
 
-# MongoDB data
-db = Mongo(os.environ["MONGO_TOKEN"], os.environ["FIRST_CLUSTER"],
-            os.environ["COLLECTION_NAME"], os.environ["WAIT_ID"])
+# Custom Database API
+db = Database(
+    cluster=os.environ["MONGO_TOKEN"],
+    db=os.environ["FIRST_CLUSTER"],
+    collection=os.environ["COLLECTION_NAME"],
+)
 
-# Initialize class Dialogflow
-df = Dialogflow()
+# Custom Parsing API
+parser = Parser()
 
-# Encryption key using Fernet
-f = Fernet(os.environ["FERNET_KEY"])
+# Custom Hasher/Cryptographer API
+guard = Guard(key=os.environ["FERNET_KEY"])
 ```
 
 
 
 ## `webhook()`
 
-Enables webhook with the service (like Dialogflow or Facebook Messenger). The request data is fetched (in JSON) and used by other functions. The `GET` method does not have any use but rather redirects users that navigate to `url+"/webhook"`.
+Enables webhook with the platform/service (like Dialogflow or Facebook Messenger). The request data is fetched (in JSON) and used by other functions. The `GET` method does not have any use but rather redirects users that navigate to `url+"/webhook"`.
 
 ```python
 >>> import requests
@@ -73,11 +75,11 @@ Enables webhook with the service (like Dialogflow or Facebook Messenger). The re
 
 ## `new_user_registration()`
 
-Registers users to the application by verifying login credentials and adding them in the database. Using `wait_id`, in-registration user is distinguished and then logged in using `timetable.login()`.
+Registers users to the application by verifying login credentials and adding them in the database. In-registration users are distinguished using a `reg_id` attribute in their data.
 
 ```python
 >>> import requests
->>> requests.post(app_url+"register/key=123", 
+>>> requests.post(app_url+"/register?id=123", 
                   data={"uni_id": "random_id", "uni_pw": "random_pass"}).url
 %APP_URL%
 ```
@@ -88,18 +90,18 @@ Registers users to the application by verifying login credentials and adding the
 
 
 
-## `handle_intent(request_data, uid, uni_id)`
+## `handle_intent(request_data, uid)`
 
-Generates response for message if an intent is found. If the response is not handled by the app, the service (Dialogflow) takes care of it. This function features a dictionary to map intents to functions in order to avoid a `if-elif-...-else` ladder.
+Generates response for message if an intent is found. If the response is not handled by the app, the parser takes care of it. This function features a dictionary to map intents to functions in order to avoid a `if-elif-...-else` ladder.
 
 ```python
 >>> handle_intent({"keys-to-intent": "delete data"}, "1234567890", "123456Z")
 Something went wrong. :(
 ```
 
-|                                                               Parameters                                                                      |                  Returns                        |
-|-----------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| **`request_data`:** the POST request dictionary<br>**`uid`:** the unique sender ID of the user<br>**`uni_id`:** the university ID of the user | **`str`:** the response<br>**`None`:** if response is not handled by app |
+|                                           Parameters                                           |                                Returns                                   |
+|------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| **`request_data`:** the POST request dictionary<br>**`uid`:** the unique sender ID of the user | **`str`:** the response<br>**`None`:** if response is not handled by app |
 
 
 

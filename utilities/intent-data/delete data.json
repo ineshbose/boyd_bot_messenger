@@ -1,6 +1,6 @@
 {
   "id": "e49a4dd0-a2d9-42f0-9e1e-23b89c5d7bfc",
-  "name": "delete data",
+  "name": "Delete Data",
   "auto": true,
   "condition": "",
   "conditionalFollowupEvents": [],
@@ -37,12 +37,36 @@
       "isTemplate": false,
       "data": [
         {
+          "text": "can you delete my data",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ba6d6657-2a77-4dc8-adae-1b6bf3cea01a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "remove my data please",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8b500355-0ab4-4e98-a8e3-5aad47bf8eed",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
           "text": "remove data",
           "userDefined": false
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "0e78f670-b315-487f-820f-9667b94e224d",
       "updated": null
     },
     {
@@ -54,7 +78,7 @@
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "16544baa-84ba-4d07-be6f-bf17c1c68d0a",
       "updated": null
     },
     {
@@ -66,7 +90,7 @@
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "0f709d83-8986-4369-bcfd-5ef16da9bab8",
       "updated": null
     },
     {
@@ -78,7 +102,7 @@
         }
       ],
       "count": 0,
-      "id": null,
+      "id": "0fa3ae3a-ec64-4caf-9202-c47e0774085e",
       "updated": null
     }
   ],

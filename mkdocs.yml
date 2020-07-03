@@ -1,4 +1,11 @@
 site_name: Boyd Bot (Messenger)
+site_url: https://boyd-bot-messenger.readthedocs.io/en/latest/
+site_author: Inesh Bose
+site_description: >-
+    Boyd Bot is an open-source university chatbot that helps
+    students with their timetable. This is the documentation
+    to help developers get started.
+
 repo_url: https://github.com/ineshbose/boyd_bot_messenger
 repo_name: boyd_bot_messenger
 
@@ -17,3 +24,15 @@ theme:
 
 markdown_extensions:
     - codehilite
+
+
+extra:
+    social:
+        - icon: fontawesome/brands/github
+          link: https://github.com/ineshbose/boyd_bot_messenger
+        - icon: fontawesome/brands/facebook
+          link: https://facebook.com/uofgbot
+        - icon: fontawesome/brands/facebook-messenger
+          link: https://m.me/uofgbot
+        - icon: fontawesome/brands/behance
+          link: https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot

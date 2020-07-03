@@ -1,0 +1,52 @@
+{
+    "name": "class-name",
+    "roles": [
+        "class-name"
+    ],
+    "lookups": [
+        "free-text",
+        "keywords"
+    ],
+    "keywords": [
+        {
+            "keyword": "Archaeology",
+            "synonyms": [
+                "archaeology"
+            ]
+        },
+        {
+            "keyword": "Chemistry",
+            "synonyms": [
+                "chem",
+                "chemistry"
+            ]
+        },
+        {
+            "keyword": "Computer Science",
+            "synonyms": [
+                "Computer Science",
+                "compsci",
+                "computing science"
+            ]
+        },
+        {
+            "keyword": "Philosophy",
+            "synonyms": [
+                "philosophy"
+            ]
+        },
+        {
+            "keyword": "Physics",
+            "synonyms": [
+                "Physics"
+            ]
+        },
+        {
+            "keyword": "Psychology",
+            "synonyms": [
+                "psych",
+                "psychology"
+            ]
+        }
+    ]
+}

@@ -22,9 +22,9 @@ All simple views are rendered using `render_template()`.
 
 ```python
 class RegisterForm(FlaskForm):
-    uid = HiddenField("uid")
+    reg_id = HiddenField("reg_id")
     uni_id = StringField("University ID", validators=[DataRequired()])
-    uni_pass = PasswordField("Password", validators=[DataRequired()])
+    uni_pw = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 ```
 
