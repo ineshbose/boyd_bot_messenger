@@ -21,6 +21,9 @@
 This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
 
 ### Contents
+
+[![Join the chat at https://gitter.im/ineshbose/boyd_bot_messenger](https://badges.gitter.im/ineshbose/boyd_bot_messenger.svg)](https://gitter.im/ineshbose/boyd_bot_messenger?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 * [Setup](#-setup)
     * [Cloning](#cloning)
     * [Packages](#packages)
