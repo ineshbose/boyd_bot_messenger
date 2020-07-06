@@ -1,8 +1,0 @@
-{
-    "name": "Read_Timetable",
-    "entities": [
-        "class-name:class-name",
-        "class-type:class-type",
-        "wit$datetime:datetime"
-    ]
-}

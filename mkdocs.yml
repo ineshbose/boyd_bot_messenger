@@ -9,18 +9,20 @@ site_description: >-
 repo_url: https://github.com/ineshbose/boyd_bot_messenger
 repo_name: boyd_bot_messenger
 
-nav:
-    - Home: index.md
-    - app.py: app.md
-    - timetable.py: timetable.md
-    - services.py: services.md
-    - views.py & templates: views.md
-
 plugins:
     - search
 
 theme:
     name: material
+    language: en
+    palette:
+      scheme: slate
+      primary: blue
+      accent: cyan
+    font:
+      text: Roboto
+    logo: images/bblogo.png
+    favicon: images/favicon.ico
 
 markdown_extensions:
     - codehilite
@@ -36,3 +38,10 @@ extra:
           link: https://m.me/uofgbot
         - icon: fontawesome/brands/behance
           link: https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot
+
+nav:
+    - Home: index.md
+    - app.py: app.md
+    - timetable.py: timetable.md
+    - services.py: services.md
+    - views.py & templates: views.md

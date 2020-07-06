@@ -136,27 +136,55 @@ class Parser:
 
             for single_dt in dt_param:
                 args.clear()
-                param_link = {
-                    "date_time": lambda: [single_dt["date_time"], None,],
-                    "startDateTime": lambda: [
-                        single_dt["startDateTime"],
-                        single_dt["endDateTime"],
-                    ],
-                    "startDate": lambda: [single_dt["startDate"], single_dt["endDate"]],
-                    "startTime": lambda: [single_dt["startTime"], single_dt["endTime"]],
-                    "default": lambda: [
-                        (single_dt[:10] + "T00:00:00" + single_dt[19 : len(single_dt)]),
-                        None,
-                    ],
+                param_keys = {
+                    "date_time": ["date_time"],
+                    "startDateTime": ["startDateTime", "endDateTime"],
+                    "startDate": ["startDate", "endDate"],
+                    "startTime": ["startTime", "endTime"],
                 }
 
-                args.extend(
-                    param_link.get(next(iter(single_dt)), param_link["default"])()
-                )
+                for p_key in param_keys:
+                    if p_key in single_dt:
+                        dt_keys = param_keys[p_key]
+                        args.extend(
+                            [
+                                single_dt[dt_keys[0]],
+                                single_dt[dt_keys[1]] if len(dt_keys) > 1 else None,
+                            ]
+                        )
+                        break
+
+                if not args:
+                    dt_val = (
+                        single_dt[:10] + "T00:00:00" + single_dt[19 : len(single_dt)]
+                    )
+                    args.extend([dt_val, None])
+
                 args.append(param["class-name"])
                 message.extend(timetable.read(uid, *args))
 
         return message
+
+    def parse(self, request_data, uid, db):
+
+        intent = request_data["queryResult"]["intent"]
+        message_text = request_data["queryResult"]["queryText"]
+        default_reply = None
+
+        if not intent:
+            return default_reply
+
+        intent_name = intent["displayName"].lower().replace(" ", "_")
+        intent_linking = {
+            "delete_data": lambda: self.delete_data(uid, db),
+            "read_timetable": lambda: self.read_timetable(uid, request_data),
+        }
+
+        return (
+            intent_linking[intent_name]()
+            if intent_name in intent_linking
+            else default_reply
+        )
 
 
 class Guard:

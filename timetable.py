@@ -1,13 +1,13 @@
 import requests, pytz
 from datetime import datetime
-from fuzzywuzzy import fuzz
+from rapidfuzz import fuzz
 from icalendar import Calendar
 from dateutil.parser import parse as dtparse
 
 
 tmzn = pytz.timezone("UTC")
 cal_url = "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"
-fuzz_threshold = 40
+fuzz_threshold = 36
 calendars = {}
 
 
@@ -16,9 +16,11 @@ def login(uid, uni_id, uni_pw):
         calendars[uid] = Calendar.from_ical(
             requests.get(cal_url, auth=(uni_id, uni_pw)).content
         )
-        return True
-    except (ValueError, Exception):
-        return False
+        return True, "Success"
+    except ValueError:
+        return False, "Invalid credentials."
+    except Exception as e:
+        return False, "Something went wrong. Try again. {}".format(e.__str__())
 
 
 def format_event(event):
@@ -29,14 +31,18 @@ def format_event(event):
         event["dtstart"].dt.strftime("%I:%M%p"),
         event["dtend"].dt.strftime("%I:%M%p"),
         event["dtstart"].dt.strftime("%d %B %Y (%A)"),
-        event["location"] if "location" in event else "Location Not Found",
+        event["location"] if "location" in event else "No Location Found",
     )
 
 
 def jsonify_desc(event):
-    return dict(
-        (k.strip(), v.strip())
-        for k, v in (item.split(":") for item in event["description"].splitlines())
+    return (
+        dict(
+            (k.strip(), v.strip())
+            for k, v in (item.split(":") for item in event["description"].splitlines())
+        )
+        if "description" in event
+        else None
     )
 
 
@@ -82,7 +88,7 @@ def iterate(uid, start_date=None, end_date=None, class_name=None):
                 class_name = [class_name] if isinstance(class_name, str) else class_name
                 for c_name in class_name:
                     if (
-                        fuzz.partial_ratio(c_name.lower(), event["summary"].lower())
+                        fuzz.token_set_ratio(c_name.lower(), event["summary"].lower())
                         > fuzz_threshold
                     ):
                         class_list.append(format_event(event))

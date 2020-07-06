@@ -90,21 +90,6 @@ Registers users to the application by verifying login credentials and adding the
 
 
 
-## `handle_intent(request_data, uid)`
-
-Generates response for message if an intent is found. If the response is not handled by the app, the parser takes care of it. This function features a dictionary to map intents to functions in order to avoid a `if-elif-...-else` ladder.
-
-```python
->>> handle_intent({"keys-to-intent": "delete data"}, "1234567890", "123456Z")
-Something went wrong. :(
-```
-
-|                                           Parameters                                           |                                Returns                                   |
-|------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| **`request_data`:** the POST request dictionary<br>**`uid`:** the unique sender ID of the user | **`str`:** the response<br>**`None`:** if response is not handled by app |
-
-
-
 ## `user_gateway(request_data, uid)`
 
 Acts as a gateway for all messages before understanding intents and user attributes by enabling login-integrity and fetching data from the database.

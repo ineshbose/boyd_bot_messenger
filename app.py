@@ -30,7 +30,7 @@ def webhook():
         return redirect("/")
 
     if not request.headers.get(wb_arg_name) == webhook_token:
-        return "Verification token mismatch", 403
+        return "Authorisation Failed", 403
 
     request_data = request.get_json()
     sender_id = platform.get_id(request_data)
@@ -48,6 +48,7 @@ def webhook():
         ).format(app_url, db.get_data(sender_id)["reg_id"])
 
     else:
+        
         user_data = platform.get_user_data(sender_id)
         if "error" in user_data:
             return log("{} is not a valid user".format(sender_id))
@@ -74,9 +75,7 @@ def new_user_registration():
 
         reg_id = request.args.get("id")
         return (
-            render_template(
-                "register.html", form=RegisterForm(reg_id=reg_id), message=""
-            )
+            render_template("register.html", form=RegisterForm(reg_id=reg_id))
             if db.check_reg_data(reg_id)
             else redirect("/")
         )
@@ -85,78 +84,71 @@ def new_user_registration():
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
         uni_pw = request.form.get("uni_pw")
+
+        if not db.check_reg_data(reg_id):
+            return redirect("/")
+
         uid = db.get_user_id(reg_id)
         login_result = timetable.login(uid, uni_id, uni_pw)
         log("{} undergoing registration. Result: {}".format(uid, login_result))
 
-        if not login_result:
+        if not login_result[0]:
             return render_template(
                 "register.html",
                 form=RegisterForm(reg_id=reg_id),
-                message="Invalid credentials.",
+                message=login_result[1],
             )
 
         db.delete_in_reg(uid, reg_id)
         db.insert_data(uid, guard.encrypt(uni_id), guard.encrypt(uni_pw))
         platform.send_message(uid, "Alrighty! We can get started. :D")
+        
         return render_template(
             "register.html",
             success="Login successful! You can now close this page and chat to the bot.",
         )
 
 
-def handle_intent(request_data, uid):
-
-    intent = request_data["queryResult"]["intent"]
-
-    try:
-
-        if "displayName" not in intent:
-            return
-
-        intent_name = intent["displayName"].lower()
-        intent_linking = {
-            "delete data": lambda: parser.delete_data(uid, db),
-            "read timetable": lambda: parser.read_timetable(uid, request_data),
-        }
-
-        return intent_linking[intent_name]() if intent_name in intent_linking else None
-
-    except Exception as e:
-        log(
-            "Exception ({}) thrown: {}. {} sent '{}'.".format(
-                type(e).__name__, e, uid, request_data["queryResult"]["queryText"]
-            )
-        )
-        return "I'm sorry, something went wrong understanding that. :("
-
-
 def user_gateway(request_data, uid):
 
-    user_data = db.get_data(uid)
+    try:
+        user_data = db.get_data(uid)
 
-    if not timetable.check_loggedIn(user_data["_id"]):
-        log("{} logging in again.".format(uid))
-        login_result = timetable.login(
-            user_data["_id"],
-            guard.decrypt(user_data["uni_id"]),
-            guard.decrypt(user_data["uni_pw"]),
+        if not timetable.check_loggedIn(user_data["_id"]):
+
+            log("{} logging in again.".format(uid))
+            
+            login_result = timetable.login(
+                user_data["_id"],
+                guard.decrypt(user_data["uni_id"]),
+                guard.decrypt(user_data["uni_pw"]),
+            )
+
+            if not login_result[0]:
+
+                log("{} failed to log in. Result: {}".format(uid, login_result))
+                db.delete_data(uid)
+                
+                hash_id = guard.sha256(uid)
+                reg_id = hash_id[:15] if not db.check_reg_data(hash_id[:15]) else hash_id
+                db.insert_in_reg(uid, reg_id)
+
+                return (
+                    "Whoops! Something went wrong; maybe your login details changed?\n"
+                    "Register here: {}/register?id={}"
+                ).format(app_url, reg_id)
+
+        message = parser.parse(request_data, uid, db)
+    
+    except Exception as e:
+        log(
+            "Exception ({}) thrown: {}. {} requested '{}'.".format(
+                type(e).__name__, e, uid, request_data
+            )
         )
+        message = "I'm sorry, something went wrong understanding that. :("
 
-        if not login_result:
-
-            log("{} failed to log in.".format(uid))
-            db.delete_data(uid)
-            hash_id = guard.sha256(uid)
-            reg_id = hash_id[:15] if not db.check_reg_data(hash_id[:15]) else hash_id
-            db.insert_in_reg(uid, reg_id)
-
-            return (
-                "Whoops! Something went wrong; maybe your login details changed?\n"
-                "Register here: {}/register?id={}"
-            ).format(app_url, reg_id)
-
-    return handle_intent(request_data, uid)
+    return message
 
 
 def log(message):

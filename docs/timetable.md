@@ -9,7 +9,7 @@ This script handles going through the timetables.
 * [requests](https://github.com/psf/requests)
 * [pytz](https://github.com/stub42/pytz)
 * [dateutil](https://github.com/dateutil/dateutil)
-* [fuzzywuzzy](https://github.com/seatgeek/fuzzywuzzy)
+* [rapidfuzz](https://github.com/maxbachmann/rapidfuzz)
 
 
 ## Setup

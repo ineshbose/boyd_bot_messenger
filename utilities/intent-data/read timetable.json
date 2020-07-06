@@ -77,6 +77,2722 @@
       "isTemplate": false,
       "data": [
         {
+          "text": "january 28 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "4e96ab08-081b-454f-be02-3e3cfbda73ec",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "jan 28 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "88a237bf-3614-4cb6-bec0-be40535b1a8e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 2,
+      "id": "8a9d06b9-1ca9-406c-a792-588d00d5da7d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OOSE2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "a221041b-6f8d-4020-8fe7-6272495da4d7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "oose",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 2,
+      "id": "39a81751-45bb-4d75-9abb-6c91ba635faf",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "oose2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "1caeaf33-c763-492d-9c6e-2355187ee1c9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "web app",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "5e8d0dd3-3aff-47e2-be3c-0653c70108b2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "5e9b5b00-d0fb-4de8-b947-d42afdd9ef60",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "35e4e689-7c15-4fd7-ab0e-fcc48cd41e67",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "62955642-8950-4bd2-9030-6834f6a2a4fc",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 12",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "c62a0d62-7a71-4c8c-97ec-86a6007abd13",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 15",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "52759e4e-2139-4270-bfb0-dea72142d056",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 16",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "e01d90eb-a86c-41ed-b392-bed38492ea4b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 16",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "3753a80d-db44-408c-a383-889469e6eca8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "oose",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 16",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "a24dfc60-3248-4981-9404-6decbf346e84",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "oose2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 16",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "f466a5d7-65cd-4a11-bdd0-bf423d0b4a62",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 16",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "9632b14b-088e-4ccc-9f71-37de3aec1628",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "ADS2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "a196b179-0340-493d-91bb-cb1a097a5ccb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "ADS2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "3c0a6891-0667-4c9d-8754-352388caaed8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Data structures",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "c35299a3-43da-4376-bb85-1a96d7a6986e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Algs & Data Structures",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "1e891d37-cc48-447f-9957-64b965965325",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "6ddc2293-a38e-4cc2-aefd-96dd2d25e2ac",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OOSE2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "22c8e609-dfa6-4900-8025-d2024b209439",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Web App",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "9a204b77-9775-4882-9290-611cce79de48",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "today",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "1139e326-e31d-4d09-8d30-19570b1ed2b6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 14 2020 2pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "773f1f50-7f4c-4c91-a118-3ee7703e473c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OOSE2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "Feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "8a1e477c-fa5e-4427-92fc-793dd1140ba3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes ",
+          "userDefined": false
+        },
+        {
+          "text": "between 12 feb 2020 and 14 feb 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "404a15c9-d0c0-4ef6-9f76-0c1e16483a79",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes on ",
+          "userDefined": false
+        },
+        {
+          "text": "14 feb 2020 afternoon",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "58b16811-3839-4db6-beda-32c99a35b79c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "classes ",
+          "userDefined": false
+        },
+        {
+          "text": "between 13 feb 2020 1pm and 14 feb 2020 12pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "746cb844-3778-4aa4-96e8-e9db841c9896",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "tomorrow",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "a3a97ae1-2db2-4776-af0f-0eb7fa231b8f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "march 3rd",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "de7410ec-ef1c-4764-ba6d-4a214e51611c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "day after tomorrow",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "73f11a02-3f18-4ab5-9fa5-b221ff2cc260",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Today",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 3,
+      "id": "8210c2c7-ff8e-49f3-9935-85c89710ffe4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tomorrow",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "ec64616a-decc-46e6-a224-2259786ecda2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "March 3rd",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "526dc17f-a19a-4f46-ac38-f3ef9fdbd1cb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "next",
+          "userDefined": false
+        }
+      ],
+      "count": 5,
+      "id": "3d3269d2-2bf5-4a96-a20c-43412d77a2f8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "now",
+          "userDefined": false
+        }
+      ],
+      "count": 2,
+      "id": "ae0496f5-f41a-4126-a2c5-f8bbfc3cf9e2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "between feb 12 2020 and feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 2,
+      "id": "0cf3dd9c-90d7-4b74-80f3-385ffae52674",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "October 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "8e9e8238-3a4c-44ee-9ba5-572444aa02a3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "tutorials",
+          "userDefined": true,
+          "alias": "class-type",
+          "meta": "@class-type"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "2094feda-b3ee-414c-bf44-99dfcc5c0670",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "OOSE",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 10,
+      "id": "fabef854-8b86-4dba-8ca4-fdf9d59ff734",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "OOSE2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "92ac7f33-f78b-461f-8269-572adbb6510a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "October 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "b129de05-6731-4a36-822d-50e49c2ec13d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "october 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "256ea15b-4ae1-403a-9d44-212823a49302",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "ff949238-b90a-4045-b0a2-bba06c785cb2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "march 3 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 2,
+      "id": "f000d895-fe98-4295-8047-1d8c64a48e9a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "march 3 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "a2c1e140-5f19-4af8-afbe-d5f065e4b894",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "march 3 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "00f9b1b8-f484-4268-9b10-261a2666c93d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "between feb 10 2020 and feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "dbf2e14f-672c-4966-a51b-e1dffef8c504",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "between 10 February 2020 and 14 February 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "a5eb29db-eba8-4d26-9c4e-43608f818f08",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "oose",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 1,
+      "id": "3fcf0cf7-8dad-4eac-8bf5-bad233e31ac8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 1,
+      "id": "ff05c910-b902-4716-87f2-02126dd51998",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when is ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "bd0fa691-4f2c-413a-af55-fef5fc388116",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "59aeb9fc-8f8d-40f3-9320-0f346cfe8c8d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "cc758ec7-59b4-4b01-a3eb-5239577ae247",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when is ",
+          "userDefined": false
+        },
+        {
+          "text": "OOSE",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "b5cf4899-7703-4db6-832a-6ee93fc09a49",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "between 10 feb 2020 and 14 feb 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "c8cf468c-0fdb-4a76-af59-7a072cd9ba77",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "october 1st week",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "10c29f42-dd98-4a05-8a4e-680cf199671d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "1st week of october 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "2ae0ae24-e5ae-4206-a60b-44fb89476f68",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "1st week of october",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "5c04892a-d68b-4225-83e1-2436c1d23e71",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "december 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "efee4a28-4a31-4920-b2f8-5bd4a0f1fb36",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "november 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "16ab2a38-172a-4337-9235-3559acf31143",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "november 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "6dc54b3a-fe05-4263-8f46-e4dd1b989b55",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "november 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "d34ba8e7-0328-4b10-b515-314be64c63df",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "CS1F",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "November 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "1e4ab523-d408-4d41-802d-205a7f25c062",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "CS1F",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "October 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "85f20884-7024-42ab-9d46-67eefed5b086",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "October 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "af6c68cf-08c8-4887-9255-ff2df473c3ed",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "Feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "8d8aa8db-2940-4401-a376-d0e99460aecf",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OOSE",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "Feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "0ce2b357-588e-47b4-a190-3d4377d9ce5e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "CS1F",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "November 22 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "f4e0f2ac-a1fd-4693-98ba-1325e69dc9af",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "NOSE",
+          "userDefined": false,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "2019",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "ba34aef6-acac-4e12-aade-b9178aaf206d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "NOSE 2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "d20768b0-a8e3-460f-8d5b-231a928b5175",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chemistry",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes ",
+          "userDefined": false
+        },
+        {
+          "text": "this month",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 3,
+      "id": "03c6c9a5-19bc-4cf8-89d5-eb64e36d51ba",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chemistry",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "lectures",
+          "userDefined": true,
+          "alias": "class-type",
+          "meta": "@class-type"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "today",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "8dfb19a1-0955-4583-adb9-86a014e2ecc0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "oose",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "cdac1934-ab7f-4e5d-9701-f42d60ee52a4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "oose2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "63246499-e112-4cc7-87d9-95c972df13af",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 10 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 2,
+      "id": "82154b71-d3cf-44df-a679-e259cb78a602",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 10 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "eb2cdce5-4138-4ed1-9adb-18b6812f476d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 10 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "43c5c1b6-c04f-4767-8a3f-3ac353179ffb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "60c56c3b-6862-43be-9354-11701897cccd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "september 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "747e3844-7c21-49bb-9159-78efa904d234",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "september 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "october 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "b39abdab-281c-4491-9881-fed19a90230c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "up next",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "c4316594-ca12-41d3-9136-8a707c6048c9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 4 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "91b5a5d7-4f2e-4d34-a4cc-97a9e80d79d2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "web app",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "632fd4e1-8567-4e7f-aa79-54214cd58b19",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do i have ",
+          "userDefined": false
+        },
+        {
+          "text": "psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " next",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4f39b295-ed13-431f-9279-afe52bef20b3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 16 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "594abbc6-cf47-4110-b29a-ea4ded946261",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 14 2020 1pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "6e8be5ea-906d-4039-8df3-375c303aeb47",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "between feb 14 2020 1pm and 2pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "c4362853-120c-495e-bdc9-beba2ace7cbe",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "feb 14 2020 1pm and 2pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "d8c05605-29e1-4c1d-802d-c5fbbeca5c2a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "class ",
+          "userDefined": false
+        },
+        {
+          "text": "between 14 feb 2020 1pm and 2pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "01689734-39a3-4059-84ba-31299d2b4594",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "nov 22 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "4035f951-64c2-4409-b387-9ecd6b3381ab",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "CS1F",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "nov 22 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "dda34cf3-9059-4dfc-a6a9-b6c6d6aa42bf",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Java",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "Nov 22 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "a5db6ab3-ea02-438b-af37-ab74195eb9a8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "when do I have ",
+          "userDefined": false
+        },
+        {
+          "text": "Java",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        }
+      ],
+      "count": 0,
+      "id": "f382e0b9-b694-435b-9bd9-d882d3e8bcdd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "nov 19 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "b703a1da-b9e4-408a-a07a-fa82619f9bb2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Feb 16 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "bacc2536-13dc-4979-8bb6-8c16445d76e5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Feb 17 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "2e9aeec4-e5f2-49d8-a713-76f83cce78ff",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "e5d5451f-dc01-46df-ad4b-d7861dc3ffb4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Nov 18 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "e6021bda-6c9f-460c-af2c-3b7dea00c687",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Nov 18 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "Nov 22 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "e23abc45-4efe-4f33-aeb8-1a5c32657152",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Between 18 Nov 2019 and 22 Nov 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "d29c7aaf-6bc8-4de4-8ca8-9b8bb8224c82",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Java",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "classes",
+          "userDefined": true,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "Between 18 Nov 2019 and 22 Nov 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "f4fbe2bc-ab38-4e66-b863-c67f5f9b2378",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Java",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes in ",
+          "userDefined": false
+        },
+        {
+          "text": "December 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "9545a405-fd32-4749-8b88-b71d7f7d8b1f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Java",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes in ",
+          "userDefined": false
+        },
+        {
+          "text": "November 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "2bc7d3d8-ca50-4630-92b1-21f501c107fe",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "web app dev",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " class on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 14 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "0e0f55f5-1777-4b52-9d32-67f93cc99283",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Lectures",
+          "userDefined": true,
+          "alias": "class-type",
+          "meta": "@class-type"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "26 March 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "355aec0f-365c-4d97-a3fa-16139d59734f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "march 4 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "8a055003-5b92-4067-a35f-865c862e020d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Fundamentals",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " in ",
+          "userDefined": false
+        },
+        {
+          "text": "November 2019",
+          "userDefined": false,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "3ddfa27d-1998-4fed-95f8-9a47069d95ef",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Fundamentals",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes in ",
+          "userDefined": false
+        },
+        {
+          "text": "November 2019",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "3b268048-a4fe-421a-81d5-3edbaea822cb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OOSE",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "Psychology",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 10 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "b9beacca-eeef-4378-8fe1-047149b8eef7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OOSE",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "Psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 10 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 3,
+      "id": "e5ce52ec-72ad-4578-aa6a-e9ca331f5818",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "oose",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "psych",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " on ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 10 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        },
+        {
+          "text": " and ",
+          "userDefined": false
+        },
+        {
+          "text": "feb 12 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 2,
+      "id": "47b5f8a3-29f4-423e-9c21-7af5725b8a0b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "March",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "24949c06-dc29-4b43-b816-62d0e63aae10",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "March 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "7d4d8684-ed2d-465f-9ef5-2dc8ba228b68",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OOSE2",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes in ",
+          "userDefined": false
+        },
+        {
+          "text": "March 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "cf372e6c-3c89-4b00-af0b-f9b984d5b9d9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes in ",
+          "userDefined": false
+        },
+        {
+          "text": "March 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "cbb39d5a-ec7b-4d99-a3cc-83c37a3a347d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes ",
+          "userDefined": false
+        },
+        {
+          "text": "last March",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "2a6fc993-8d92-424f-8cc3-5e644e3a6881",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science 1S",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes on ",
+          "userDefined": false
+        },
+        {
+          "text": "26 March 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "2ef22f63-e7f7-44d5-b405-d471ad715eb0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science 1S",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " classes in ",
+          "userDefined": false
+        },
+        {
+          "text": "March 2020",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "0ba30bdf-57b8-464c-94de-dc8c4337c378",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science 1S",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " class on ",
+          "userDefined": false
+        },
+        {
+          "text": "26 March 2020 after 1pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "b04a8ca8-dcdf-4ef8-960b-432c157aaf8a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science 1S",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " class on ",
+          "userDefined": false
+        },
+        {
+          "text": "26 March 2020 morning",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "715bd774-1a76-4d3e-bd44-60b50bda638a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science 1S",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " class on ",
+          "userDefined": false
+        },
+        {
+          "text": "26 March 2020 afternoon",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 1,
+      "id": "098e6282-82f8-4581-8375-4838d604da0e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science 1S",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " class on ",
+          "userDefined": false
+        },
+        {
+          "text": "26 March 2020 12pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "890e07c6-a1ff-472f-a679-713a55363d04",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Computing Science",
+          "userDefined": true,
+          "alias": "class-name",
+          "meta": "@class-name"
+        },
+        {
+          "text": " class on ",
+          "userDefined": false
+        },
+        {
+          "text": "26 March 2020 12pm to 1pm",
+          "userDefined": true,
+          "alias": "date-time",
+          "meta": "@sys.date-time"
+        }
+      ],
+      "count": 0,
+      "id": "3d921e47-da50-48bf-b2d8-085f57d5c983",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
           "text": "philosophy",
           "userDefined": false,
           "alias": "class-name",
@@ -167,48 +2883,6 @@
       "isTemplate": false,
       "data": [
         {
-          "text": "when do i have ",
-          "userDefined": false
-        },
-        {
-          "text": "psychology",
-          "userDefined": false,
-          "alias": "class-name",
-          "meta": "@class-name"
-        }
-      ],
-      "count": 0,
-      "id": "0ffae37c-039f-47c8-b8ce-1dc3aba8ad8d",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "psychology",
-          "userDefined": false,
-          "alias": "class-name",
-          "meta": "@class-name"
-        },
-        {
-          "text": " on ",
-          "userDefined": false
-        },
-        {
-          "text": "march 3 2020",
-          "userDefined": false,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": "b70a29fc-0277-41c2-adcf-44a505e1ebc1",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
           "text": "tutorials",
           "userDefined": false,
           "alias": "class-type",
@@ -239,18 +2913,6 @@
       "isTemplate": false,
       "data": [
         {
-          "text": "up next",
-          "userDefined": false
-        }
-      ],
-      "count": 0,
-      "id": "6116105f-ad97-4584-9d95-dfde3a9af49b",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
           "text": "what do i have up next",
           "userDefined": false
         }
@@ -275,18 +2937,6 @@
       "isTemplate": false,
       "data": [
         {
-          "text": "next",
-          "userDefined": false
-        }
-      ],
-      "count": 0,
-      "id": "4e4ccc1f-9123-4f89-a2b8-111d7d83c226",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
           "text": "what do i have now",
           "userDefined": false
         }
@@ -305,18 +2955,6 @@
       ],
       "count": 0,
       "id": "0613c6b9-cd52-4c1b-a747-ce9ef1a38c1a",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "now",
-          "userDefined": false
-        }
-      ],
-      "count": 0,
-      "id": "e92b0c38-e599-4373-a01e-1a05f87971d6",
       "updated": null
     },
     {
@@ -373,48 +3011,6 @@
       ],
       "count": 0,
       "id": "10a97597-0274-49ea-b088-5d88c094cf39",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "today",
-          "userDefined": false,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": "059dd2e8-0fe3-4d67-90e2-1e039b6bf0c6",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "tomorrow",
-          "userDefined": false,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": "cc4e4e48-1509-4e94-a0e7-72e1b2d01133",
-      "updated": null
-    },
-    {
-      "isTemplate": false,
-      "data": [
-        {
-          "text": "day after tomorrow",
-          "userDefined": false,
-          "alias": "date-time",
-          "meta": "@sys.date-time"
-        }
-      ],
-      "count": 0,
-      "id": "cb1a7e8f-f319-4fd4-ae7b-adc6c581bafe",
       "updated": null
     },
     {

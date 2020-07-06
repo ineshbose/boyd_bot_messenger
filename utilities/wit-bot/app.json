@@ -1,7 +1,0 @@
-{
-    "version": 20200513,
-    "zip-command": "zip BoydBot.zip BoydBot\/app.json BoydBot\/entities\/*.json BoydBot\/intents\/*.json BoydBot\/traits\/*.json BoydBot\/utterances\/*.json",
-    "name": "BoydBot",
-    "lang": "en",
-    "timezone": "Europe\/London"
-}
