@@ -16,8 +16,8 @@ from cryptography.fernet import Fernet
 
 
 class Platform:
-    def __init__(self, access_token):
-        self.access_token = access_token
+    def __init__(self, platform_token):
+        self.platform_token = platform_token
 
     def send_message(self, uid, message):
 
@@ -29,7 +29,7 @@ class Platform:
 
         return requests.post(
             "https://graph.facebook.com/v7.0/me/messages?access_token={}".format(
-                self.access_token
+                self.platform_token
             ),
             json=data,
         )
@@ -37,7 +37,7 @@ class Platform:
     def get_user_data(self, uid):
         req = requests.get(
             "https://graph.facebook.com/v7.0/{}?access_token={}".format(
-                uid, self.access_token
+                uid, self.platform_token
             )
         )
         return req.json()
@@ -66,51 +66,41 @@ class Platform:
 
 
 class Database:
-    def __init__(self, cluster, db, collection):
-        self.cluster = MongoClient(cluster)
-        self.db = self.cluster[db]
-        self.collection = self.db[collection]
-
-    def find(self, data):
-        return self.collection.find_one(data)
-
-    def delete(self, data):
-        return self.collection.delete_one(data).deleted_count
-
-    def insert(self, data):
-        return self.collection.insert_one(data)
-
-    def exists(self, data):
-        return self.collection.count_documents(data)
+    def __init__(self, db_token, key1, key2):
+        self.cluster = MongoClient(db_token)
+        self.db = self.cluster[key1]
+        self.collection = self.db[key2]
 
     def get_data(self, uid):
-        return self.find({"_id": uid})
-
-    def insert_data(self, uid, uni_id, uni_pw):
-        return self.insert({"_id": uid, "uni_id": uni_id, "uni_pw": uni_pw})
+        return self.collection.find_one({"_id": uid})
 
     def delete_data(self, uid):
-        return self.delete({"_id": uid})
+        return self.collection.delete_one({"_id": uid}).deleted_count
 
-    def get_user_id(self, reg_id):
-        return self.find({"reg_id": reg_id})["_id"]
+    def insert_data(self, uid, uni_id, uni_pw):
+        return self.collection.insert_one(
+            {"_id": uid, "uni_id": uni_id, "uni_pw": uni_pw}
+        )
 
     def insert_in_reg(self, uid, reg_id):
-        return self.insert({"_id": uid, "reg_id": reg_id})
-
-    def delete_in_reg(self, uid, reg_id):
-        return self.delete({"_id": uid, "reg_id": reg_id})
+        return self.collection.insert_one({"_id": uid, "reg_id": reg_id})
 
     def check_registered(self, uid):
-        data = self.find({"_id": uid})
+        data = self.get_data(uid)
         return False if (not data or "reg_id" in data) else True
 
     def check_in_reg(self, uid):
-        data = self.find({"_id": uid})
+        data = self.get_data(uid)
         return False if (not data or "reg_id" not in data) else True
 
+    def get_user_id(self, reg_id):
+        return self.collection.find_one({"reg_id": reg_id})["_id"]
+
+    def get_reg_id(self, uid):
+        return self.get_data(uid)["reg_id"]
+
     def check_reg_data(self, reg_id):
-        return self.exists({"reg_id": reg_id})
+        return True if self.collection.find_one({"reg_id": reg_id}) else False
 
 
 class Parser:
@@ -199,3 +189,14 @@ class Guard:
 
     def sha256(self, val):
         return hashlib.sha256(val.encode()).hexdigest()
+
+    def sanitized(self, request, key, db=None):
+        key = [key] if isinstance(key, str) else key
+
+        for k in key:
+            if k not in request:
+                return False
+
+        if db:
+            uid = request[key[0]]
+            return db.check_reg_data(uid) or db.get_data(uid)

@@ -26,6 +26,12 @@ cal_url = "link/to/timetable.ics"
 # A threshold for string-matching
 fuzz_threshold = 40
 
+# Number of Characters allowed in a message
+message_char_limit = 2000
+
+# Number of classes in a message if message is split
+classes_per_msg = 10
+
 # Calendars as dictionaries corresponding to UID
 calendars = {}
 ```

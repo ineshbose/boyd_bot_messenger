@@ -19,13 +19,13 @@
 <a href="https://github.com/ineshbose/boyd_bot_messenger"><img alt="Powered by Boyd Bot" src="https://img.shields.io/badge/powered%20by-Boyd%20Bot-5c6cff?style=flat-square"></a>
 </p>
 <p align="center">
-<a href="https://www.facebook.com/uofgbot" target="_blank"><img alt="Facebook" src="https://img.shields.io/badge/Facebook--22488C?style=flat-square&logo=facebook&logoColor=white&labelColor=22488C"></a>
-<a href="https://m.me/uofgbot" target="_blank"><img alt="Messenger" src="https://img.shields.io/badge/Messenger--3CB0FF?style=flat-square&logo=messenger&logoColor=white&labelColor=3CB0FF"></a>
-<a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot" target="_blank"><img alt="Behance" src="https://img.shields.io/badge/Behance--195CFF?style=flat-square&logo=behance&logoColor=white&labelColor=195CFF"></a>
+<a href="https://www.facebook.com/uofgbot" target="_blank"><img alt="Facebook" src="https://img.shields.io/badge/-Facebook-22488C?style=flat-square&logo=facebook&logoColor=white&labelColor=22488C"></a>
+<a href="https://m.me/uofgbot" target="_blank"><img alt="Messenger" src="https://img.shields.io/badge/-Messenger-3CB0FF?style=flat-square&logo=messenger&logoColor=white&labelColor=3CB0FF"></a>
+<a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot" target="_blank"><img alt="Behance" src="https://img.shields.io/badge/-Behance-195CFF?style=flat-square&logo=behance&logoColor=white&labelColor=195CFF"></a>
 </p>
 
 
-This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable.
+This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
 
 
 
@@ -101,7 +101,7 @@ Be sure to do your research on where and how to deploy your code! Make sure that
 
 ## 🙌 Contributions & Thanks
 
-Contributions are more than welcome in any form! 😄<br />
+Contributions are more than welcome in any form, they are all allowed under the [MIT License](https://github.com/ineshbose/boyd_bot_messenger/blob/master/LICENSE)! 😄<br />
 
 ### Issues & Enhancements
 
@@ -116,13 +116,3 @@ There may be some planned updates or issues for this project. They're listed in 
 
 * [Tom Wallis](https://github.com/probablytom)
 * [Lakshay Kalbhor](https://github.com/kalbhor) and [Neel Vashisht](https://github.com/NeelVashisht),<br /> my high-school seniors, with their [similar project](https://github.com/kalbhor/MIT-Hodor)
-
-### License
-
-<small>Copyright (c) 2020, Inesh Bose
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</small>

@@ -16,7 +16,6 @@ theme:
     name: material
     language: en
     palette:
-      scheme: slate
       primary: blue
       accent: cyan
     font:

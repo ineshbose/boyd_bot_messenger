@@ -17,9 +17,9 @@ This script separates all External Services from `app.py` to declutter and make 
 Implemented in _class_ `Platform`.
 
 
-### `Platform`.**`access_token`**
+### `Platform`.**`platform_token`**
 
-Page Access Token for the app.
+Page Access Token for the Facebook Page app.
 
 
 ### `Platform`.**`send_message(uid, message)`**
@@ -145,7 +145,7 @@ Generates response for `read timetable` intent. This method features a dictionar
 | **`uid`:** the university ID of the user<br>**`data`:** the POST request dictionary | **`list`:** schedule for days according to parameters |
 
 
-## `Parser`.**`parse(uid, data, db)`**
+### `Parser`.**`parse(uid, data, db)`**
 
 The main method to be called for parsing. It finds intents handled by the app, calls the function and returns the response.
 

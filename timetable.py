@@ -8,6 +8,8 @@ from dateutil.parser import parse as dtparse
 tmzn = pytz.timezone("UTC")
 cal_url = "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"
 fuzz_threshold = 36
+message_char_limit = 2000
+classes_per_msg = 10
 calendars = {}
 
 
@@ -55,10 +57,13 @@ def read(uid, start_date=None, end_date=None, class_name=None):
     message = "\n".join(class_list)
     return (
         [message]
-        if len(message) < 2000  # Most services have a limit of 2000 characters
+        if len(message) < message_char_limit
         else [
             "\n".join(li)
-            for li in [class_list[i : i + 10] for i in range(0, len(class_list), 10)]
+            for li in [
+                class_list[i : i + classes_per_msg]
+                for i in range(0, len(class_list), classes_per_msg)
+            ]
         ]
     )
 

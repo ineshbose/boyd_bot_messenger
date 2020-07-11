@@ -13,14 +13,14 @@ app_url = os.environ["APP_URL"]
 app.config["SECRET_KEY"] = os.environ["FLASK_KEY"]
 webhook_token = os.environ["VERIFY_TOKEN"]
 wb_arg_name = os.environ["WB_ARG_NAME"]
-platform = Platform(access_token=os.environ["PAGE_ACCESS_TOKEN"])
+platform = Platform(platform_token=os.environ["PLATFORM_TOKEN"])
 db = Database(
-    cluster=os.environ["MONGO_TOKEN"],
-    db=os.environ["FIRST_CLUSTER"],
-    collection=os.environ["COLLECTION_NAME"],
+    db_token=os.environ["DB_MAIN_TOKEN"],
+    key1=os.environ["DB_KEY1"],
+    key2=os.environ["DB_KEY2"],
 )
 parser = Parser()
-guard = Guard(key=os.environ["FERNET_KEY"])
+guard = Guard(key=os.environ["GUARD_KEY"])
 
 
 @app.route("/webhook", methods=["GET", "POST"])
@@ -45,10 +45,10 @@ def webhook():
         response = (
             "It doesn't seem like you've registered yet.\n"
             "Register here: {}/register?id={}"
-        ).format(app_url, db.get_data(sender_id)["reg_id"])
+        ).format(app_url, db.get_reg_id(sender_id))
 
     else:
-        
+
         user_data = platform.get_user_data(sender_id)
         if "error" in user_data:
             return log("{} is not a valid user".format(sender_id))
@@ -70,23 +70,20 @@ def new_user_registration():
 
     if request.method == "GET":
 
-        if "id" not in request.args:
+        if not guard.sanitized(request.args, "id", db):
             return redirect("/")
 
         reg_id = request.args.get("id")
-        return (
-            render_template("register.html", form=RegisterForm(reg_id=reg_id))
-            if db.check_reg_data(reg_id)
-            else redirect("/")
-        )
+        return render_template("register.html", form=RegisterForm(reg_id=reg_id))
 
     else:
+
+        if not guard.sanitized(request.form, ["reg_id", "uni_id", "uni_pw"], db):
+            return redirect("/")
+
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
         uni_pw = request.form.get("uni_pw")
-
-        if not db.check_reg_data(reg_id):
-            return redirect("/")
 
         uid = db.get_user_id(reg_id)
         login_result = timetable.login(uid, uni_id, uni_pw)
@@ -99,10 +96,10 @@ def new_user_registration():
                 message=login_result[1],
             )
 
-        db.delete_in_reg(uid, reg_id)
+        db.delete_data(uid)
         db.insert_data(uid, guard.encrypt(uni_id), guard.encrypt(uni_pw))
         platform.send_message(uid, "Alrighty! We can get started. :D")
-        
+
         return render_template(
             "register.html",
             success="Login successful! You can now close this page and chat to the bot.",
@@ -117,7 +114,7 @@ def user_gateway(request_data, uid):
         if not timetable.check_loggedIn(user_data["_id"]):
 
             log("{} logging in again.".format(uid))
-            
+
             login_result = timetable.login(
                 user_data["_id"],
                 guard.decrypt(user_data["uni_id"]),
@@ -128,9 +125,11 @@ def user_gateway(request_data, uid):
 
                 log("{} failed to log in. Result: {}".format(uid, login_result))
                 db.delete_data(uid)
-                
+
                 hash_id = guard.sha256(uid)
-                reg_id = hash_id[:15] if not db.check_reg_data(hash_id[:15]) else hash_id
+                reg_id = (
+                    hash_id[:15] if not db.check_reg_data(hash_id[:15]) else hash_id
+                )
                 db.insert_in_reg(uid, reg_id)
 
                 return (
@@ -139,7 +138,7 @@ def user_gateway(request_data, uid):
                 ).format(app_url, reg_id)
 
         message = parser.parse(request_data, uid, db)
-    
+
     except Exception as e:
         log(
             "Exception ({}) thrown: {}. {} requested '{}'.".format(

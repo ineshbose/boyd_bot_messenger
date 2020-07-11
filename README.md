@@ -19,28 +19,15 @@
 <a href="https://github.com/ineshbose/boyd_bot_messenger"><img alt="Powered by Boyd Bot" src="https://img.shields.io/badge/powered%20by-Boyd%20Bot-5c6cff?style=flat-square"></a>
 </p>
 <p align="center">
-<a href="https://www.facebook.com/uofgbot" target="_blank"><img alt="Facebook" src="https://img.shields.io/badge/Facebook--22488C?style=flat-square&logo=facebook&logoColor=white&labelColor=22488C"></a>
-<a href="https://m.me/uofgbot" target="_blank"><img alt="Messenger" src="https://img.shields.io/badge/Messenger--3CB0FF?style=flat-square&logo=messenger&logoColor=white&labelColor=3CB0FF"></a>
-<a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot" target="_blank"><img alt="Behance" src="https://img.shields.io/badge/Behance--195CFF?style=flat-square&logo=behance&logoColor=white&labelColor=195CFF"></a>
+<a href="https://www.facebook.com/uofgbot" target="_blank"><img alt="Facebook" src="https://img.shields.io/badge/-Facebook-22488C?style=flat-square&logo=facebook&logoColor=white&labelColor=22488C"></a>
+<a href="https://m.me/uofgbot" target="_blank"><img alt="Messenger" src="https://img.shields.io/badge/-Messenger-3CB0FF?style=flat-square&logo=messenger&logoColor=white&labelColor=3CB0FF"></a>
+<a href="https://www.behance.net/gallery/93421281/Glasgow-University-Timetable-Bot" target="_blank"><img alt="Behance" src="https://img.shields.io/badge/-Behance-195CFF?style=flat-square&logo=behance&logoColor=white&labelColor=195CFF"></a>
 </p>
+
 
 This repository is for the Flask version of the Boyd Bot - a chatbot helping university students with their timetable. <br />
 
-### Contents
-* [Setup](#-setup)
-    * [Cloning](#cloning)
-    * [Packages](#packages)
-    * [Environment Variables](#environment-variables)
-* [Using For Your University](#-want-to-use-this-for-your-university-fork-it)
-    * [Services](#services)
-    * [Instructions](#instructions)
-    * [Deployment](#deployment)
-* [Contributions & Thanks](#-contributions--thanks)
-    * [Issues & Enhancements](#issues--enhancements)
-    * [Testers](#testers)
-    * [Special Thanks](#special-thanks)
 
-<br />
 
 ## 🔧 Setup
 
@@ -114,7 +101,7 @@ Be sure to do your research on where and how to deploy your code! Make sure that
 
 ## 🙌 Contributions & Thanks
 
-Contributions are more than welcome in any form! 😄<br />
+Contributions are more than welcome in any form, they are all allowed under the [MIT License](https://github.com/ineshbose/boyd_bot_messenger/blob/master/LICENSE)! 😄<br />
 
 ### Issues & Enhancements
 
