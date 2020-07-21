@@ -12,19 +12,19 @@ This script separates all External Services from `app.py` to declutter and make 
 
 
 
-## [Facebook Messenger](https://developers.facebook.com/products/messenger/)
+## `Platform`
 
-Implemented in _class_ `Platform`.
+Class implementation to use APIs with the platform that enables messaging.
 
 
 ### `Platform`.**`platform_token`**
 
-Page Access Token for the Facebook Page app.
+Unique platform token generated for the app.
 
 
 ### `Platform`.**`send_message(uid, message)`**
 
-Creates a POST request, using [Facebook Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/), to send a message to a user on Facebook as the page.
+Method to send a message explicitly when required.
 
 ```python
 >>> from services import Platform
@@ -41,7 +41,7 @@ Creates a POST request, using [Facebook Send API](https://developers.facebook.co
 
 ### `Platform`.**`get_user_data(uid)`**
 
-Verifies a request has been made by a Facebook user and fetches basic user information using [Facebook Graph API](https://developers.facebook.com/docs/graph-api/).
+Method to get user's data from the platform to get basic information or to know if the user is not actually signed up with the platform (security check).
 
 ```python
 >>> from services import Platform
@@ -81,9 +81,9 @@ Prepares a formatted JSON containing the message as a response to the POST reque
 
 
 
-## [mongoDB](https://www.mongodb.com/)
+## `Database`
 
-Implemented in _class_ `Database`. This enables mongoDB to be easily replacable (with say `Redis`).
+Simple implementation of a database to enable OOP.
 Most functions are one-liners and easily explainable through their names.
 
 
@@ -92,12 +92,12 @@ Most functions are one-liners and easily explainable through their names.
 Initialiser for `MongoClient()`.
 
 
-### `Database`.**`db`**
+### `Database`.**`collection`**
 
 Index specifier for database in the cluster.
 
 
-### `Database`.**`collection`**
+### `Database`.**`db`**
 
 Index specifier for collection in the database.
 
@@ -109,13 +109,13 @@ A good idea to keep user-data as in JSON format with the following keys:
 * `_id`: User ID (**Primary Key**)
 * `uni_id`: User's University ID for login (**ENCRYPTED**)
 * `uni_pass`: User's University Password for login (**ENCRYPTED**)
-* `reg_id`: User's Registration ID (**SHA256 HASHED**)
+* `reg_id`: User's Registration ID (**SHA256 HASHED**, **CANDIDATE KEY**)
 
 
 
-## [Dialogflow](https://dialogflow.com/)
+## `Parser`
 
-Implemented in _class_ `Parser`. This class, however, doesn't use any features of Dialogflow but handles intents externally to declutter `app.py`.
+Breaks down elements to get essential information with/without the help of an AI.
 
 
 ### `Parser`.**`delete_data(uid, db)`**
@@ -160,9 +160,9 @@ Deleted! :)
 
 
 
-## [Cryptography](https://pypi.org/project/cryptography/)
+## `Guard`
 
-Implemented in _class_ `Guard`. This function, however, doesn't use any features of Dialogflow but handles intents externally to declutter `app.py`.
+Contains methods essential for security.
 
 
 ### `Guard`.**`fernet`**
@@ -195,3 +195,12 @@ Hashes `val` using SHA-256 algorithm with `hashlib`.
 |          Parameters           |          Returns         |
 |-------------------------------|--------------------------|
 | **`val`:** the object to hash | **`str`:** hashed object |
+
+
+### `Guard`.**`sanitized(request, key, val=None, db=None)`**
+
+Verifies if a request is safe/sanitized.
+
+|                                                                                           Parameters                                                                                          |          Returns         |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
+| **`request`:** the request made as a JSON<br>**`key`:** the element the request MUST have<br>**`val`:** the required corresponding value<br>**`db`:** instance of `Database` for more verification | **`bool`:** if sanitized |

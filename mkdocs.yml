@@ -40,7 +40,16 @@ extra:
 
 nav:
     - Home: index.md
-    - app.py: app.md
-    - timetable.py: timetable.md
-    - services.py: services.md
-    - views.py & templates: views.md
+    - Scripts:
+      - app.py: scripts/app.md
+      - timetable.py: scripts/timetable.md
+      - services.py: scripts/services.md
+      - views.py: scripts/views.md
+      - templates: scripts/templates.md
+    - Services:
+      - Facebook: services/facebook.md
+      - mongoDB: services/mongodb.md
+      - Dialogflow: services/dialogflow.md
+      - Wit: services/wit.md
+      - Utilities: services/utilities.md
+    - Deep Study & Understanding: study.md

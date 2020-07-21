@@ -27,10 +27,11 @@ guard = Guard(key=os.environ["GUARD_KEY"])
 def webhook():
 
     if request.method == "GET":
-        return redirect("/")
-
+        return redirect("/") # 302
+    
     if not request.headers.get(wb_arg_name) == webhook_token:
-        return "Authorisation Failed", 403
+    #if not guard.sanitized([request.headers, request.args], wb_arg_name, webhook_token):
+        return "Authorisation Failed", 403 # redirect("/", code=403)
 
     request_data = request.get_json()
     sender_id = platform.get_id(request_data)
@@ -71,7 +72,7 @@ def new_user_registration():
     if request.method == "GET":
 
         if not guard.sanitized(request.args, "id", db):
-            return redirect("/")
+            return redirect("/") # 404
 
         reg_id = request.args.get("id")
         return render_template("register.html", form=RegisterForm(reg_id=reg_id))
@@ -79,7 +80,7 @@ def new_user_registration():
     else:
 
         if not guard.sanitized(request.form, ["reg_id", "uni_id", "uni_pw"], db):
-            return redirect("/")
+            return redirect("/") # 400
 
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")

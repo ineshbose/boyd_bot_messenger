@@ -1,22 +1,16 @@
-# [`Views & Templates`](#)
-
-This script contains all simple views for the app and are linked using `Blueprint`.
-
-
-
-## [`views.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/views.py)
+# [`views.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/views.py)
 
 All simple views are rendered using `render_template()`.
 
 
-### Packages Used
+## Packages Used
 
 * [flask_wtf](https://github.com/lepture/flask-wtf)
 * [wtforms](https://github.com/wtforms/wtforms)
 
 
 
-### `RegisterForm`
+## `RegisterForm`
 
 `FlaskForm` with necessary details to register a user.
 
@@ -30,7 +24,7 @@ class RegisterForm(FlaskForm):
 
 
 
-### `views`
+## `views`
 
 ```python
 @app.route("/")
@@ -66,20 +60,3 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 ```
-
-
-
-## [templates](https://github.com/ineshbose/boyd_bot_messenger/blob/master/templates)
-
-### `register.html`
-
-This is the registration form. Tailor this according to your university.
-
-```html
-<!-- It's a good idea to style the registration form with a theme that is familiar to users and can get their trust.-->
-```
-
-
-### Rest of the Templates
-
-The theme used is [Grayscale from Start Bootstrap](https://startbootstrap.com/themes/grayscale/).

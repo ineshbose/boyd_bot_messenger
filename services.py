@@ -68,22 +68,22 @@ class Platform:
 class Database:
     def __init__(self, db_token, key1, key2):
         self.cluster = MongoClient(db_token)
-        self.db = self.cluster[key1]
-        self.collection = self.db[key2]
+        self.collection = self.cluster[key1]
+        self.db = self.collection[key2]
 
     def get_data(self, uid):
-        return self.collection.find_one({"_id": uid})
+        return self.db.find_one({"_id": uid})
 
     def delete_data(self, uid):
-        return self.collection.delete_one({"_id": uid}).deleted_count
+        return self.db.delete_one({"_id": uid}).deleted_count
 
     def insert_data(self, uid, uni_id, uni_pw):
-        return self.collection.insert_one(
+        return self.db.insert_one(
             {"_id": uid, "uni_id": uni_id, "uni_pw": uni_pw}
         )
 
     def insert_in_reg(self, uid, reg_id):
-        return self.collection.insert_one({"_id": uid, "reg_id": reg_id})
+        return self.db.insert_one({"_id": uid, "reg_id": reg_id})
 
     def check_registered(self, uid):
         data = self.get_data(uid)
@@ -94,13 +94,13 @@ class Database:
         return False if (not data or "reg_id" not in data) else True
 
     def get_user_id(self, reg_id):
-        return self.collection.find_one({"reg_id": reg_id})["_id"]
+        return self.db.find_one({"reg_id": reg_id})["_id"]
 
     def get_reg_id(self, uid):
         return self.get_data(uid)["reg_id"]
 
     def check_reg_data(self, reg_id):
-        return True if self.collection.find_one({"reg_id": reg_id}) else False
+        return True if self.db.find_one({"reg_id": reg_id}) else False
 
 
 class Parser:
@@ -179,17 +179,36 @@ class Parser:
 
 class Guard:
     def __init__(self, key):
-        self.fernet = Fernet(key)
+        self.guard = Fernet(key)
 
     def encrypt(self, val):
-        return self.fernet.encrypt(val.encode())
+        return self.guard.encrypt(val.encode())
 
     def decrypt(self, val):
-        return (self.fernet.decrypt(val)).decode()
+        return (self.guard.decrypt(val)).decode()
 
     def sha256(self, val):
         return hashlib.sha256(val.encode()).hexdigest()
 
+    '''
+    def sanitized(self, request, key, val=None, db=None):
+        result = False
+        request = [request] if not isinstance(request, list) else request
+        key = [key] if not isinstance(key, list) else key
+
+        for k in key:
+            for r in request:
+                if k in r:
+                    result = True 
+                    if val:
+                        result = True if r[k] == val else False
+                    if db:
+                        uid = r[k]
+                        result = (result and (db.check_reg_data(uid) or db.get_data(uid)))
+                    break
+        
+        return result
+    '''
     def sanitized(self, request, key, db=None):
         key = [key] if isinstance(key, str) else key
 
@@ -200,3 +219,4 @@ class Guard:
         if db:
             uid = request[key[0]]
             return db.check_reg_data(uid) or db.get_data(uid)
+        return True

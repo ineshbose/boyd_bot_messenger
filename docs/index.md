@@ -72,7 +72,7 @@ $ set XYZ_KEY="random_key_value"
 
 ## 🏛️ Want to use this for your university? [Fork it!](https://github.com/ineshbose/boyd_bot_messenger/fork)
 
-It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can also [use this repository as a template](https://github.com/ineshbose/boyd_bot_messenger/generate). A good idea is to start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). The following are considerations / instructions that you should know about if you aren't aware:
+It's lovely to know that you're considering to use this for your university. This project aims to act a base for many other chatbots. You can also [use this repository as a template](https://github.com/ineshbose/boyd_bot_messenger/generate). A good idea is to start development with the [terminal / CLI version](https://github.com/ineshbose/boyd_bot_terminal). **You should begin from a commit that has a [release](https://github.com/ineshbose/boyd_bot_messenger/releases)**. The following are considerations / instructions that you should know about if you aren't aware:
 
 ### Services
 
