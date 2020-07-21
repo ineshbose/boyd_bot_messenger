@@ -50,6 +50,9 @@ nav:
       - Facebook: services/facebook.md
       - mongoDB: services/mongodb.md
       - Dialogflow: services/dialogflow.md
+      - Cryptography: services/cryptography.md
       - Wit: services/wit.md
       - Utilities: services/utilities.md
-    - Deep Study & Understanding: study.md
+    - Others:
+      - How It Works: others/working.md
+      - Security: others/security.md

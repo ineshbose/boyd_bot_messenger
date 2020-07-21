@@ -106,10 +106,14 @@ Index specifier for collection in the database.
 
 A good idea to keep user-data as in JSON format with the following keys:
 
-* `_id`: User ID (**Primary Key**)
-* `uni_id`: User's University ID for login (**ENCRYPTED**)
-* `uni_pass`: User's University Password for login (**ENCRYPTED**)
-* `reg_id`: User's Registration ID (**SHA256 HASHED**, **CANDIDATE KEY**)
+* Registered Users:
+    * `_id`: User ID (**Primary Key**)
+    * `uni_id`: User's University ID for login (**ENCRYPTED**)
+    * `uni_pass`: User's University Password for login (**ENCRYPTED**)
+
+* In-Registration Users:
+    * `_id`: User ID (**Candidate Key**)
+    * `reg_id`: User's Registration ID (**SHA256 HASHED**, **Candidate Key**)
 
 
 

@@ -190,14 +190,13 @@ class Guard:
     def sha256(self, val):
         return hashlib.sha256(val.encode()).hexdigest()
 
-    '''
     def sanitized(self, request, key, val=None, db=None):
         result = False
         request = [request] if not isinstance(request, list) else request
         key = [key] if not isinstance(key, list) else key
 
-        for k in key:
-            for r in request:
+        for r in request:
+            for k in key:
                 if k in r:
                     result = True 
                     if val:
@@ -208,15 +207,3 @@ class Guard:
                     break
         
         return result
-    '''
-    def sanitized(self, request, key, db=None):
-        key = [key] if isinstance(key, str) else key
-
-        for k in key:
-            if k not in request:
-                return False
-
-        if db:
-            uid = request[key[0]]
-            return db.check_reg_data(uid) or db.get_data(uid)
-        return True
