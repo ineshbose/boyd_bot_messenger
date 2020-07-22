@@ -25,7 +25,7 @@ db = Database(
     key2=os.environ.get("DB_KEY2", "key2"),
 )
 parser = Parser()
-guard = Guard(key=os.environ["GUARD_KEY"])
+guard = Guard(key=os.environ.get("GUARD_KEY"))
 
 
 @app.route("/webhook", methods=["GET", "POST"])
@@ -117,7 +117,7 @@ def user_gateway(request_data, uid):
 
             log("{} logging in again.".format(uid))
 
-            if not all(k in user_data for k in ["uni_id", "uni_pw"]):
+            if not guard.sanitized(user_data, ["uni_id", "uni_pw"]):
                 db.delete_data(uid)
                 return one_time_done
 
