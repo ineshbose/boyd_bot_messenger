@@ -1,6 +1,6 @@
-## [templates](https://github.com/ineshbose/boyd_bot_messenger/blob/master/templates)
+# [templates](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/templates)
 
-### `register.html`
+## `register.html`
 
 This is the registration form. Tailor this according to your university.
 
@@ -9,18 +9,18 @@ This is the registration form. Tailor this according to your university.
 ```
 
 
-#### The Hillhead Theme
+### The Hillhead Theme
 
 The hillhead theme is extracted from [University of Glasgow Moodle](https://moodle.gla.ac.uk/)
 
 
 
-### Rest of the Templates
+## Rest of the Templates
 
 The theme used is [Grayscale from Start Bootstrap](https://startbootstrap.com/themes/grayscale/).
 
 
 
-### Favicon
+## Favicon
 
 There are two favicons - `favicon.ico` and `unibot.ico` - which are the logos for Boyd Bot and Glasgow University Timetable Bot respectively. They are used for Boyd Bot's homepages and registration form respectively. When editing the registration theme, you can also replace `unibot.ico` with your timetable bot's icon with preferably same file name.

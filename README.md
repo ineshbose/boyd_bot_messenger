@@ -92,7 +92,7 @@ cal_url = "link/to/timetable.ics"       # University ICS link
 ```
 
 
-Templates should also be tailored to your need. Go through the files in [templates](templates) and [static](static).
+Templates should also be tailored to your need. Go through the files in [templates](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/templates) and [static](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/static).
 
 ### Deployment
 

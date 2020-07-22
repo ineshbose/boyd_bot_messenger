@@ -1,4 +1,4 @@
-# [`views.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/views.py)
+# [`views.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/views.py)
 
 All simple views are rendered using `render_template()`.
 

@@ -1,4 +1,4 @@
-# [`app.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/app.py)
+# [`app.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/app.py)
 
 This script is the Flask app. It is the only script to have access to the keys and enables webhook.
 

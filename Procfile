@@ -1,1 +1,1 @@
-web: gunicorn app:app
+web: gunicorn boyd_bot/app:boyd_bot

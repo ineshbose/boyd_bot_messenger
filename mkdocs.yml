@@ -40,12 +40,17 @@ extra:
 
 nav:
     - Home: index.md
-    - Scripts:
-      - app.py: scripts/app.md
-      - timetable.py: scripts/timetable.md
-      - services.py: scripts/services.md
-      - views.py: scripts/views.md
-      - templates: scripts/templates.md
+    - Files:
+      - app.py: files/app.md
+      - timetable.py: files/timetable.md
+      - views.py: files/views.md
+      - forms.py: files/forms.md
+      - services:
+        - platform.py: files/services/platform.md
+        - database.py: files/services/database.md
+        - parser.py: files/services/parser.md
+        - guard.py: files/services/guard.md
+      - templates: files/templates.md
     - Services:
       - Facebook: services/facebook.md
       - mongoDB: services/mongodb.md

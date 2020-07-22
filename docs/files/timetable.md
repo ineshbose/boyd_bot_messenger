@@ -1,4 +1,4 @@
-# [`timetable.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/timetable.py)
+# [`timetable.py`](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/timetable.py)
 
 This script handles going through the timetables.
 
