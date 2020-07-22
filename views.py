@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired
-from wtforms import StringField, PasswordField, SubmitField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, HiddenField, BooleanField
 
 
 pages = Blueprint("pages", __name__, template_folder="templates")
@@ -11,6 +11,7 @@ class RegisterForm(FlaskForm):
     reg_id = HiddenField("reg_id")
     uni_id = StringField("University ID", validators=[DataRequired()])
     uni_pw = PasswordField("Password", validators=[DataRequired()])
+    remember = BooleanField("Remember Me", default=True)
     submit = SubmitField("Login")
 
 

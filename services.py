@@ -47,7 +47,7 @@ class Platform:
             return data["originalDetectIntentRequest"][
                 "payload"]["data"]["sender"]["id"]
         except KeyError:
-            return None
+            return "demo"
 
     def reply(self, message=None, context=None):
         res = {"fulfillmentMessages": [], "outputContexts": []}
@@ -77,10 +77,9 @@ class Database:
     def delete_data(self, uid):
         return self.db.delete_one({"_id": uid}).deleted_count
 
-    def insert_data(self, uid, uni_id, uni_pw):
-        return self.db.insert_one(
-            {"_id": uid, "uni_id": uni_id, "uni_pw": uni_pw}
-        )
+    def insert_data(self, uid, uni_id=None, uni_pw=None):
+        data_to_add = {"_id": uid} if not (uni_id and uni_pw) else {"_id": uid, "uni_id": uni_id, "uni_pw": uni_pw}
+        return self.db.insert_one(data_to_add)
 
     def insert_in_reg(self, uid, reg_id):
         return self.db.insert_one({"_id": uid, "reg_id": reg_id})
@@ -114,6 +113,14 @@ class Parser:
 
         param = data["queryResult"]["parameters"]
         dt_param = param["date-time"]
+        
+        param_keys = {
+                    "date_time": ["date_time"],
+                    "startDateTime": ["startDateTime", "endDateTime"],
+                    "startDate": ["startDate", "endDate"],
+                    "startTime": ["startTime", "endTime"],
+                }
+        
         message = []
         args = []
 
@@ -126,12 +133,6 @@ class Parser:
 
             for single_dt in dt_param:
                 args.clear()
-                param_keys = {
-                    "date_time": ["date_time"],
-                    "startDateTime": ["startDateTime", "endDateTime"],
-                    "startDate": ["startDate", "endDate"],
-                    "startTime": ["startTime", "endTime"],
-                }
 
                 for p_key in param_keys:
                     if p_key in single_dt:

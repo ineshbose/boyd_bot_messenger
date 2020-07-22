@@ -21,8 +21,11 @@
                     {{ form.hidden_tag() }}
                     {{ form.uni_id(placeholder="GUID", class_="form-control") }}
                     {{ form.uni_pw(placeholder=form.uni_pw.label.text, class_="form-control") }}
-                    {{ form.submit(value='Log in with your GUID', class_="button-control") }}
-                    <a href="https://password.gla.ac.uk/">Forgot your password?</a>
+                    {{ form.submit(value="Log in with your GUID", class_="button-control") }}
+                    <a href="https://password.gla.ac.uk/">Forgot your password?</a><br>
+                    {% if allowed_remember %}
+                        {{ form.remember }} {{ form.remember.label }}
+                    {% endif %}
                 </form>
                 {% endif %}
             </div>

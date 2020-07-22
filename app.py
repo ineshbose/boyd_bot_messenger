@@ -48,9 +48,8 @@ def webhook():
         ).format(app_url, db.get_reg_id(sender_id))
 
     else:
-
         user_data = platform.get_user_data(sender_id)
-        if "error" in user_data:
+        if "error" in user_data and sender_id != "demo":
             return log("{} is not a valid user".format(sender_id))
 
         hash_id = guard.sha256(sender_id)
@@ -60,7 +59,7 @@ def webhook():
         response = (
             "Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
             "To get started, register here: {}/register?id={}"
-        ).format(user_data["first_name"], app_url, reg_id)
+        ).format(user_data["first_name"] if "first_name" in user_data else "new person", app_url, reg_id)
 
     return platform.reply(response)
 
@@ -74,16 +73,18 @@ def new_user_registration():
             return redirect("/", code=404)
 
         reg_id = request.args.get("id")
-        return render_template("register.html", form=RegisterForm(reg_id=reg_id))
+        remember = False if reg_id == "2a97516c354b688" else True
+        return render_template("register.html", form=RegisterForm(reg_id=reg_id, remember=remember), allowed_remember=remember)
 
     else:
 
-        if not guard.sanitized(request.form, ["reg_id", "uni_id", "uni_pw"], None, db):
+        if not guard.sanitized(request.form, ["reg_id", "uni_id", "uni_pw", "remember"], None, db):
             return redirect("/", code=400)
 
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
         uni_pw = request.form.get("uni_pw")
+        remember = request.form.get("remember")
 
         uid = db.get_user_id(reg_id)
         login_result = timetable.login(uid, uni_id, uni_pw)
@@ -92,12 +93,17 @@ def new_user_registration():
         if not login_result[0]:
             return render_template(
                 "register.html",
-                form=RegisterForm(reg_id=reg_id),
+                form=RegisterForm(reg_id=reg_id, remember=remember), allowed_remember=remember,
                 message=login_result[1],
             )
 
         db.delete_data(uid)
-        db.insert_data(uid, guard.encrypt(uni_id), guard.encrypt(uni_pw))
+        
+        if remember:
+            db.insert_data(uid, guard.encrypt(uni_id), guard.encrypt(uni_pw))
+        else:
+            db.insert_data(uid)
+
         platform.send_message(uid, "Alrighty! We can get started. :D")
 
         return render_template(
@@ -112,6 +118,10 @@ def user_gateway(request_data, uid):
         user_data = db.get_data(uid)
 
         if not timetable.check_loggedIn(user_data["_id"]):
+
+            if not all(k in user_data for k in ["uni_id", "uni_pw"]):
+                db.delete_data(uid)
+                return "You were logged out and since we don't have your credentials, you'll have to register again!"
 
             log("{} logging in again.".format(uid))
 
