@@ -41,7 +41,7 @@ class Database:
         self.db.insert_one({"_id": uid, "reg_id": reg_id})
         self.db.insert_one({"_id": reg_id, "user_id": uid})
         return reg_id
-    
+
     def check_registered(self, uid):
         data = self.get_data(uid)
         return False if (not data or "reg_id" in data) else True

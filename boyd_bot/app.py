@@ -119,7 +119,3 @@ def user_gateway(request_data, uid):
         message = error_message
 
     return message
-
-
-if __name__ == "__main__":
-    app.run(debug=True, port=80)

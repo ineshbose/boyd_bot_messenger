@@ -1,1 +1,1 @@
-web: gunicorn --chdir boyd_bot app:app
+web: gunicorn run:app

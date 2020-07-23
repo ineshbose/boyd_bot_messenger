@@ -41,6 +41,7 @@ extra:
 nav:
     - Home: index.md
     - Files:
+      - __init__.py: files/init.md
       - app.py: files/app.md
       - timetable.py: files/timetable.md
       - views.py: files/views.md
@@ -50,7 +51,10 @@ nav:
         - database.py: files/services/database.md
         - parser.py: files/services/parser.md
         - guard.py: files/services/guard.md
-      - templates: files/templates.md
+      - miscellaneous:
+        - templates: files/miscellaneous/templates.md
+        - msg_config.py: files/miscellaneous/msg_config.md
+        - run.py: files/miscellaneous/run.md
     - Services:
       - Facebook: services/facebook.md
       - mongoDB: services/mongodb.md
