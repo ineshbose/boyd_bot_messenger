@@ -1,11 +1,11 @@
-import timetable
+from .. import db, timetable
 
 
 class Parser:
     def __init__(self):
         pass
 
-    def delete_data(self, uid, db):
+    def delete_data(self, uid):
         return "Deleted! :)" if db.delete_data(uid) else "Something went wrong. :("
 
     def read_timetable(self, uid, data):
@@ -55,7 +55,7 @@ class Parser:
 
         return message
 
-    def parse(self, request_data, uid, db):
+    def parse(self, request_data, uid):
 
         intent = request_data["queryResult"]["intent"]
         message_text = request_data["queryResult"]["queryText"]
@@ -66,7 +66,7 @@ class Parser:
 
         intent_name = intent["displayName"].lower().replace(" ", "_")
         intent_linking = {
-            "delete_data": lambda: self.delete_data(uid, db),
+            "delete_data": lambda: self.delete_data(uid),
             "read_timetable": lambda: self.read_timetable(uid, request_data),
         }
 

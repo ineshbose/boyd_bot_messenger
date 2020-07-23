@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from .. import guard
 
 
 class Database:
@@ -12,7 +13,11 @@ class Database:
         data_to_return = {}
         if user_data:
             for data in user_data:
-                data_to_return[data] = user_data[data]
+                data_to_return[data] = (
+                    user_data[data]
+                    if data not in ["uni_id", "uni_pw"]
+                    else guard.decrypt(user_data[data])
+                )
         return data_to_return
 
     def delete_data(self, uid):
@@ -22,15 +27,21 @@ class Database:
         data_to_add = (
             {"_id": uid}
             if not (uni_id and uni_pw)
-            else {"_id": uid, "uni_id": uni_id, "uni_pw": uni_pw}
+            else {
+                "_id": uid,
+                "uni_id": guard.encrypt(uni_id),
+                "uni_pw": guard.encrypt(uni_pw),
+            }
         )
         return self.db.insert_one(data_to_add)
 
-    def insert_in_reg(self, uid, reg_id):
-        return self.db.insert_one(
-            {"_id": uid, "reg_id": reg_id}
-        ) and self.db.insert_one({"_id": reg_id, "user_id": uid})
-
+    def insert_in_reg(self, uid):
+        hash_id = guard.sha256(uid)
+        reg_id = hash_id[:15] if not self.check_reg_data(hash_id[:15]) else hash_id
+        self.db.insert_one({"_id": uid, "reg_id": reg_id})
+        self.db.insert_one({"_id": reg_id, "user_id": uid})
+        return reg_id
+    
     def check_registered(self, uid):
         data = self.get_data(uid)
         return False if (not data or "reg_id" in data) else True

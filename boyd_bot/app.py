@@ -1,31 +1,5 @@
-import timetable
-import os, logging
-from views import pages
-from forms import RegisterForm
-from msg_config import *
-from services.platform import Platform
-from services.database import Database
-from services.parser import Parser
-from services.guard import Guard
-from flask import Flask, request, redirect, render_template
-
-
-app = Flask(__name__)
-app.register_blueprint(pages)
-app.logger.setLevel(logging.DEBUG)
-
-app_url = os.environ.get("APP_URL", "http://127.0.0.1")
-app.config["SECRET_KEY"] = os.environ["FLASK_KEY"]
-webhook_token = os.environ["VERIFY_TOKEN"]
-wb_arg_name = os.environ["WB_ARG_NAME"]
-platform = Platform(platform_token=os.environ["PLATFORM_TOKEN"])
-db = Database(
-    db_token=os.environ.get("DB_MAIN_TOKEN"),
-    key1=os.environ.get("DB_KEY1", "key1"),
-    key2=os.environ.get("DB_KEY2", "key2"),
-)
-parser = Parser()
-guard = Guard(key=os.environ.get("GUARD_KEY"))
+from flask import request, redirect, render_template
+from . import *
 
 
 @app.route("/webhook", methods=["GET", "POST"])
@@ -54,7 +28,7 @@ def webhook():
         if "error" in user_data and sender_id != "demo":
             return log("{} is not a valid user".format(sender_id))
 
-        reg_id = in_register(sender_id)
+        reg_id = db.insert_in_reg(sender_id)
         response = (
             "Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
             "To get started, register here: {}/register?id={}"
@@ -99,9 +73,7 @@ def new_user_registration():
 
         db.delete_data(uid)
         db.delete_data(reg_id)
-        user_details = (
-            [guard.encrypt(uni_id), guard.encrypt(uni_pw)] if remember else [None, None]
-        )
+        user_details = [uni_id, uni_pw] if remember else [None, None]
         db.insert_data(uid, *user_details)
         platform.send_message(uid, reg_acknowledge)
 
@@ -122,23 +94,21 @@ def user_gateway(request_data, uid):
                 return one_time_done
 
             login_result = timetable.login(
-                user_data["_id"],
-                guard.decrypt(user_data["uni_id"]),
-                guard.decrypt(user_data["uni_pw"]),
+                user_data["_id"], user_data["uni_id"], user_data["uni_pw"]
             )
 
             if not login_result[0]:
 
                 log("{} failed to log in. Result: {}".format(uid, login_result))
                 db.delete_data(uid)
-                reg_id = in_register(uid)
+                reg_id = db.insert_in_reg(uid)
 
                 return (
                     "Whoops! Something went wrong; maybe your login details changed?\n"
                     "Register here: {}/register?id={}"
                 ).format(app_url, reg_id)
 
-        message = parser.parse(request_data, uid, db)
+        message = parser.parse(request_data, uid)
 
     except Exception as e:
         log(
@@ -149,18 +119,6 @@ def user_gateway(request_data, uid):
         message = error_message
 
     return message
-
-
-def log(message):
-    app.logger.info(message)
-
-
-def in_register(uid):
-    # shift to database
-    hash_id = guard.sha256(uid)
-    reg_id = hash_id[:15] if not db.check_reg_data(hash_id[:15]) else hash_id
-    db.insert_in_reg(uid, reg_id)
-    return reg_id
 
 
 if __name__ == "__main__":

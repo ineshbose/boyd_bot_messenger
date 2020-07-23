@@ -5,9 +5,9 @@ from cryptography.fernet import Fernet
 class Guard:
     def __init__(self, key):
         if not key:
-            if not os.path.exists('.fernet.key'):
-                open('.fernet.key', 'wb').write(Fernet.generate_key())
-            key = open('.fernet.key', 'r').read()
+            if not os.path.exists(".fernet.key"):
+                open(".fernet.key", "wb").write(Fernet.generate_key())
+            key = open(".fernet.key", "r").read()
         self.guard = Fernet(key)
 
     def encrypt(self, val):
