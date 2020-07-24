@@ -75,9 +75,11 @@ def new_user_registration():
         db.delete_data(reg_id)
         user_details = [uni_id, uni_pw] if remember else [None, None]
         db.insert_data(uid, *user_details)
-        platform.send_message(uid, reg_acknowledge)
+        platform.send_message(uid, app.config["MSG"]["REG_ACKNOWLEDGE"])
 
-        return render_template("register.html", success=success_msg)
+        return render_template(
+            "register.html", success=app.config["MSG"]["SUCCESS_MSG"]
+        )
 
 
 def user_gateway(request_data, uid):
@@ -91,7 +93,7 @@ def user_gateway(request_data, uid):
 
             if not guard.sanitized(user_data, ["uni_id", "uni_pw"]):
                 db.delete_data(uid)
-                return one_time_done
+                return app.config["msg"]["one_time_done"]
 
             login_result = timetable.login(
                 user_data["_id"], user_data["uni_id"], user_data["uni_pw"]
@@ -116,6 +118,6 @@ def user_gateway(request_data, uid):
                 type(e).__name__, e, uid, request_data
             )
         )
-        message = error_message
+        message = app.config["MSG"]["ERROR_MSG"]
 
     return message

@@ -53,7 +53,7 @@ nav:
         - guard.py: files/services/guard.md
       - miscellaneous:
         - templates: files/miscellaneous/templates.md
-        - msg_config.py: files/miscellaneous/msg_config.md
+        - _config.py: files/miscellaneous/config.md
         - run.py: files/miscellaneous/run.md
     - Services:
       - Facebook: services/facebook.md

@@ -23,7 +23,7 @@
                     {{ form.uni_pw(placeholder=form.uni_pw.label.text, class_="form-control") }}
                     {{ form.submit(value="Log in with your GUID", class_="button-control") }}
                     <a href="https://password.gla.ac.uk/">Forgot your password?</a><br>
-                    {% if form.remember %}
+                    {% if config.FEATURES.ONE_TIME_USE %}
                         {{ form.remember }} {{ form.remember.label }}
                     {% endif %}
                 </form>

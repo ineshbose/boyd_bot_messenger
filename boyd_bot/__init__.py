@@ -8,12 +8,13 @@ app.logger.setLevel(logging.DEBUG)
 
 app_url = os.environ.get("APP_URL", "http://127.0.0.1")
 app.config["SECRET_KEY"] = os.environ["FLASK_KEY"]
-webhook_token = os.environ["VERIFY_TOKEN"]
-wb_arg_name = os.environ["WB_ARG_NAME"]
 
 from . import views
+from . import _config
 from .forms import RegisterForm
-from .msg_config import *
+
+webhook_token = os.environ["VERIFY_TOKEN"]
+wb_arg_name = os.environ["WB_ARG_NAME"]
 
 from .timetable import Timetable
 

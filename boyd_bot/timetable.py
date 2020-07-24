@@ -98,7 +98,7 @@ class Timetable:
 
                 if class_name:
                     class_name = (
-                        [class_name] if isinstance(class_name, str) else class_name
+                        [class_name] if not isinstance(class_name, list) else class_name
                     )
                     for c_name in class_name:
                         if (
@@ -115,4 +115,5 @@ class Timetable:
         return class_list
 
     def check_loggedIn(self, uid):
-        return True if uid in self.calendars.keys() else False
+        print(self.calendars.keys())
+        return True if uid in self.calendars else False
