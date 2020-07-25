@@ -1,6 +1,6 @@
 # [Dialogflow](https://dialogflow.com/)
 
-By default, this app is optimised for Dialogflow (aka API AI) which is an extremely powerful NLU Platform.
+Implemented in _class_ `Parser` without using any package. By default, this app is optimised for Dialogflow (aka API AI) which is an extremely powerful NLU Platform.
 
 
 ## Intents

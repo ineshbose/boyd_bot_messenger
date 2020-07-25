@@ -5,7 +5,7 @@ All simple views are rendered using `render_template()`.
 
 
 ```python
-@app.route("/")
+@blueprint.route("/")
 def index():
     """
     Returns index() view for the app.
@@ -14,7 +14,7 @@ def index():
 
 
 
-@app.route("/privacy")
+@blueprint.route("/privacy")
 def privacy():
     """
     Returns privacy() view for the app.
@@ -22,7 +22,7 @@ def privacy():
     return render_template("privacy.html")
 
 
-@app.route("/terms")
+@blueprint.route("/terms")
 def terms():
     """
     Returns terms() view for the app.
@@ -30,7 +30,7 @@ def terms():
     return render_template("terms.html")
 
 
-@app.errorhandler(404)
+@blueprint.app_errorhandler(404)
 def page_not_found(e):
     """
     Handles 404 error for the app.

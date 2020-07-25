@@ -3,6 +3,10 @@ from cryptography.fernet import Fernet
 
 
 class Guard:
+    """
+    Features methods for necessary security protocols.
+    """
+
     def __init__(self, key):
         if not key:
             if not os.path.exists(".fernet.key"):

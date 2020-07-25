@@ -2,6 +2,10 @@ from .. import db, timetable
 
 
 class Parser:
+    """
+    Breaks down data to get information, trigger events and generate a response.
+    """
+
     def __init__(self):
         pass
 

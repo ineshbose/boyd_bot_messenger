@@ -62,7 +62,7 @@ Maps to unique sender ID through POST request data.
 | **`data`:** the POST request dictionary | **`str`:** the unique sender ID of the user |
 
 
-### `Platform`.**`reply(message=None, context=None)`**
+### `Platform`.**`reply(message=None)`**
 
 Prepares a formatted JSON containing the message as a response to the POST request.
 

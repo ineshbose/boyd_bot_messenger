@@ -1,8 +1,13 @@
+import uuid
 from pymongo import MongoClient
 from .. import guard
 
 
 class Database:
+    """
+    A modular, custom API for the database that will store necessary details about users for fetching their timetable.
+    """
+
     def __init__(self, db_token, key1, key2):
         self.cluster = MongoClient(db_token)
         self.collection = self.cluster[key1]
@@ -36,8 +41,9 @@ class Database:
         return self.db.insert_one(data_to_add)
 
     def insert_in_reg(self, uid):
-        hash_id = guard.sha256(uid)
-        reg_id = hash_id[:15] if not self.check_reg_data(hash_id[:15]) else hash_id
+        reg_id = uuid.uuid4().hex
+        while self.check_reg_data(reg_id):
+            reg_id = uuid.uuid4().hex
         self.db.insert_one({"_id": uid, "reg_id": reg_id})
         self.db.insert_one({"_id": reg_id, "user_id": uid})
         return reg_id

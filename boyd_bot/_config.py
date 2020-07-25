@@ -1,6 +1,10 @@
 from . import app
 
 
+# URL root for the app
+app.config["URL_ROOT"] = "/"
+
+
 # Simple string messages that can be replaced
 app.config["MSG"] = {
     "REG_ACKNOWLEDGE": "Alrighty! We can get started. :D",

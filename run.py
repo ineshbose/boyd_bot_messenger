@@ -1,4 +1,4 @@
-from boyd_bot.app import app
+from boyd_bot import app
 
 
 if __name__ == "__main__":

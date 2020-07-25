@@ -40,20 +40,22 @@ def decrypt(self, val):
 Going through a database, one should face difficulty in finding a specific user's set.
 ```
 
-There's a tendency to target individuals and if any of their information known, it could get easier to retrieve data by some means (not that it would be easy in the first place). Therefore, University ID should not be stored as plain-text. Another unique and essential information about the user is their platform/sender ID. Even though platforms also provide security for this (for example Facebook provides unique sender ID according to app only), that does not end a developer's responsibility. So a good idea is to hide the sender ID as well. The app uses SHA256 hashing for the user ID.
+There's a tendency to target individuals and if any of their information known, it could get easier to retrieve data by some means (not that it would be easy in the first place). Therefore, University ID should not be stored as plain-text. Another unique and essential information about the user is their platform/sender ID. Even though platforms also provide security for this (for example Facebook provides unique sender ID according to app only), that does not end a developer's responsibility. So a good idea is to hide the sender ID as well.
 
 ```python
-def sha256(self, val):
-    return hashlib.sha256(val.encode()).hexdigest()
+reg_id = uuid.uuid4().hex
+while self.check_reg_data(reg_id):
+    reg_id = uuid.uuid4().hex
 ```
 
 
 ## Variables & Keys
 
 ```
+If you put a key under the mat for the cops, a burglar can find it, too.
 ```
 
-Another area is using variables & keys in the app. These keys, for obvious reasons, cannot be shown to the public. Many hosting services like Heroku, PythonAnywhere offer security for these variables/keys. Still! That doesn't end a developer's responsibility. These keys should not be simple, small words like `database_key_boyd` but rather a long, randomised string with absolutely no meaning.
+Another area is using variables & keys in the app. These keys, for obvious reasons, cannot be shown to the public. Many hosting services like Heroku, PythonAnywhere offer security for these variables/keys. Still! That doesn't end a developer's responsibility. These keys should not be simple, small words like `database_key_boyd` but rather a long, randomised string with absolutely no meaning. Also consider changing them once a while.
 
 ```python
 key = os.environ["KEY_NAME"]

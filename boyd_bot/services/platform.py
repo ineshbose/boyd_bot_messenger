@@ -3,6 +3,10 @@ from flask import make_response
 
 
 class Platform:
+    """
+    Contains methods for interacting with the platform / messaging service.
+    """
+
     def __init__(self, platform_token):
         self.platform_token = platform_token
 
@@ -31,8 +35,9 @@ class Platform:
 
     def get_id(self, data):
         try:
-            return data["originalDetectIntentRequest"][
-                "payload"]["data"]["sender"]["id"]
+            return data["originalDetectIntentRequest"]["payload"]["data"]["sender"][
+                "id"
+            ]
         except KeyError:
             return "demo"
 

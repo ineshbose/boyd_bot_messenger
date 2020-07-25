@@ -14,7 +14,7 @@
 Contains methods essential for security.
 
 
-### `Guard`.**`fernet`**
+### `Guard`.**`guard`**
 
 Initialiser for `Fernet()`.
 

@@ -1,15 +1,15 @@
-from flask import request, redirect, render_template
+from flask import request, redirect, render_template, url_for
 from . import *
 
 
-@app.route("/webhook", methods=["GET", "POST"])
+@blueprint.route("/webhook", methods=["GET", "POST"])
 def webhook():
 
     if request.method == "GET":
-        return redirect("/", code=302)
+        return redirect(url_for(".index"), code=302)
 
     if not guard.sanitized([request.headers, request.args], wb_arg_name, webhook_token):
-        return redirect("/", code=403)
+        return redirect(url_for(".index"), code=403)
 
     request_data = request.get_json()
     sender_id = platform.get_id(request_data)
@@ -20,40 +20,39 @@ def webhook():
     elif db.check_in_reg(sender_id):
         response = (
             "It doesn't seem like you've registered yet.\n"
-            "Register here: {}/register?id={}"
+            "Register here: {}/register/{}"
         ).format(app_url, db.get_reg_id(sender_id))
 
     else:
         user_data = platform.get_user_data(sender_id)
-        if "error" in user_data and sender_id != "demo":
+        if "error" in user_data:
             return log("{} is not a valid user".format(sender_id))
 
         reg_id = db.insert_in_reg(sender_id)
         response = (
             "Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
-            "To get started, register here: {}/register?id={}"
+            "To get started, register here: {}/register/{}"
         ).format(user_data.get("first_name", "new person"), app_url, reg_id)
 
     return platform.reply(response)
 
 
-@app.route("/register", methods=["GET", "POST"])
-def new_user_registration():
+@blueprint.route("/register/<reg_id>", methods=["GET", "POST"])
+def new_user_registration(reg_id):
 
     if request.method == "GET":
-
-        if not guard.sanitized(request.args, "id", None, db):
-            return redirect("/", code=404)
-
-        reg_id = request.args.get("id")
-        return render_template("register.html", form=RegisterForm(reg_id=reg_id))
+        return (
+            render_template("register.html", form=RegisterForm(reg_id=reg_id))
+            if db.check_reg_data(reg_id)
+            else redirect(url_for(".index"), code=404)
+        )
 
     else:
 
         if not guard.sanitized(
             request.form, ["reg_id", "uni_id", "uni_pw", "remember"], None, db
         ):
-            return redirect("/", code=400)
+            return redirect(url_for(".index"), code=400)
 
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
@@ -77,9 +76,7 @@ def new_user_registration():
         db.insert_data(uid, *user_details)
         platform.send_message(uid, app.config["MSG"]["REG_ACKNOWLEDGE"])
 
-        return render_template(
-            "register.html", success=app.config["MSG"]["SUCCESS_MSG"]
-        )
+        return render_template("register.html", success=True)
 
 
 def user_gateway(request_data, uid):
@@ -93,7 +90,7 @@ def user_gateway(request_data, uid):
 
             if not guard.sanitized(user_data, ["uni_id", "uni_pw"]):
                 db.delete_data(uid)
-                return app.config["msg"]["one_time_done"]
+                return app.config["MSG"]["ONE_TIME_DONE"]
 
             login_result = timetable.login(
                 user_data["_id"], user_data["uni_id"], user_data["uni_pw"]
@@ -107,7 +104,7 @@ def user_gateway(request_data, uid):
 
                 return (
                     "Whoops! Something went wrong; maybe your login details changed?\n"
-                    "Register here: {}/register?id={}"
+                    "Register here: {}/register/{}"
                 ).format(app_url, reg_id)
 
         message = parser.parse(request_data, uid)

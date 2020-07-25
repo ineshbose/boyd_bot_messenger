@@ -6,6 +6,10 @@ from dateutil.parser import parse as dtparse
 
 
 class Timetable:
+    """
+    Contains methods and attributes to fetch & handle timetable for multiple users.
+    """
+
     calendars = {}
 
     def __init__(
@@ -115,5 +119,4 @@ class Timetable:
         return class_list
 
     def check_loggedIn(self, uid):
-        print(self.calendars.keys())
         return True if uid in self.calendars else False
