@@ -13,8 +13,7 @@ class Database:
         self.collection = self.cluster[key1]
         self.db = self.collection[key2]
 
-    def get_data(self, uid):
-        user_data = self.db.find_one({"_id": uid})
+    def sanitize(self, user_data):
         data_to_return = {}
         if user_data:
             for data in user_data:
@@ -25,27 +24,29 @@ class Database:
                 )
         return data_to_return
 
+    def get_data(self, uid):
+        user_data = self.db.find_one({"_id": uid})
+        return self.sanitize(user_data)
+
     def delete_data(self, uid):
         return self.db.delete_one({"_id": uid}).deleted_count
 
-    def insert_data(self, uid, uni_id=None, uni_pw=None):
-        data_to_add = (
-            {"_id": uid}
-            if not (uni_id and uni_pw)
-            else {
-                "_id": uid,
-                "uni_id": guard.encrypt(uni_id),
-                "uni_pw": guard.encrypt(uni_pw),
-            }
-        )
+    def insert_data(self, uid, **kwargs):
+        data_to_add = {"_id": uid}
+        for kw in kwargs:
+            data_to_add[kw] = (
+                kwargs[kw]
+                if kw not in ["uni_id", "uni_pw"]
+                else guard.encrypt(kwargs[kw])
+            )
         return self.db.insert_one(data_to_add)
 
     def insert_in_reg(self, uid):
         reg_id = uuid.uuid4().hex
         while self.check_reg_data(reg_id):
             reg_id = uuid.uuid4().hex
-        self.db.insert_one({"_id": uid, "reg_id": reg_id})
-        self.db.insert_one({"_id": reg_id, "user_id": uid})
+        self.insert_data(uid, reg_id=reg_id)
+        self.insert_data(reg_id, user_id=uid)
         return reg_id
 
     def check_registered(self, uid):

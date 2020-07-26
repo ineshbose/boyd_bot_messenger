@@ -1,4 +1,4 @@
-from flask import request, redirect, render_template, url_for
+from flask import request, redirect, render_template, url_for, abort
 from . import *
 
 
@@ -6,10 +6,10 @@ from . import *
 def webhook():
 
     if request.method == "GET":
-        return redirect(url_for(".index"), code=302)
+        return redirect(url_for(".index"))
 
     if not guard.sanitized([request.headers, request.args], wb_arg_name, webhook_token):
-        return redirect(url_for(".index"), code=403)
+        abort(403)
 
     request_data = request.get_json()
     sender_id = platform.get_id(request_data)
@@ -26,7 +26,8 @@ def webhook():
     else:
         user_data = platform.get_user_data(sender_id)
         if "error" in user_data:
-            return log("{} is not a valid user".format(sender_id))
+            log("{} is not a valid user".format(sender_id))
+            abort(401)
 
         reg_id = db.insert_in_reg(sender_id)
         response = (
@@ -44,7 +45,7 @@ def new_user_registration(reg_id):
         return (
             render_template("register.html", form=RegisterForm(reg_id=reg_id))
             if db.check_reg_data(reg_id)
-            else redirect(url_for(".index"), code=404)
+            else abort(404)
         )
 
     else:
@@ -52,7 +53,7 @@ def new_user_registration(reg_id):
         if not guard.sanitized(
             request.form, ["reg_id", "uni_id", "uni_pw", "remember"], None, db
         ):
-            return redirect(url_for(".index"), code=400)
+            abort(400)
 
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
@@ -72,8 +73,8 @@ def new_user_registration(reg_id):
 
         db.delete_data(uid)
         db.delete_data(reg_id)
-        user_details = [uni_id, uni_pw] if remember else [None, None]
-        db.insert_data(uid, *user_details)
+        user_details = {"uni_id": uni_id, "uni_pw": uni_pw} if remember else {}
+        db.insert_data(uid, **user_details)
         platform.send_message(uid, app.config["MSG"]["REG_ACKNOWLEDGE"])
 
         return render_template("register.html", success=True)

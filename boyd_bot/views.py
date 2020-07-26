@@ -1,4 +1,5 @@
 from flask import render_template
+from werkzeug.exceptions import HTTPException
 from . import blueprint
 
 
@@ -17,6 +18,6 @@ def terms():
     return render_template("terms.html")
 
 
-@blueprint.app_errorhandler(404)
+@blueprint.app_errorhandler(HTTPException)
 def page_not_found(e):
-    return render_template("404.html"), 404
+    return render_template("error.html", error_code=e.code), e.code
