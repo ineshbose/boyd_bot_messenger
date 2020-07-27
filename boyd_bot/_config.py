@@ -16,5 +16,6 @@ app.config["MSG"] = {
 
 # Features you can switch on/off
 app.config["FEATURES"] = {
-    "ONE_TIME_USE": True,
+    "ONE_TIME_USE": True,  # Highly experimental and somewhat unstable; recommended to keep False
+    "DEMO": True,  # Works for chatbots without platform user-accounts (eg Dialogflow Web Demo / Embedded)
 }

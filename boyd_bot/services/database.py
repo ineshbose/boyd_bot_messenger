@@ -41,12 +41,12 @@ class Database:
             )
         return self.db.insert_one(data_to_add)
 
-    def insert_in_reg(self, uid):
+    def insert_in_reg(self, uid, platform_user):
         reg_id = uuid.uuid4().hex
-        while self.check_reg_data(reg_id):
+        while self.get_data(reg_id):
             reg_id = uuid.uuid4().hex
-        self.insert_data(uid, reg_id=reg_id)
-        self.insert_data(reg_id, user_id=uid)
+        self.insert_data(uid, reg_id=reg_id, platform_user=platform_user)
+        self.insert_data(reg_id, user_id=uid, platform_user=platform_user)
         return reg_id
 
     def check_registered(self, uid):
@@ -63,5 +63,5 @@ class Database:
     def get_reg_id(self, uid):
         return self.get_data(uid)["reg_id"]
 
-    def check_reg_data(self, reg_id):
-        return True if self.get_data(reg_id) else False
+    def get_reg_id_result(self, reg_id):
+        return self.get_data(reg_id)["platform_user"]

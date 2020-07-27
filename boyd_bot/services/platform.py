@@ -35,11 +35,17 @@ class Platform:
 
     def get_id(self, data):
         try:
-            return data["originalDetectIntentRequest"]["payload"]["data"]["sender"][
-                "id"
-            ]
-        except KeyError:
-            return "demo"
+            return (
+                data["originalDetectIntentRequest"]["payload"]["data"]["sender"]["id"],
+                True,
+            )
+        except (KeyError, TypeError):
+            return (
+                data["session"].split(":" if ":" in data["session"] else "/")[-1]
+                if (data and "session" in data)
+                else None,
+                False,
+            )
 
     def reply(self, message=None):
         res = {"fulfillmentMessages": []}

@@ -12,7 +12,7 @@ def webhook():
         abort(403)
 
     request_data = request.get_json()
-    sender_id = platform.get_id(request_data)
+    sender_id, platform_user = platform.get_id(request_data)
 
     if db.check_registered(sender_id):
         response = user_gateway(request_data, sender_id)
@@ -25,11 +25,11 @@ def webhook():
 
     else:
         user_data = platform.get_user_data(sender_id)
-        if "error" in user_data:
+        if not sender_id or ("error" in user_data and platform_user):
             log("{} is not a valid user".format(sender_id))
             abort(401)
 
-        reg_id = db.insert_in_reg(sender_id)
+        reg_id = db.insert_in_reg(sender_id, platform_user)
         response = (
             "Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
             "To get started, register here: {}/register/{}"
@@ -43,15 +43,19 @@ def new_user_registration(reg_id):
 
     if request.method == "GET":
         return (
-            render_template("register.html", form=RegisterForm(reg_id=reg_id))
-            if db.check_reg_data(reg_id)
+            render_template(
+                "register.html",
+                form=RegisterForm(reg_id=reg_id, remember=db.get_reg_id_result(reg_id)),
+            )
+            if db.get_data(reg_id)
             else abort(404)
         )
 
     else:
 
-        if not guard.sanitized(
-            request.form, ["reg_id", "uni_id", "uni_pw", "remember"], None, db
+        if not (
+            guard.sanitized(request.form, ["reg_id", "uni_id", "uni_pw"])
+            and db.get_data(reg_id)
         ):
             abort(400)
 
@@ -67,7 +71,7 @@ def new_user_registration(reg_id):
         if not login_result[0]:
             return render_template(
                 "register.html",
-                form=RegisterForm(reg_id=reg_id),
+                form=RegisterForm(reg_id=reg_id, remember=remember),
                 message=login_result[1],
             )
 
