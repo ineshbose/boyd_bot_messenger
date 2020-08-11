@@ -50,6 +50,8 @@ from .services.platform import Platform
 
 platform = Platform(platform_token=os.environ.get("PLATFORM_TOKEN"))
 
+from .services import scheduler
+
 
 def log(message):
     app.logger.info(message)
