@@ -25,7 +25,11 @@ def webhook():
 
     else:
         user_data = platform.get_user_data(sender_id)
-        if not sender_id or ("error" in user_data and platform_user):
+        if (
+            not sender_id
+            or ("error" in user_data and platform_user)
+            or not (platform_user or app.config["FEATURES"]["DEMO"])
+        ):
             log("{} is not a valid user".format(sender_id))
             abort(401)
 
@@ -44,7 +48,7 @@ def new_user_registration(reg_id):
     if request.method == "GET":
         return (
             render_template(
-                "register.html",
+                app.config["TEMPLATES"]["REG_FORM"],
                 form=RegisterForm(reg_id=reg_id, remember=db.get_reg_id_result(reg_id)),
             )
             if db.get_data(reg_id)
@@ -62,7 +66,12 @@ def new_user_registration(reg_id):
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
         uni_pw = request.form.get("uni_pw")
-        remember = request.form.get("remember")
+        
+        remember = (
+            request.form.get("remember")
+            if app.config["FEATURES"]["ONE_TIME_USE"]
+            else db.get_reg_id_result(reg_id)
+        )
 
         uid = db.get_user_id(reg_id)
         login_result = timetable.login(uid, uni_id, uni_pw)
@@ -70,7 +79,7 @@ def new_user_registration(reg_id):
 
         if not login_result[0]:
             return render_template(
-                "register.html",
+                app.config["TEMPLATES"]["REG_FORM"],
                 form=RegisterForm(reg_id=reg_id, remember=remember),
                 message=login_result[1],
             )
@@ -81,7 +90,7 @@ def new_user_registration(reg_id):
         db.insert_data(uid, **user_details)
         platform.send_message(uid, app.config["MSG"]["REG_ACKNOWLEDGE"])
 
-        return render_template("register.html", success=True)
+        return render_template(app.config["TEMPLATES"]["REG_FORM"], success=True)
 
 
 def user_gateway(request_data, uid):

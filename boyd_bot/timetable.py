@@ -48,7 +48,7 @@ class Timetable:
             event.get("location", "No Location Found"),
         )
 
-    def jsonify_desc(self, event):
+    def parse_desc(self, event):
         return (
             dict(
                 (k.strip(), v.strip())

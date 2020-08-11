@@ -5,6 +5,12 @@ from . import app
 app.config["URL_ROOT"] = "/"
 
 
+# Template Option
+app.config["TEMPLATES"] = {
+    "REG_FORM": "uni_theme_reg.html",  # uni_theme or default
+}
+
+
 # Simple string messages that can be replaced
 app.config["MSG"] = {
     "REG_ACKNOWLEDGE": "Alrighty! We can get started. :D",
@@ -16,6 +22,6 @@ app.config["MSG"] = {
 
 # Features you can switch on/off
 app.config["FEATURES"] = {
-    "ONE_TIME_USE": True,  # Highly experimental and somewhat unstable; recommended to keep False
+    "ONE_TIME_USE": True,  # On-going issue (read https://github.com/ineshbose/boyd_bot_messenger/issues/8)
     "DEMO": True,  # Works for chatbots without platform user-accounts (eg Dialogflow Web Demo / Embedded)
 }

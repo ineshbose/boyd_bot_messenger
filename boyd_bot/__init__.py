@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
 
 app_url = os.environ.get("APP_URL", "http://127.0.0.1")
-app.config["SECRET_KEY"] = os.environ.get("FLASK_KEY", os.urandom(24))
+app.config["SECRET_KEY"] = os.environ.get("FLASK_KEY")
 
 from . import _config
 
@@ -58,3 +58,16 @@ def log(message):
 from .app import *
 
 app.register_blueprint(blueprint, url_prefix=app.config["URL_ROOT"])
+
+
+@app.after_request
+def secure_http_header(response):
+    response.headers[
+        "Strict-Transport-Security"
+    ] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src * 'unsafe-inline'"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "same-origin"
+    response.headers["Feature-Policy"] = "none"
+    return response

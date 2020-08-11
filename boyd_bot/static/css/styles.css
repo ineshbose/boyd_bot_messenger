@@ -10306,8 +10306,10 @@ body {
 }
 
 .signup-section {
-  padding: 10rem 0;
-  background: linear-gradient(#007bff, #000000);
+  padding: 5rem 2rem;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(#3697ff, #a28dff);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;

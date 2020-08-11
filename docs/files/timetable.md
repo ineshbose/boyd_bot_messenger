@@ -82,9 +82,9 @@ The events in `icalendar.Calendar` are in the form of a dictionary. This functio
 
 
 
-## `Timetable`.**`jsonify_desc(event)`**
+## `Timetable`.**`parse_desc(event)`**
 
-Creates a `dict` from the description of the event. <br>
+Breaks down essential information from the description of the event. <br>
 **Note:** The formatting is according to how event conventions are for the University of Glasgow. For example, usually events have description like
 ```
 Course: Random Course Name
@@ -94,13 +94,13 @@ Details: Lecture.
 ```
 
 ```python
->>> jsonify_desc(event)
+>>> parse_desc(event)
 {"Course": "Random Course Name", "Class Type": "Lecture", "Lecturer": "Orr, Dr Boyd", "Details": "Lecture."}
 ```
 
-|                       Parameters                      |                    Returns                      |
-|-------------------------------------------------------|-------------------------------------------------|
-| **`event`:** the `icalendar.Calendar.event` to format | **`str`:** a string representation of the event |
+|                       Parameters                      |                       Returns                      |
+|-------------------------------------------------------|----------------------------------------------------|
+| **`event`:** the `icalendar.Calendar.event` to format | **`dict`:** information from the desc of the event |
 
 
 

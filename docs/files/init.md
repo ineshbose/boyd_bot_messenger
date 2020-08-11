@@ -65,3 +65,9 @@ APP: lorem ipsum
 |                 Parameters              |    Returns  |
 |-----------------------------------------|-------------|
 | **`message`:** the message to log       | **`None`**  |
+
+
+
+## `secure_http_header(request)`
+
+Specifies values for HTTP Headers to make connection secure.

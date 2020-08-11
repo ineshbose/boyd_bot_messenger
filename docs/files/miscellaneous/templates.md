@@ -1,17 +1,21 @@
 # [templates](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/templates)
 
-## `register.html`
+
+## Registration Form
 
 This is the registration form. Tailor this according to your university.
+
+### The Hillhead Theme
 
 ```html
 <!-- It's a good idea to style the registration form with a theme that is familiar to users and can get their trust.-->
 ```
 
+The hillhead theme is extracted from [University of Glasgow Moodle](https://moodle.gla.ac.uk/) and used in `uni_theme_reg.html`.
 
-### The Hillhead Theme
+### Standard / Default Theme
 
-The hillhead theme is extracted from [University of Glasgow Moodle](https://moodle.gla.ac.uk/)
+If you're not into making your own form, a pre-built generic form template is given and can be toggled in `_config.py`.
 
 
 
