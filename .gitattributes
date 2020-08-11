@@ -1,6 +1,7 @@
-static/css/styles.css linguist-vendored
-templates/index.html linguist-vendored
-templates/base.html linguist-vendored
-templates/terms.html linguist-vendored
-templates/privacy.html linguist-vendored
-templates/404.html linguist-vendored
+boyd_bot/static/css/styles.css linguist-vendored
+boyd_bot/templates/base.html linguist-vendored
+boyd_bot/templates/index.html linguist-vendored
+boyd_bot/templates/default_reg.html linguist-vendored
+boyd_bot/templates/terms.html linguist-vendored
+boyd_bot/templates/privacy.html linguist-vendored
+boyd_bot/templates/error.html linguist-vendored
