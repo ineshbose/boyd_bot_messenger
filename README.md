@@ -59,10 +59,10 @@ Access tokens, keys, etc. have been hidden from the repository for obvious reaso
 ```python
 import os
 
-xyz = os.environ["XYZ_KEY"]
+xyz = os.environ.get("XYZ_KEY")
 ```
 
-You **must** replace these with your own. You can either just replace `os.environ[]` with the value (**this is discouraged**), or use
+You **must** replace these with your own. You can either just replace `os.environ.get()` with the value (**this is discouraged**), or use
 
 ```sh
 $ set XYZ_KEY="random_key_value"
@@ -92,7 +92,7 @@ cal_url = "link/to/timetable.ics"       # University ICS link
 ```
 
 
-Templates should also be tailored to your need. Go through the files in [templates](templates) and [static](static).
+Templates should also be tailored to your need. Go through the files in [templates](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/templates) and [static](https://github.com/ineshbose/boyd_bot_messenger/blob/master/boyd_bot/static).
 
 ### Deployment
 
