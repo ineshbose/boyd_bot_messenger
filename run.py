@@ -2,4 +2,4 @@ from boyd_bot import app
 
 
 if __name__ == "__main__":
-    app.run(debug=False, port=80)
+    app.run(debug=True, port=80)

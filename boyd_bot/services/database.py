@@ -66,11 +66,11 @@ class Database:
     def get_reg_id_result(self, reg_id):
         return self.get_data(reg_id)["platform_user"]
 
-    def clear_db(self):
-        return self.db.drop()
-
     def get_list(self):
         d_to_r = []
         for d in self.db.find({}):
             d_to_r.append(self.sanitize(d))
         return d_to_r
+    
+    def clear_db(self):
+        return self.db.drop()

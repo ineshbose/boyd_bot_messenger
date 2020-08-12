@@ -1,5 +1,6 @@
 import os
 import logging
+import threading
 from flask import Flask, Blueprint
 
 
@@ -50,7 +51,13 @@ from .services.platform import Platform
 
 platform = Platform(platform_token=os.environ.get("PLATFORM_TOKEN"))
 
-from .services import scheduler
+
+from .services.scheduler import Scheduler
+
+if app.config["FEATURES"]["SCHEDULER"]:
+    scheduler = Scheduler()
+    s_thread = threading.Thread(target=scheduler.run)
+    s_thread.start()
 
 
 def log(message):
