@@ -56,6 +56,7 @@ nav:
         - templates: files/miscellaneous/templates.md
         - _config.py: files/miscellaneous/config.md
         - run.py: files/miscellaneous/run.md
+        - clock.py: files/miscellaneous/clock.md
     - Services:
       - Facebook: services/facebook.md
       - mongoDB: services/mongodb.md

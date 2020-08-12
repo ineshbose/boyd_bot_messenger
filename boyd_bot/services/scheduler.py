@@ -24,12 +24,14 @@ class Scheduler:
         for data in dataset:
             if data.get("subscribe"):
                 if timetable.login(data["_id"], data["uni_id"], data["uni_pw"])[0]:
-                    res = timetable.read(data["_id"], datetime.datetime.now().isoformat())
+                    res = timetable.read(
+                        data["_id"], datetime.datetime.now().isoformat()
+                    )
                     for r in res:
                         platform.send_message(data["_id"], r)
 
     def run(self):
         self.scheduler.add_job(func=self.clear_db, trigger="interval", weeks=2)
-        #self.scheduler.add_job(func=self.remind, trigger="interval", seconds=10)
-        self.scheduler.add_job(func=self.remind, trigger="cron", hour="08")
+        # self.scheduler.add_job(func=self.remind, trigger="interval", seconds=10)
+        self.scheduler.add_job(func=self.remind, trigger="cron", day_of_week="0-4", hour="08")
         self.scheduler.start()

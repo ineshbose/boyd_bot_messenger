@@ -71,6 +71,6 @@ class Database:
         for d in self.db.find({}):
             d_to_r.append(self.sanitize(d))
         return d_to_r
-    
+
     def clear_db(self):
         return self.db.drop()

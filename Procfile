@@ -1,1 +1,2 @@
-web: gunicorn --workers 1 run:app clock: python clock.py
+web: gunicorn --workers 1 run:app
+clock: python clock.py

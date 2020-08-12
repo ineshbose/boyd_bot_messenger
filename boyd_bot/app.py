@@ -67,7 +67,7 @@ def new_user_registration(reg_id):
         uni_id = request.form.get("uni_id")
         uni_pw = request.form.get("uni_pw")
         subscribe = request.form.get("subscribe")
-        
+
         remember = (
             request.form.get("remember")
             if app.config["FEATURES"]["ONE_TIME_USE"]
@@ -87,8 +87,7 @@ def new_user_registration(reg_id):
 
         db.delete_data(uid)
         db.delete_data(reg_id)
-        user_details = {"uni_id": uni_id, "uni_pw": uni_pw} if remember else {}
-        user_details["subscribe"] = subscribe
+        user_details = {"uni_id": uni_id, "uni_pw": uni_pw, "subscribe": subscribe} if remember else {}
         db.insert_data(uid, **user_details)
         platform.send_message(uid, app.config["MSG"]["REG_ACKNOWLEDGE"])
 
