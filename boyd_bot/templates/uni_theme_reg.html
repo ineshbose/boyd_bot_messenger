@@ -22,9 +22,29 @@
                     {{ form.uni_id(placeholder="GUID", class_="form-control") }}
                     {{ form.uni_pw(placeholder=form.uni_pw.label.text, class_="form-control") }}
                     {{ form.submit(value="Log in with your GUID", class_="button-control") }}
-                    <a href="https://password.gla.ac.uk/">Forgot your password?</a><br>
-                    {% if config.FEATURES.ONE_TIME_USE and form.remember.data %}
-                        {{ form.remember }} {{ form.remember.label }}
+                    <a href="https://password.gla.ac.uk/">Forgot your password?</a>
+                    {% if form.remember.data %}
+                        <script>
+                            function showHideSubscribe(){
+                                var checked = document.getElementById("remember").checked;
+                                if (checked){
+                                    document.getElementById("subscribe").disabled = false;
+                                }
+                                else{
+                                    document.getElementById("subscribe").disabled = true;
+                                    document.getElementById("subscribe").checked = false;
+                                }
+                            }
+                            showHideSubscribe()
+                        </script>
+                        {% if config.FEATURES.ONE_TIME_USE %}
+                            <br>
+                            {{ form.remember(onchange="showHideSubscribe()") }} {{ form.remember.label }}
+                        {% endif %}
+                        {% if (config.FEATURES.SCHEDULER.SERVER or config.FEATURES.SCHEDULER.APP) %}
+                            <br>
+                            {{ form.subscribe }} {{ form.subscribe.label }}
+                        {% endif %}
                     {% endif %}
                 </form>
                 {% endif %}

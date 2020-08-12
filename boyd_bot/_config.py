@@ -29,8 +29,8 @@ app.config["FEATURES"] = {
     
     "SCHEDULER": {  # Background processing (read https://github.com/ineshbose/boyd_bot_messenger/issues/3)
         
-        "PROCFILE": True,  # If your hosting service shuts down the app after being idle, use clock.py
-        "BACKGROUND": False,  # If you have a paid service, use background scheduler
+        "SERVER": True,  # If your hosting service needs to run scheduler separately
+        "APP": False,  # If you can run scheduler along with app (no down-time)
     
     },
 

@@ -1,8 +1,8 @@
 import time
 import atexit
 import datetime
-from .. import db, timetable, platform
-from apscheduler.schedulers.background import BlockingScheduler
+from .. import db, timetable, platform, app
+from apscheduler.schedulers.background import BlockingScheduler, BackgroundScheduler
 
 
 class Scheduler:
@@ -11,7 +11,10 @@ class Scheduler:
     """
 
     def __init__(self):
-        self.scheduler = BlockingScheduler()
+        if app.config["FEATURES"]["SCHEDULER"]["APP"]:
+            self.scheduler = BackgroundScheduler()
+        elif app.config["FEATURES"]["SCHEDULER"]["SERVER"]:
+            self.scheduler = BlockingScheduler()
 
     def clear_db(self):
         db.clear_db()
@@ -19,7 +22,7 @@ class Scheduler:
     def remind(self):
         dataset = db.get_list()
         for data in dataset:
-            if data.get("uni_id"):
+            if data.get("subscribe"):
                 if timetable.login(data["_id"], data["uni_id"], data["uni_pw"])[0]:
                     res = timetable.read(data["_id"], datetime.datetime.now().isoformat())
                     for r in res:
