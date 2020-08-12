@@ -22,7 +22,16 @@ app.config["MSG"] = {
 
 # Features you can switch on/off
 app.config["FEATURES"] = {
+    
     "ONE_TIME_USE": True,  # On-going issue (read https://github.com/ineshbose/boyd_bot_messenger/issues/8)
+    
     "DEMO": True,  # Works for chatbots without platform user-accounts (eg Dialogflow Web Demo / Embedded)
-    "SCHEDULER": True,  # Background processing (read https://github.com/ineshbose/boyd_bot_messenger/issues/3)
+    
+    "SCHEDULER": {  # Background processing (read https://github.com/ineshbose/boyd_bot_messenger/issues/3)
+        
+        "PROCFILE": True,  # If your hosting service shuts down the app after being idle, use clock.py
+        "BACKGROUND": False,  # If you have a paid service, use background scheduler
+    
+    },
+
 }

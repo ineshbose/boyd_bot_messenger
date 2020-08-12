@@ -54,7 +54,7 @@ platform = Platform(platform_token=os.environ.get("PLATFORM_TOKEN"))
 
 from .services.scheduler import Scheduler
 
-if app.config["FEATURES"]["SCHEDULER"]:
+if app.config["FEATURES"]["SCHEDULER"]["BACKGROUND"]:
     scheduler = Scheduler()
     s_thread = threading.Thread(target=scheduler.run)
     s_thread.start()
