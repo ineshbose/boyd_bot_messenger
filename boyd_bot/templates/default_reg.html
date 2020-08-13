@@ -31,7 +31,7 @@
                 <br>
                 {{ form.remember(onchange="showHideSubscribe()") }} {{ form.remember.label }}
             {% endif %}
-            {% if (config.FEATURES.SCHEDULER.SERVER or config.FEATURES.SCHEDULER.APP) %}
+            {% if config.FEATURES.SCHEDULER %}
                 <br>
                 {{ form.subscribe }} {{ form.subscribe.label }}
             {% endif %}

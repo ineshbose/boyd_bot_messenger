@@ -9,6 +9,12 @@ class Parser:
     def __init__(self):
         pass
 
+    def help_text(self):
+        return ("I'm your university chatbot, so you can ask me (almost) anything regarding your timetable!\n"
+        "For example, 'classes today', 'do I have psychology tomorrow?', 'march 3rd'.\n\n"
+        "If you want, you can stop using my help and have your data deleted by saying 'delete data'\n",
+        "but I don't want you to go! You'll always be welcome back. :)")
+
     def delete_data(self, uid):
         return "Deleted! :)" if db.delete_data(uid) else "Something went wrong. :("
 
@@ -72,6 +78,7 @@ class Parser:
         intent_linking = {
             "delete_data": lambda: self.delete_data(uid),
             "read_timetable": lambda: self.read_timetable(uid, request_data),
+            "help_text": lambda: self.help_text(),
         }
 
         return (

@@ -54,8 +54,7 @@ platform = Platform(platform_token=os.environ.get("PLATFORM_TOKEN"))
 
 from .services.scheduler import Scheduler
 
-if (app.config["FEATURES"]["SCHEDULER"]["APP"]
-    and not app.config["FEATURES"]["SCHEDULER"]["SERVER"]):
+if app.config["FEATURES"]["SCHEDULER"]:
     scheduler = Scheduler()
     scheduler.run()
 

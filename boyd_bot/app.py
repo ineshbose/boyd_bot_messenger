@@ -21,7 +21,7 @@ def webhook():
         response = (
             "It doesn't seem like you've registered yet.\n"
             "Register here: {}/register/{}"
-        ).format(app_url, db.get_reg_id(sender_id))
+        ).format(app_url, db.get_data(sender_id)["reg_id"])
 
     else:
         user_data = platform.get_user_data(sender_id)
@@ -49,7 +49,9 @@ def new_user_registration(reg_id):
         return (
             render_template(
                 app.config["TEMPLATES"]["REG_FORM"],
-                form=RegisterForm(reg_id=reg_id, remember=db.get_reg_id_result(reg_id)),
+                form=RegisterForm(
+                    reg_id=reg_id, remember=db.get_data(reg_id)["platform_user"]
+                ),
             )
             if db.get_data(reg_id)
             else abort(404)
@@ -71,10 +73,10 @@ def new_user_registration(reg_id):
         remember = (
             request.form.get("remember")
             if app.config["FEATURES"]["ONE_TIME_USE"]
-            else db.get_reg_id_result(reg_id)
+            else db.get_data(reg_id)["platform_user"]
         )
 
-        uid = db.get_user_id(reg_id)
+        uid = db.get_data(reg_id)["user_id"]
         login_result = timetable.login(uid, uni_id, uni_pw)
         log("{} undergoing registration. Result: {}".format(uid, login_result))
 
@@ -87,7 +89,11 @@ def new_user_registration(reg_id):
 
         db.delete_data(uid)
         db.delete_data(reg_id)
-        user_details = {"uni_id": uni_id, "uni_pw": uni_pw, "subscribe": subscribe} if remember else {}
+        user_details = (
+            {"uni_id": uni_id, "uni_pw": uni_pw, "subscribe": subscribe}
+            if remember
+            else {}
+        )
         db.insert_data(uid, **user_details)
         platform.send_message(uid, app.config["MSG"]["REG_ACKNOWLEDGE"])
 
@@ -115,7 +121,7 @@ def user_gateway(request_data, uid):
 
                 log("{} failed to log in. Result: {}".format(uid, login_result))
                 db.delete_data(uid)
-                reg_id = db.insert_in_reg(uid)
+                reg_id = db.insert_in_reg(platform.get_id(request_data))
 
                 return (
                     "Whoops! Something went wrong; maybe your login details changed?\n"

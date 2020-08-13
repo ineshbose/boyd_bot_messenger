@@ -24,8 +24,5 @@ app.config["MSG"] = {
 app.config["FEATURES"] = {
     "ONE_TIME_USE": True,  # On-going issue (read https://github.com/ineshbose/boyd_bot_messenger/issues/8)
     "DEMO": True,  # Works for chatbots without platform user-accounts (eg Dialogflow Web Demo / Embedded)
-    "SCHEDULER": {  # Background processing (read https://github.com/ineshbose/boyd_bot_messenger/issues/3)
-        "SERVER": True,  # If your hosting service needs to run scheduler separately
-        "APP": False,  # If you can run scheduler along with app (no down-time)
-    },
+    "SCHEDULER": True,  # Background processing (read https://github.com/ineshbose/boyd_bot_messenger/issues/3)
 }

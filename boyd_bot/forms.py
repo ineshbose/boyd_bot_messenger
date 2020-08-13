@@ -7,6 +7,6 @@ class RegisterForm(FlaskForm):
     reg_id = HiddenField("reg_id")
     uni_id = StringField("University ID", validators=[DataRequired()])
     uni_pw = PasswordField("Password", validators=[DataRequired()])
-    remember = BooleanField("Remember Me For 2 Weeks", default=True)
-    subscribe = BooleanField("Notify Me Every Morning", default=False)
+    remember = BooleanField("Remember Me", default=True)
+    subscribe = BooleanField("Notify Me About My Schedule", default=False)
     submit = SubmitField("Login")
