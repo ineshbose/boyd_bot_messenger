@@ -7,19 +7,32 @@ class Parser:
     """
 
     def __init__(self):
+        """
+        Initialise class with required fields (if any).
+        """
         pass
 
     def help_text(self):
-        return ("I'm your university chatbot, so you can ask me (almost) anything regarding your timetable!\n"
-        "For example, 'classes today', 'do I have psychology tomorrow?', 'march 3rd'.\n\n"
-        "If you want, you can stop using my help and have your data deleted by saying 'delete data'\n",
-        "but I don't want you to go! You'll always be welcome back. :)")
+        """
+        Returns message for "help_text" intent.
+        """
+        return (
+            "I'm your university chatbot, so you can ask me (almost) anything regarding your timetable!\n"
+            "For example, 'classes today', 'do I have psychology tomorrow?', 'march 3rd'.\n\n"
+            "If you want, you can stop using my help and have your data deleted by saying 'delete data'\n"
+            "but I don't want you to go! You'll always be welcome back. :)"
+        )
 
     def delete_data(self, uid):
+        """
+        Returns response for "delete_data" intent.
+        """
         return "Deleted! :)" if db.delete_data(uid) else "Something went wrong. :("
 
     def read_timetable(self, uid, data):
-
+        """
+        Returns message for "read_timetable" intent.
+        """
         param = data["queryResult"]["parameters"]
         dt_param = param["date-time"]
 
@@ -35,7 +48,7 @@ class Parser:
 
         if not dt_param:
             args.extend([None, None])
-            args.append(param["class-name"])
+            args.append(param.get("class-name"))
             message.extend(timetable.read(uid, *args))
 
         else:
@@ -60,15 +73,17 @@ class Parser:
                     )
                     args.extend([dt_val, None])
 
-                args.append(param["class-name"])
+                args.append(param.get("class-name"))
                 message.extend(timetable.read(uid, *args))
 
         return message
 
     def parse(self, request_data, uid):
-
-        intent = request_data["queryResult"]["intent"]
-        message_text = request_data["queryResult"]["queryText"]
+        """
+        Breaks down data to determine intent and generate a response.
+        """
+        message_text = request_data["queryResult"].get("queryText")
+        intent = request_data["queryResult"].get("intent")
         default_reply = None
 
         if not intent:
@@ -78,7 +93,7 @@ class Parser:
         intent_linking = {
             "delete_data": lambda: self.delete_data(uid),
             "read_timetable": lambda: self.read_timetable(uid, request_data),
-            "help_text": lambda: self.help_text(),
+            "help_text": self.help_text,
         }
 
         return (

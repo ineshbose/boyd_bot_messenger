@@ -1,21 +1,22 @@
 import os
 import logging
-import threading
 from flask import Flask, Blueprint
 
 
 app = Flask(__name__)
-app.logger.setLevel(logging.DEBUG)
+app.logger.setLevel(logging.INFO)
 
 app_url = os.environ.get("APP_URL", "http://127.0.0.1")
 app.config["SECRET_KEY"] = os.environ.get("FLASK_KEY")
+app.config["DEBUG"] = (app_url == "http://127.0.0.1")
 
 from . import _config
 
+app.logger.handlers[0].setFormatter(logging.Formatter(app.config["LOG"]["FORMAT"]))
 blueprint = Blueprint("boyd_bot", __name__, template_folder="templates")
 
 from . import views
-from .forms import *
+from .forms import RegisterForm
 
 webhook_token = os.environ.get("VERIFY_TOKEN")
 wb_arg_name = os.environ.get("WB_ARG_NAME")
@@ -63,7 +64,7 @@ def log(message):
     app.logger.info(message)
 
 
-from .app import *
+from .app import webhook, new_user_registration, app
 
 app.register_blueprint(blueprint, url_prefix=app.config["URL_ROOT"])
 

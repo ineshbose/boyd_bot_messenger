@@ -20,4 +20,4 @@ def terms():
 
 @blueprint.app_errorhandler(HTTPException)
 def page_not_found(e):
-    return render_template("error.html", error_code=e.code), e.code
+    return render_template("error.html", error=e), e.code

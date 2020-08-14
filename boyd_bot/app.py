@@ -1,5 +1,6 @@
 from flask import request, redirect, render_template, url_for, abort
-from . import *
+from . import app, blueprint, RegisterForm, webhook_token, wb_arg_name, log
+from . import timetable, guard, db, parser, platform
 
 
 @blueprint.route("/webhook", methods=["GET", "POST"])
@@ -18,10 +19,7 @@ def webhook():
         response = user_gateway(request_data, sender_id)
 
     elif db.check_in_reg(sender_id):
-        response = (
-            "It doesn't seem like you've registered yet.\n"
-            "Register here: {}/register/{}"
-        ).format(app_url, db.get_data(sender_id)["reg_id"])
+        response = app.config["MSG"]["USER_IN_REG"](db.get_data(sender_id)["reg_id"])
 
     else:
         user_data = platform.get_user_data(sender_id)
@@ -30,14 +28,13 @@ def webhook():
             or ("error" in user_data and platform_user)
             or not (platform_user or app.config["FEATURES"]["DEMO"])
         ):
-            log("{} is not a valid user".format(sender_id))
+            log(app.config["LOG"]["INVALID_USER"](sender_id))
             abort(401)
 
         reg_id = db.insert_in_reg(sender_id, platform_user)
-        response = (
-            "Hey there, {}! I'm Boyd Bot - your university chatbot, here to make things easier. "
-            "To get started, register here: {}/register/{}"
-        ).format(user_data.get("first_name", "new person"), app_url, reg_id)
+        response = app.config["MSG"]["NEW_USER"](
+            user_data.get("first_name", "new person"), reg_id
+        )
 
     return platform.reply(response)
 
@@ -78,7 +75,7 @@ def new_user_registration(reg_id):
 
         uid = db.get_data(reg_id)["user_id"]
         login_result = timetable.login(uid, uni_id, uni_pw)
-        log("{} undergoing registration. Result: {}".format(uid, login_result))
+        log(app.config["LOG"]["USER_AUTH"](uid, login_result))
 
         if not login_result[0]:
             return render_template(
@@ -107,7 +104,7 @@ def user_gateway(request_data, uid):
 
         if not timetable.check_loggedIn(user_data["_id"]):
 
-            log("{} logging in again.".format(uid))
+            log(app.config["LOG"]["RELOGIN"](uid))
 
             if not guard.sanitized(user_data, ["uni_id", "uni_pw"]):
                 db.delete_data(uid)
@@ -119,23 +116,16 @@ def user_gateway(request_data, uid):
 
             if not login_result[0]:
 
-                log("{} failed to log in. Result: {}".format(uid, login_result))
+                log(app.config["LOG"]["AUTH_FAIL"](uid, login_result))
                 db.delete_data(uid)
-                reg_id = db.insert_in_reg(platform.get_id(request_data))
+                reg_id = db.insert_in_reg(*platform.get_id(request_data))
 
-                return (
-                    "Whoops! Something went wrong; maybe your login details changed?\n"
-                    "Register here: {}/register/{}"
-                ).format(app_url, reg_id)
+                return app.config["MSG"]["ERROR_LOGIN"](reg_id)
 
         message = parser.parse(request_data, uid)
 
     except Exception as e:
-        log(
-            "Exception ({}) thrown: {}. {} requested '{}'.".format(
-                type(e).__name__, e, uid, request_data
-            )
-        )
+        log(app.config["LOG"]["ERROR"](type(e).__name__, e, uid, request_data))
         message = app.config["MSG"]["ERROR_MSG"]
 
     return message

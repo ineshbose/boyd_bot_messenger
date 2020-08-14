@@ -8,9 +8,15 @@ class Platform:
     """
 
     def __init__(self, platform_token):
+        """
+        Initialise class with a token provided by the platform.
+        """
         self.platform_token = platform_token
 
     def send_message(self, uid, message):
+        """
+        Send message to a platform user through their ID.
+        """
 
         data = {
             "messaging_type": "RESPONSE",
@@ -26,6 +32,9 @@ class Platform:
         )
 
     def get_user_data(self, uid):
+        """
+        Get basic information about the user from the platform.
+        """
         req = requests.get(
             "https://graph.facebook.com/v7.0/{}?access_token={}".format(
                 uid, self.platform_token
@@ -34,6 +43,9 @@ class Platform:
         return req.json()
 
     def get_id(self, data):
+        """
+        Get user's ID assigned by the platform.
+        """
         try:
             return (
                 data["originalDetectIntentRequest"]["payload"]["data"]["sender"]["id"],
@@ -48,6 +60,9 @@ class Platform:
             )
 
     def reply(self, message=None):
+        """
+        Send a response to a message sent by the user.
+        """
         res = {"fulfillmentMessages": []}
         message = [message] if not isinstance(message, list) else message
 
