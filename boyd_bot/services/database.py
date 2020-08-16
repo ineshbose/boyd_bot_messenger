@@ -5,7 +5,8 @@ from .. import guard
 
 class Database:
     """
-    A modular, custom API for the database that will store necessary details about users for fetching their timetable.
+    A modular, custom API for the database that will store
+    necessary details about users for fetching their timetable.
     """
 
     def __init__(self, db_token, key1, key2):
@@ -46,7 +47,7 @@ class Database:
 
     def delete_data(self, uid):
         """
-        Delete data from the database using primary key and return deletion result.
+        Delete data from the database using primary key and return result.
         """
         return self.db.delete_one({"_id": uid}).deleted_count
 

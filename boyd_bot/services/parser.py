@@ -3,7 +3,8 @@ from .. import db, timetable
 
 class Parser:
     """
-    Breaks down data to get information, trigger events and generate a response.
+    Breaks down data to get information,
+    trigger events and generate a response.
     """
 
     def __init__(self):
@@ -17,9 +18,11 @@ class Parser:
         Returns message for "help_text" intent.
         """
         return (
-            "I'm your university chatbot, so you can ask me (almost) anything regarding your timetable!\n"
-            "For example, 'classes today', 'do I have psychology tomorrow?', 'march 3rd'.\n\n"
-            "If you want, you can stop using my help and have your data deleted by saying 'delete data'\n"
+            "I'm your university chatbot, so you can ask me "
+            "(almost) anything regarding your timetable!\n"
+            "For example, 'classes today', 'do I have psychology tomorrow?', "
+            "'march 3rd'.\n\nIf you want, you can stop using my help and "
+            "have your data deleted by saying 'delete data' "
             "but I don't want you to go! You'll always be welcome back. :)"
         )
 
@@ -27,7 +30,11 @@ class Parser:
         """
         Returns response for "delete_data" intent.
         """
-        return "Deleted! :)" if db.delete_data(uid) else "Something went wrong. :("
+        return (
+            "Deleted! :)"
+            if db.delete_data(uid)
+            else "Something went wrong. :("
+        )
 
     def read_timetable(self, uid, data):
         """
@@ -53,23 +60,24 @@ class Parser:
 
         else:
 
-            for single_dt in dt_param:
+            for s_dt in dt_param:
                 args.clear()
 
                 for p_key in param_keys:
-                    if p_key in single_dt:
+                    if p_key in s_dt:
                         dt_keys = param_keys[p_key]
                         args.extend(
                             [
-                                single_dt[dt_keys[0]],
-                                single_dt[dt_keys[1]] if len(dt_keys) > 1 else None,
+                                s_dt[dt_keys[0]],
+                                s_dt[dt_keys[1]]
+                                if len(dt_keys) > 1 else None,
                             ]
                         )
                         break
 
                 if not args:
                     dt_val = (
-                        single_dt[:10] + "T00:00:00" + single_dt[19 : len(single_dt)]
+                        f"{s_dt[:10]}T00:00:00{s_dt[19:len(s_dt)]}"
                     )
                     args.extend([dt_val, None])
 

@@ -13,6 +13,9 @@ class Scheduler:
         Creating an instance of the scheduler package.
         """
         self.scheduler = BackgroundScheduler()
+        self.uni_months = "09-11,1-3"  # When university is on
+        self.uni_days = "mon-fri"  # Weekdays
+        self.uni_hours = "7-20"  # Best to avoid night-time
 
     def clear_db(self):
         """
@@ -36,9 +39,11 @@ class Scheduler:
                 )
                 and timetable.iterate(uid, time1, time2)
             ):
+                u_dt = platform.get_user_data(uid)
                 for msg in timetable.read(uid, time1, time2):
-                    msg = "Hey, {}! Hope you're on your way to\n{}".format(
-                        platform.get_user_data(uid).get("first_name", "heads up"), msg
+                    msg = (
+                        f'Hey {u_dt.get("first_name", " - heads up")}! '
+                        f"Hope you're on your way to\n{msg}"
                     )
                     platform.send_message(uid, msg)
 
@@ -46,20 +51,22 @@ class Scheduler:
         """
         Job to send users their schedule in the morning.
         """
+        time_now = datetime.now()
         for data in db.get_all():
             uid = data["_id"]
             if data.get("subscribe") and (
                 timetable.check_loggedIn(uid)
                 or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
             ):
+                u_dt = platform.get_user_data(uid)
                 for msg_no, msg in enumerate(
-                    timetable.read(uid, datetime.now().isoformat())
+                    timetable.read(uid, time_now.isoformat())
                 ):
                     if msg_no == 0:
-                        msg = "Morning, {}! Today is {} and your schedule is..\n{}".format(
-                            platform.get_user_data(uid).get("first_name", "sunshine"),
-                            datetime.now().strftime("%d %B (%A)"),
-                            msg,
+                        msg = (
+                            f'Morning, {u_dt.get("first_name", "sunshine")}! '
+                            f'Today is {time_now.strftime("%d %B (%A)")} '
+                            f"and your schedule is..\n{msg}"
                         )
                     platform.send_message(uid, msg)
 
@@ -67,13 +74,26 @@ class Scheduler:
         """
         Starts the scheduler in the background.
         """
-        self.scheduler.add_job(func=self.clear_db, trigger="cron", day="last")
+        self.scheduler.add_job(
+            func=self.clear_db,
+            trigger="cron",
+            week="*/3",  # Clear every 3 weeks
+        )
+
         self.scheduler.add_job(
             func=self.morning_alert,
             trigger="cron",
-            month="09-11,1-3",  # When university is on
-            day_of_week="mon-fri",  # Weekdays
+            month=self.uni_months,
+            day_of_week=self.uni_days,
             hour="08",  # At 8AM every morning
         )
-        self.scheduler.add_job(func=self.check_class, trigger="interval", minutes=10)
+
+        self.scheduler.add_job(
+            func=self.check_class,
+            trigger="cron",
+            month=self.uni_months,
+            hour=self.uni_hours,
+            minute="*/10",  # Every 10 minutes
+        )
+
         self.scheduler.start()

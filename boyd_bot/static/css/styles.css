@@ -6282,6 +6282,14 @@ button.bg-light:focus {
   background-color: #343a40 !important;
 }
 
+.bg-gradient {
+  background: linear-gradient(#3697ff, #a28dff);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
 a.bg-dark:hover, a.bg-dark:focus,
 button.bg-dark:hover,
 button.bg-dark:focus {
@@ -10228,7 +10236,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url("../img/bg-masthead.jpg");
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url("https://images.unsplash.com/photo-1515847049296-a281d6401047?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -10306,7 +10314,7 @@ body {
 }
 
 .signup-section {
-  padding: 5rem 2rem;
+  padding: 20vh 2vh;
   align-items: center;
   text-align: center;
   background: linear-gradient(#3697ff, #a28dff);
@@ -10314,7 +10322,9 @@ body {
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
+  height: 80vh;
 }
+
 .signup-section .form-inline input {
   box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
   padding: 1.25rem 2rem;
@@ -10324,6 +10334,13 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.15rem;
   border: 0;
+}
+
+
+@media (min-width: 1200px){
+  .signup-section{
+    padding: 20vh 40vh;
+  }
 }
 
 .contact-section {

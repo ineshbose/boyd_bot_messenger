@@ -1,6 +1,7 @@
 from flask import request, redirect, render_template, url_for, abort
 from . import app, blueprint, RegisterForm, webhook_token, wb_arg_name, log
 from . import timetable, guard, db, parser, platform
+from ._config import config
 
 
 @blueprint.route("/webhook", methods=["GET", "POST"])
@@ -9,7 +10,10 @@ def webhook():
     if request.method == "GET":
         return redirect(url_for(".index"))
 
-    if not guard.sanitized([request.headers, request.args], wb_arg_name, webhook_token):
+    if not (
+        guard.sanitized(request.headers, wb_arg_name, webhook_token)
+        or guard.sanitized(request.args, wb_arg_name, webhook_token)
+    ):
         abort(403)
 
     request_data = request.get_json()
@@ -19,20 +23,20 @@ def webhook():
         response = user_gateway(request_data, sender_id)
 
     elif db.check_in_reg(sender_id):
-        response = app.config["MSG"]["USER_IN_REG"](db.get_data(sender_id)["reg_id"])
+        response = config["MSG"]["NOT_REG"](db.get_data(sender_id)["reg_id"])
 
     else:
         user_data = platform.get_user_data(sender_id)
         if (
             not sender_id
             or ("error" in user_data and platform_user)
-            or not (platform_user or app.config["FEATURES"]["DEMO"])
+            or not (platform_user or config["FEATURES"]["DEMO"])
         ):
-            log(app.config["LOG"]["INVALID_USER"](sender_id))
+            log(config["LOG"]["INVALID_USER"](sender_id))
             abort(401)
 
         reg_id = db.insert_in_reg(sender_id, platform_user)
-        response = app.config["MSG"]["NEW_USER"](
+        response = config["MSG"]["NEW_USER"](
             user_data.get("first_name", "new person"), reg_id
         )
 
@@ -45,10 +49,9 @@ def new_user_registration(reg_id):
     if request.method == "GET":
         return (
             render_template(
-                app.config["TEMPLATES"]["REG_FORM"],
-                form=RegisterForm(
-                    reg_id=reg_id, remember=db.get_data(reg_id)["platform_user"]
-                ),
+                config["TEMPLATES"]["REG_FORM"],
+                allow_remember=db.get_data(reg_id)["platform_user"],
+                form=RegisterForm(reg_id=reg_id),
             )
             if db.get_data(reg_id)
             else abort(404)
@@ -69,18 +72,19 @@ def new_user_registration(reg_id):
 
         remember = (
             request.form.get("remember")
-            if app.config["FEATURES"]["ONE_TIME_USE"]
+            if config["FEATURES"]["ONE_TIME_USE"]
             else db.get_data(reg_id)["platform_user"]
         )
 
         uid = db.get_data(reg_id)["user_id"]
         login_result = timetable.login(uid, uni_id, uni_pw)
-        log(app.config["LOG"]["USER_AUTH"](uid, login_result))
+        log(config["LOG"]["USER_AUTH"](uid, login_result))
 
         if not login_result[0]:
             return render_template(
-                app.config["TEMPLATES"]["REG_FORM"],
-                form=RegisterForm(reg_id=reg_id, remember=remember),
+                config["TEMPLATES"]["REG_FORM"],
+                allow_remember=db.get_data(reg_id)["platform_user"],
+                form=RegisterForm(reg_id=reg_id),
                 message=login_result[1],
             )
 
@@ -92,9 +96,9 @@ def new_user_registration(reg_id):
             else {}
         )
         db.insert_data(uid, **user_details)
-        platform.send_message(uid, app.config["MSG"]["REG_ACKNOWLEDGE"])
+        platform.send_message(uid, config["MSG"]["REG_ACKNOWLEDGE"])
 
-        return render_template(app.config["TEMPLATES"]["REG_FORM"], success=True)
+        return render_template(config["TEMPLATES"]["REG_FORM"], success=True)
 
 
 def user_gateway(request_data, uid):
@@ -104,11 +108,11 @@ def user_gateway(request_data, uid):
 
         if not timetable.check_loggedIn(user_data["_id"]):
 
-            log(app.config["LOG"]["RELOGIN"](uid))
+            log(config["LOG"]["RELOGIN"](uid))
 
             if not guard.sanitized(user_data, ["uni_id", "uni_pw"]):
                 db.delete_data(uid)
-                return app.config["MSG"]["ONE_TIME_DONE"]
+                return config["MSG"]["ONE_TIME_DONE"]
 
             login_result = timetable.login(
                 user_data["_id"], user_data["uni_id"], user_data["uni_pw"]
@@ -116,16 +120,16 @@ def user_gateway(request_data, uid):
 
             if not login_result[0]:
 
-                log(app.config["LOG"]["AUTH_FAIL"](uid, login_result))
+                log(config["LOG"]["AUTH_FAIL"](uid, login_result))
                 db.delete_data(uid)
                 reg_id = db.insert_in_reg(*platform.get_id(request_data))
 
-                return app.config["MSG"]["ERROR_LOGIN"](reg_id)
+                return config["MSG"]["ERROR_LOGIN"](reg_id)
 
         message = parser.parse(request_data, uid)
 
     except Exception as e:
-        log(app.config["LOG"]["ERROR"](type(e).__name__, e, uid, request_data))
-        message = app.config["MSG"]["ERROR_MSG"]
+        log(config["LOG"]["ERROR"](type(e).__name__, e, uid, request_data))
+        message = config["MSG"]["ERROR_MSG"]
 
     return message

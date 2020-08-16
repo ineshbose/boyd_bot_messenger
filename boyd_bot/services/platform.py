@@ -1,4 +1,5 @@
-import requests, json
+import json
+import requests
 from flask import make_response
 
 
@@ -11,7 +12,8 @@ class Platform:
         """
         Initialise class with a token provided by the platform.
         """
-        self.platform_token = platform_token
+        self.p_token = platform_token
+        self.url = "https://graph.facebook.com/v7.0/"
 
     def send_message(self, uid, message):
         """
@@ -25,21 +27,14 @@ class Platform:
         }
 
         return requests.post(
-            "https://graph.facebook.com/v7.0/me/messages?access_token={}".format(
-                self.platform_token
-            ),
-            json=data,
+            f"{self.url}me/messages?access_token={self.p_token}", json=data,
         )
 
     def get_user_data(self, uid):
         """
         Get basic information about the user from the platform.
         """
-        req = requests.get(
-            "https://graph.facebook.com/v7.0/{}?access_token={}".format(
-                uid, self.platform_token
-            )
-        )
+        req = requests.get(f"{self.url}{uid}?access_token={self.p_token}")
         return req.json()
 
     def get_id(self, data):
@@ -48,7 +43,8 @@ class Platform:
         """
         try:
             return (
-                data["originalDetectIntentRequest"]["payload"]["data"]["sender"]["id"],
+                data["originalDetectIntentRequest"][
+                    "payload"]["data"]["sender"]["id"],
                 True,
             )
         except (KeyError, TypeError):

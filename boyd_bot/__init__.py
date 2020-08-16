@@ -1,3 +1,5 @@
+# flake8: noqa
+
 import os
 import logging
 from flask import Flask, Blueprint
@@ -6,9 +8,9 @@ from flask import Flask, Blueprint
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 
-app_url = os.environ.get("APP_URL", "http://127.0.0.1")
+app_url = os.environ.get("APP_URL", "http://127.0.0.1:5000")
 app.config["SECRET_KEY"] = os.environ.get("FLASK_KEY")
-app.config["DEBUG"] = (app_url == "http://127.0.0.1")
+app.config["DEBUG"] = app_url == "http://127.0.0.1:5000"
 
 from . import _config
 
@@ -71,12 +73,10 @@ app.register_blueprint(blueprint, url_prefix=app.config["URL_ROOT"])
 
 @app.after_request
 def secure_http_header(response):
-    response.headers[
-        "Strict-Transport-Security"
-    ] = "max-age=31536000; includeSubDomains"
-    response.headers["Content-Security-Policy"] = "default-src * 'unsafe-inline'"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000"
+    response.headers["Content-Security-Policy"] = "default-src 'self' *"
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "same-origin"
-    response.headers["Feature-Policy"] = "none"
+    response.headers["Feature-Policy"] = "geolocation 'none'"
     return response

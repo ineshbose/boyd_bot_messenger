@@ -38,18 +38,13 @@ class Guard:
 
     def sanitized(self, request, key, val=None):
         """
-        Check for keys and values in a HTTP request.
+        Check for keys and values in a dictionary/request.
         """
         result = False
-        request = [request] if not isinstance(request, list) else request
         key = [key] if not isinstance(key, list) else key
-
-        for r in request:
-            if all(k in r for k in key):
-                result = True
-                if val:
-                    result = val in r.values()
-            if result:
-                break
+        if all(k in request for k in key):
+            result = True
+            if val:
+                result = val in request.values()
 
         return result
