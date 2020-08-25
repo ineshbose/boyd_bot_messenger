@@ -15,7 +15,6 @@ This file is not a `.cfg` file placed outside of the app folder for a little eas
 ## Messages
 
 `app.config["MSG"]` allows you to replace some messages wherever possible.
-`f-strings` are not supported currently.
 
 
 ## Features

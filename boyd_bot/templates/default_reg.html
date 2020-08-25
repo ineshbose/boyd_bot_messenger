@@ -2,6 +2,7 @@
 
 {% block body_block %}
     <div class="signup-section">
+        <h2 class="text-white mb-5"><i class="fas fa-sign-in-alt"></i> Login</h2>
     {% if success %}
     <div class="alert-success">{{ config.MSG.SUCCESS_MSG }}</div>
     {% else %}
@@ -13,8 +14,16 @@
         {{ form.uni_id(placeholder=form.uni_id.label.text, class_="form-control") }}
         {{ form.uni_pw(placeholder=form.uni_pw.label.text, class_="form-control") }} <br>
         {{ form.submit(value=form.submit.label.text, class_="button-control") }} <br>
-        {% if config.FEATURES.ONE_TIME_USE and form.remember.data %}
-            {{ form.remember }} {{ form.remember.label }}
+        {% if allow_remember %}
+            <script src="/static/js/form.js"></script>
+            {% if config.FEATURES.ONE_TIME_USE %}
+                <br>
+                {{ form.remember }} {{ form.remember.label }}
+            {% endif %}
+            {% if config.FEATURES.SCHEDULER %}
+                <br>
+                {{ form.subscribe }} {{ form.subscribe.label }}
+            {% endif %}
         {% endif %}
     </form>
     {% endif %}

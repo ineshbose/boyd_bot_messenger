@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired
-from wtforms import StringField, PasswordField, SubmitField, HiddenField, BooleanField
+from wtforms import StringField, PasswordField
+from wtforms import SubmitField, HiddenField, BooleanField
 
 
 class RegisterForm(FlaskForm):
@@ -8,4 +9,5 @@ class RegisterForm(FlaskForm):
     uni_id = StringField("University ID", validators=[DataRequired()])
     uni_pw = PasswordField("Password", validators=[DataRequired()])
     remember = BooleanField("Remember Me", default=True)
+    subscribe = BooleanField("Notify Me About My Schedule", default=False)
     submit = SubmitField("Login")

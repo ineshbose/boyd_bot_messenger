@@ -1,24 +1,41 @@
-certifi==2020.6.20
-cffi==1.14.0
-chardet==3.0.4
-click==7.1.2
+APScheduler==3.6.3
 cryptography==2.9.2
-dnspython==2.0.0
 Flask==1.1.2
-Flask-WTF==0.14.3
-gunicorn==20.0.4
 icalendar==4.0.6
-idna==2.9
-itsdangerous==1.1.0
-Jinja2==2.11.2
-MarkupSafe==1.1.1
-pycparser==2.20
-pymongo==3.10.1
-python-dateutil==2.8.1
-pytz==2020.1
+pymongo==3.11.0
 rapidfuzz==0.9.1
 requests==2.24.0
-six==1.15.0
+
+
+# requests
+certifi==2020.6.20
+chardet==3.0.4
+idna==2.9
 urllib3==1.25.9
+
+
+# cryptography
+six==1.15.0
+cffi==1.14.0
+pycparser==2.20
+
+
+# flask
+click==7.1.2
+itsdangerous==1.1.0
+Jinja2==2.11.2
 Werkzeug==1.0.1
+
+Flask-WTF==0.14.3
 WTForms==2.3.1
+MarkupSafe==1.1.1
+
+
+# icalendar
+python-dateutil==2.8.1
+pytz==2020.1
+
+
+# production
+dnspython==2.0.0
+gunicorn==20.0.4

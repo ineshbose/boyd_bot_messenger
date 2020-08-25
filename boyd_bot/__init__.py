@@ -1,20 +1,24 @@
+# flake8: noqa
+
 import os
 import logging
 from flask import Flask, Blueprint
 
 
 app = Flask(__name__)
-app.logger.setLevel(logging.DEBUG)
+app.logger.setLevel(logging.INFO)
 
-app_url = os.environ.get("APP_URL", "http://127.0.0.1")
+app_url = os.environ.get("APP_URL", "http://127.0.0.1:5000")
 app.config["SECRET_KEY"] = os.environ.get("FLASK_KEY")
+app.config["DEBUG"] = "127.0.0.1" in app_url
 
 from . import _config
 
+app.logger.handlers[0].setFormatter(logging.Formatter(app.config["LOG"]["FORMAT"]))
 blueprint = Blueprint("boyd_bot", __name__, template_folder="templates")
 
 from . import views
-from .forms import *
+from .forms import RegisterForm
 
 webhook_token = os.environ.get("VERIFY_TOKEN")
 wb_arg_name = os.environ.get("WB_ARG_NAME")
@@ -51,23 +55,28 @@ from .services.platform import Platform
 platform = Platform(platform_token=os.environ.get("PLATFORM_TOKEN"))
 
 
+from .services.scheduler import Scheduler
+
+if app.config["FEATURES"]["SCHEDULER"]:
+    scheduler = Scheduler()
+    scheduler.run()
+
+
 def log(message):
     app.logger.info(message)
 
 
-from .app import *
+from .app import webhook, new_user_registration, app
 
 app.register_blueprint(blueprint, url_prefix=app.config["URL_ROOT"])
 
 
 @app.after_request
 def secure_http_header(response):
-    response.headers[
-        "Strict-Transport-Security"
-    ] = "max-age=31536000; includeSubDomains"
-    response.headers["Content-Security-Policy"] = "default-src * 'unsafe-inline'"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000"
+    response.headers["Content-Security-Policy"] = "default-src 'self' *"
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "same-origin"
-    response.headers["Feature-Policy"] = "none"
+    response.headers["Feature-Policy"] = "geolocation 'none'"
     return response

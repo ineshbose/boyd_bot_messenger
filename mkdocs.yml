@@ -51,6 +51,7 @@ nav:
         - database.py: files/services/database.md
         - parser.py: files/services/parser.md
         - guard.py: files/services/guard.md
+        - scheduler.py: files/services/scheduler.md
       - miscellaneous:
         - templates: files/miscellaneous/templates.md
         - _config.py: files/miscellaneous/config.md

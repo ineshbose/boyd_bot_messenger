@@ -7,6 +7,7 @@
         <!-- It's a good idea to style the registration form with a theme that is familiar to users and can get their trust.-->
         <link rel="shortcut icon" href="/static/img/unibot.ico">
         <link rel="stylesheet" type="text/css" href="/static/css/hillhead-theme.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div class="region-main">
@@ -19,12 +20,20 @@
                 {% endif %}
                 <form action="{{ url_for('.new_user_registration', reg_id=form.reg_id.data) }}" method="post" validate>
                     {{ form.hidden_tag() }}
-                    {{ form.uni_id(placeholder="GUID", class_="form-control") }}
+                    {{ form.uni_id(placeholder="Username", class_="form-control") }}
                     {{ form.uni_pw(placeholder=form.uni_pw.label.text, class_="form-control") }}
                     {{ form.submit(value="Log in with your GUID", class_="button-control") }}
-                    <a href="https://password.gla.ac.uk/">Forgot your password?</a><br>
-                    {% if config.FEATURES.ONE_TIME_USE and form.remember.data %}
-                        {{ form.remember }} {{ form.remember.label }}
+                    <a href="https://password.gla.ac.uk/">Forgot your password?</a>
+                    {% if allow_remember %}
+                        <script src="/static/js/form.js"></script>
+                        {% if config.FEATURES.ONE_TIME_USE %}
+                            <br>
+                            {{ form.remember }} {{ form.remember.label }}
+                        {% endif %}
+                        {% if config.FEATURES.SCHEDULER %}
+                            <br>
+                            {{ form.subscribe }} {{ form.subscribe.label }}
+                        {% endif %}
                     {% endif %}
                 </form>
                 {% endif %}

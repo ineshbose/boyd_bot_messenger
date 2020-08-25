@@ -1,4 +1,5 @@
-import requests, json
+import json
+import requests
 from flask import make_response
 
 
@@ -8,9 +9,16 @@ class Platform:
     """
 
     def __init__(self, platform_token):
-        self.platform_token = platform_token
+        """
+        Initialise class with a token provided by the platform.
+        """
+        self.p_token = platform_token
+        self.url = "https://graph.facebook.com/v7.0/"
 
     def send_message(self, uid, message):
+        """
+        Send message to a platform user through their ID.
+        """
 
         data = {
             "messaging_type": "RESPONSE",
@@ -19,24 +27,24 @@ class Platform:
         }
 
         return requests.post(
-            "https://graph.facebook.com/v7.0/me/messages?access_token={}".format(
-                self.platform_token
-            ),
-            json=data,
+            f"{self.url}me/messages?access_token={self.p_token}", json=data,
         )
 
     def get_user_data(self, uid):
-        req = requests.get(
-            "https://graph.facebook.com/v7.0/{}?access_token={}".format(
-                uid, self.platform_token
-            )
-        )
+        """
+        Get basic information about the user from the platform.
+        """
+        req = requests.get(f"{self.url}{uid}?access_token={self.p_token}")
         return req.json()
 
     def get_id(self, data):
+        """
+        Get user's ID assigned by the platform.
+        """
         try:
             return (
-                data["originalDetectIntentRequest"]["payload"]["data"]["sender"]["id"],
+                data["originalDetectIntentRequest"][
+                    "payload"]["data"]["sender"]["id"],
                 True,
             )
         except (KeyError, TypeError):
@@ -48,6 +56,9 @@ class Platform:
             )
 
     def reply(self, message=None):
+        """
+        Send a response to a message sent by the user.
+        """
         res = {"fulfillmentMessages": []}
         message = [message] if not isinstance(message, list) else message
 
