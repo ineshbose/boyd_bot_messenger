@@ -37,13 +37,14 @@ class Scheduler:
                     timetable.check_loggedIn(uid)
                     or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
                 )
-                and timetable.iterate(uid, time1, time2)
             ):
+                user_schedule = timetable.iterate(uid, time1, time2)
                 u_dt = platform.get_user_data(uid)
-                for msg in timetable.read(uid, time1, time2):
+                for event in user_schedule:
+                    evt = timetable.format_event(event)
                     msg = (
                         f'Hey {u_dt.get("first_name", " - heads up")}! '
-                        f"Hope you're on your way to\n{msg}"
+                        f"Hope you're on your way to\n{evt}"
                     )
                     platform.send_message(uid, msg)
 

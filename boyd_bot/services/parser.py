@@ -90,7 +90,7 @@ class Parser:
         """
         Breaks down data to determine intent and generate a response.
         """
-        message_text = request_data["queryResult"].get("queryText")
+        # message_text = request_data["queryResult"].get("queryText")
         intent = request_data["queryResult"].get("intent")
         default_reply = None
 

@@ -10,7 +10,7 @@ app.logger.setLevel(logging.INFO)
 
 app_url = os.environ.get("APP_URL", "http://127.0.0.1:5000")
 app.config["SECRET_KEY"] = os.environ.get("FLASK_KEY")
-app.config["DEBUG"] = app_url == "http://127.0.0.1:5000"
+app.config["DEBUG"] = "127.0.0.1" in app_url
 
 from . import _config
 

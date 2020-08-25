@@ -104,10 +104,10 @@ def new_user_registration(reg_id):
 def user_gateway(request_data, uid):
 
     try:
-        user_data = db.get_data(uid)
 
-        if not timetable.check_loggedIn(user_data["_id"]):
+        if not timetable.check_loggedIn(uid):
 
+            user_data = db.get_data(uid)
             log(config["LOG"]["RELOGIN"](uid))
 
             if not guard.sanitized(user_data, ["uni_id", "uni_pw"]):

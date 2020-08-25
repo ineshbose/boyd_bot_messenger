@@ -1,9 +1,13 @@
 import pytz
 import requests
 from datetime import datetime
-from rapidfuzz import fuzz
 from icalendar import Calendar
 from dateutil.parser import parse as dtparse
+
+try:
+    from rapidfuzz import fuzz
+except ImportError:
+    from fuzzywuzzy import fuzz
 
 
 class Timetable:
@@ -34,27 +38,18 @@ class Timetable:
 
     def format_event(self, event):
         return (
-            f'📝 {event["summary"].split("(")[0]}\n'
+            f'📝 {"".join(event["summary"].partition(")")[:2])}\n'
             f'🕘 {event["dtstart"].dt.strftime("%I:%M%p")}'
             f' - {event["dtend"].dt.strftime("%I:%M%p")}\n'
             f'📅 {event["dtstart"].dt.strftime("%d %B %Y (%A)")}\n'
             f'📌 {event.get("location", "No Location Found")}\n'
         )
 
-    def parse_desc(self, event):
-        return (
-            dict(
-                (k.strip(), v.strip())
-                for k, v in (
-                    item.split(":") for item in event["description"].splitlines()
-                )
-            )
-            if "description" in event
-            else None
-        )
-
     def read(self, uid, start_date=None, end_date=None, class_name=None):
-        class_list = self.iterate(uid, start_date, end_date, class_name)
+        class_list = [
+            self.format_event(event)
+            for event in self.iterate(uid, start_date, end_date, class_name)
+        ]
 
         if not class_list:
             return ["There seem to be no classes. :D"]
@@ -91,18 +86,24 @@ class Timetable:
         class_list = []
 
         for event in self.calendars[uid].walk("vevent"):
-            if event["dtstart"].dt >= date1 and event["dtend"].dt <= date2:
+            if event["dtstart"].dt >= date1 and event["dtstart"].dt <= date2:
 
                 if not start_date:
-                    class_list.append(self.format_event(event))
+                    class_list.append(event)
                     break
 
-                class_list.extend(
-                    self.format_event(event)
-                    for c_name in class_name
-                    if fuzz.token_set_ratio(c_name.lower(), event["summary"].lower())
-                    > self.fuzz_threshold
-                ) if class_name else class_list.append(self.format_event(event))
+                _ = (
+                    class_list.extend(
+                        event
+                        for c_name in class_name
+                        if fuzz.token_set_ratio(
+                            c_name.lower(), event["summary"].lower()
+                        )
+                        > self.fuzz_threshold
+                    )
+                    if class_name
+                    else class_list.append(event)
+                )
 
         return class_list
 
