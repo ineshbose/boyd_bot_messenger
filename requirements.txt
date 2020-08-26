@@ -16,7 +16,7 @@ urllib3==1.25.9
 
 # cryptography
 six==1.15.0
-cffi==1.14.0
+cffi==1.14.2
 pycparser==2.20
 
 
