@@ -46,9 +46,16 @@ class Timetable:
         )
 
     def read(self, uid, start_date=None, end_date=None, class_name=None):
+
+        if class_name and not isinstance(class_name, list):
+            class_name = [class_name]
+
         class_list = [
             self.format_event(event)
             for event in self.iterate(uid, start_date, end_date, class_name)
+        ] if start_date else [
+            self.format_event(event)
+            for event in self.get_one(uid, class_name)
         ]
 
         if not class_list:
@@ -67,6 +74,31 @@ class Timetable:
             ]
         )
 
+    def get_one(self, uid, class_name=None):
+
+        date1 = datetime.now(tz=self.tmzn)
+        class_list = []
+
+        if not class_name:
+            for event in self.calendars[uid].walk("vevent"):
+                if event["dtstart"].dt >= date1:
+                    class_list.append(event)
+                    break
+
+        else:
+            for c_name in class_name:
+                for event in self.calendars[uid].walk("vevent"):
+                    if (
+                        event["dtstart"].dt >= date1
+                        and fuzz.token_set_ratio(
+                            c_name.lower(), event["summary"].lower()
+                        ) > self.fuzz_threshold
+                    ):
+                        class_list.append(event)
+                        break
+
+        return class_list
+
     def iterate(self, uid, start_date=None, end_date=None, class_name=None):
 
         date1 = (
@@ -80,17 +112,10 @@ class Timetable:
             else date1.replace(hour=23, minute=59, second=59)
         )
 
-        if class_name and not isinstance(class_name, list):
-            class_name = [class_name]
-
         class_list = []
 
         for event in self.calendars[uid].walk("vevent"):
             if event["dtstart"].dt >= date1 and event["dtstart"].dt <= date2:
-
-                if not start_date:
-                    class_list.append(event)
-                    break
 
                 _ = (
                     class_list.extend(

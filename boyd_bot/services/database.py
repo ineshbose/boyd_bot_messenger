@@ -61,16 +61,16 @@ class Database:
                 kwargs[kw]
                 if kw not in ["uni_id", "uni_pw"]
                 else guard.encrypt(kwargs[kw])
-            )
+            ) if not isinstance(kwargs[kw], bool) else int(kwargs[kw])
         return self.db.insert_one(data_to_add)
 
     def insert_in_reg(self, uid, platform_user):
         """
         Insert registration data for a user.
         """
-        reg_id = uuid.uuid4().hex
+        reg_id = uuid.uuid4().hex[:12]
         while self.get_data(reg_id):
-            reg_id = uuid.uuid4().hex
+            reg_id = uuid.uuid4().hex[:12]
         self.insert_data(uid, reg_id=reg_id, platform_user=platform_user)
         self.insert_data(reg_id, user_id=uid, platform_user=platform_user)
         return reg_id
