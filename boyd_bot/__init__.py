@@ -27,7 +27,8 @@ wb_arg_name = os.environ.get("WB_ARG_NAME")
 from .timetable import Timetable
 
 timetable = Timetable(
-    "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"
+    "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics",
+    os.environ.get("TIMEZONE", "UTC")
 )
 
 

@@ -18,10 +18,10 @@ class Timetable:
 
     calendars = {}
 
-    def __init__(self, cal_url, tmzn="UTC"):
+    def __init__(self, cal_url, tmzn):
         self.cal_url = cal_url
         self.tmzn = pytz.timezone(tmzn)
-        self.fuzz_threshold = 36
+        self.fuzz_threshold = 45
         self.msg_char_limit = 2000
         self.classes_per_msg = 10
 
@@ -39,8 +39,8 @@ class Timetable:
     def format_event(self, event):
         return (
             f'📝 {"".join(event["summary"].partition(")")[:2])}\n'
-            f'🕘 {event["dtstart"].dt.strftime("%I:%M%p")}'
-            f' - {event["dtend"].dt.strftime("%I:%M%p")}\n'
+            f'🕘 {event["dtstart"].dt.astimezone(self.tmzn).strftime("%I:%M%p")}'
+            f' - {event["dtend"].dt.astimezone(self.tmzn).strftime("%I:%M%p")}\n'
             f'📅 {event["dtstart"].dt.strftime("%d %B %Y (%A)")}\n'
             f'📌 {event.get("location", "No Location Found")}\n'
         )
@@ -81,7 +81,7 @@ class Timetable:
 
         if not class_name:
             for event in self.calendars[uid].walk("vevent"):
-                if event["dtstart"].dt >= date1:
+                if event["dtstart"].dt.astimezone(self.tmzn) >= date1:
                     class_list.append(event)
                     break
 
@@ -89,7 +89,7 @@ class Timetable:
             for c_name in class_name:
                 for event in self.calendars[uid].walk("vevent"):
                     if (
-                        event["dtstart"].dt >= date1
+                        event["dtstart"].dt.astimezone(self.tmzn) >= date1
                         and fuzz.token_set_ratio(
                             c_name.lower(), event["summary"].lower()
                         ) > self.fuzz_threshold
@@ -102,12 +102,12 @@ class Timetable:
     def iterate(self, uid, start_date=None, end_date=None, class_name=None):
 
         date1 = (
-            dtparse(start_date).replace(tzinfo=self.tmzn)
+            self.tmzn.localize(dtparse(start_date).replace(tzinfo=None))
             if start_date
             else datetime.now(tz=self.tmzn)
         )
         date2 = (
-            dtparse(end_date).replace(tzinfo=self.tmzn)
+            self.tmzn.localize(dtparse(end_date).replace(tzinfo=None))
             if end_date
             else date1.replace(hour=23, minute=59, second=59)
         )
@@ -115,7 +115,10 @@ class Timetable:
         class_list = []
 
         for event in self.calendars[uid].walk("vevent"):
-            if event["dtstart"].dt >= date1 and event["dtstart"].dt <= date2:
+            if (
+                event["dtstart"].dt.astimezone(self.tmzn) >= date1
+                and event["dtstart"].dt.astimezone(self.tmzn) <= date2
+            ):
 
                 _ = (
                     class_list.extend(

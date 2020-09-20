@@ -6,3 +6,4 @@ set DB_MAIN_TOKEN =
 set DB_KEY1 =
 set DB_KEY2 =
 set GUARD_KEY =
+set TIMEZONE =
