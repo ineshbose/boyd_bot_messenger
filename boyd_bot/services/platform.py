@@ -65,6 +65,7 @@ class Platform:
         for m in message:
             res["fulfillmentMessages"].append({"text": {"text": [m]}})
 
+        res["fulfillmentText"] = "\n".join(message)
         res = json.dumps(res, indent=4)
         r = make_response(res)
         r.headers["Content-Type"] = "application/json"

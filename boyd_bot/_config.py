@@ -30,7 +30,25 @@ app.config["TIMETABLE"] = {
 
 # Template Option
 app.config["TEMPLATES"] = {
+
     "REG_FORM": "uni_theme_reg.html",  # uni_theme or default
+
+    "MESSAGES": {
+
+        "SUCCESS_MSG": (
+            "Login successful! "
+            "You can now close this page and chat to the bot."
+        ),
+
+        "HELP_TEXT": (
+            "Thank you for registering. "
+            "Hopefully it won't be difficult to use the bot. "
+            "You can ask questions like 'what classes do I have tomorrow?', "
+            "'psychology lectures this year', 'next saturday after 1pm'."
+        ),
+
+    },
+
 }
 
 
@@ -69,11 +87,6 @@ app.config["MSG"] = {
     ),
 
     "REG_ACKNOWLEDGE": "Alrighty! We can get started. :D",
-
-    "SUCCESS_MSG": (
-        "Login successful! "
-        "You can now close this page and chat to the bot."
-    ),
 
     "ONE_TIME_DONE": (
         "You were logged out and since we don't have your credentials, "
