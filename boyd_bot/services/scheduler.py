@@ -1,5 +1,7 @@
+import pytz
 from datetime import datetime, timedelta
 from .. import db, timetable, platform
+from .._config import config
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -12,10 +14,11 @@ class Scheduler:
         """
         Creating an instance of the scheduler package.
         """
-        self.scheduler = BackgroundScheduler()
-        self.uni_months = "09-11,1-3"  # When university is on
-        self.uni_days = "mon-fri"  # Weekdays
-        self.uni_hours = "7-20"  # Best to avoid night-time
+        self.tmzn = pytz.timezone(config["SCHEDULER"]["TIMEZONE"])
+        self.scheduler = BackgroundScheduler(timezone=self.tmzn)
+        self.uni_months = config["SCHEDULER"]["UNI_MONTHS"]
+        self.uni_days = config["SCHEDULER"]["UNI_DAYS"]
+        self.uni_hours = config["SCHEDULER"]["UNI_HOURS"]
 
     def clear_db(self):
         """
@@ -28,8 +31,8 @@ class Scheduler:
         Job to check for upcoming events and notify users.
         """
         for data in db.get_all():
-            time1 = datetime.now().isoformat()
-            time2 = (datetime.now() + timedelta(minutes=10)).isoformat()
+            time1 = datetime.now(tz=self.tmzn).isoformat()
+            time2 = (datetime.now(tz=self.tmzn) + timedelta(minutes=10)).isoformat()
             uid = data["_id"]
             if (
                 data.get("subscribe")
@@ -41,10 +44,9 @@ class Scheduler:
                 user_schedule = timetable.iterate(uid, time1, time2)
                 u_dt = platform.get_user_data(uid)
                 for event in user_schedule:
-                    evt = timetable.format_event(event)
-                    msg = (
-                        f'Hey {u_dt.get("first_name", " - heads up")}! '
-                        f"Hope you're on your way to\n{evt}"
+                    msg = config["SCHEDULER"]["REMINDER_TEXT"](
+                        u_dt.get("first_name", " - heads up"),
+                        timetable.format_event(event)
                     )
                     platform.send_message(uid, msg)
 
@@ -52,7 +54,7 @@ class Scheduler:
         """
         Job to send users their schedule in the morning.
         """
-        time_now = datetime.now()
+        time_now = datetime.now(tz=self.tmzn)
         for data in db.get_all():
             uid = data["_id"]
             if data.get("subscribe") and (
@@ -64,10 +66,9 @@ class Scheduler:
                     timetable.read(uid, time_now.isoformat())
                 ):
                     if msg_no == 0:
-                        msg = (
-                            f'Morning, {u_dt.get("first_name", "sunshine")}! '
-                            f'Today is {time_now.strftime("%d %B (%A)")} '
-                            f"and your schedule is..\n{msg}"
+                        msg = config["SCHEDULER"]["MORNING_TEXT"](
+                            u_dt.get("first_name", "sunshine"),
+                            time_now.strftime("%d %B (%A)"), msg,
                         )
                     platform.send_message(uid, msg)
 

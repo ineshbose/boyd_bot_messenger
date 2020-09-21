@@ -1,4 +1,5 @@
 from .. import db, timetable
+from .._config import config
 
 
 class Parser:
@@ -17,23 +18,16 @@ class Parser:
         """
         Returns message for "help_text" intent.
         """
-        return (
-            "I'm your university chatbot, so you can ask me "
-            "(almost) anything regarding your timetable!\n"
-            "For example, 'classes today', 'do I have psychology tomorrow?', "
-            "'march 3rd'.\n\nIf you want, you can stop using my help and "
-            "have your data deleted by saying 'delete data' "
-            "but I don't want you to go! You'll always be welcome back. :)"
-        )
+        return config["PARSER_MSG"]["HELP_TEXT"]
 
     def delete_data(self, uid):
         """
         Returns response for "delete_data" intent.
         """
         return (
-            "Deleted! :)"
+            config["PARSER_MSG"]["DELETE_SUCCESS"]
             if db.delete_data(uid)
-            else "Something went wrong. :("
+            else config["PARSER_MSG"]["DELETE_FAIL"]
         )
 
     def read_timetable(self, uid, data):

@@ -8,6 +8,26 @@ from . import app, app_url
 app.config["URL_ROOT"] = "/"
 
 
+# Timetable Configurations
+app.config["TIMETABLE"] = {
+
+    "CAL_URL": (
+        "https://frontdoor.spa.gla.ac.uk/spacett/download/uogtimetable.ics"
+    ),
+
+    "TIMEZONE": "Europe/London",  # Timezone
+
+    "FUZZ_THRESHOLD": 45,  # Minimum match value
+
+    "MSG_CHAR_LIMIT": 2000,  # Platform message character limit
+
+    "CLASSES_PER_MSG": 10,  # Division of message into classes
+
+    "NO_CLASS_MSG": "There seem to be no classes. :D",  # No classes message
+
+}
+
+
 # Template Option
 app.config["TEMPLATES"] = {
     "REG_FORM": "uni_theme_reg.html",  # uni_theme or default
@@ -61,6 +81,50 @@ app.config["MSG"] = {
     ),
 
     "ERROR_MSG": "I'm sorry, something went wrong understanding that. :(",
+
+}
+
+
+# Parser messages
+app.config["PARSER_MSG"] = {
+
+    "HELP_TEXT": (
+        "I'm your university chatbot, so you can ask me "
+        "(almost) anything regarding your timetable!\n"
+        "For example, 'classes today', 'do I have psychology tomorrow?', "
+        "'march 3rd'.\n\nIf you want, you can stop using my help and "
+        "have your data deleted by saying 'delete data' "
+        "but I don't want you to go! You'll always be welcome back. :)"
+    ),
+
+    "DELETE_SUCCESS": "Deleted! :)",
+
+    "DELETE_FAIL": "Something went wrong. :(",
+
+}
+
+
+# Scheduler
+app.config["SCHEDULER"] = {
+
+    "TIMEZONE": app.config["TIMETABLE"]["TIMEZONE"],
+
+    "UNI_MONTHS": "09-11,1-3",  # When university is on
+
+    "UNI_DAYS": "mon-fri",  # Weekdays
+
+    "UNI_HOURS": "7-20",  # Best to avoid night-time
+
+    "MORNING_TEXT": lambda name, date, schedule: (
+        f'Morning, {name}! '
+        f'Today is {date} '
+        f"and your schedule is..\n{schedule}"
+    ),
+
+    "REMINDER_TEXT": lambda name, event: (
+        f'Hey {name}! '
+        f"Hope you're on your way to\n{event}"
+    ),
 
 }
 

@@ -1,5 +1,6 @@
 import pytz
 import requests
+from ._config import config
 from datetime import datetime
 from icalendar import Calendar
 from dateutil.parser import parse as dtparse
@@ -18,12 +19,12 @@ class Timetable:
 
     calendars = {}
 
-    def __init__(self, cal_url, tmzn):
-        self.cal_url = cal_url
-        self.tmzn = pytz.timezone(tmzn)
-        self.fuzz_threshold = 45
-        self.msg_char_limit = 2000
-        self.classes_per_msg = 10
+    def __init__(self):
+        self.cal_url = config["TIMETABLE"]["CAL_URL"]
+        self.tmzn = pytz.timezone(config["TIMETABLE"]["TIMEZONE"])
+        self.fuzz_threshold = config["TIMETABLE"]["FUZZ_THRESHOLD"]
+        self.msg_char_limit = config["TIMETABLE"]["MSG_CHAR_LIMIT"]
+        self.classes_per_msg = config["TIMETABLE"]["CLASSES_PER_MSG"]
 
     def login(self, uid, uni_id, uni_pw):
         try:
@@ -59,7 +60,7 @@ class Timetable:
         ]
 
         if not class_list:
-            return ["There seem to be no classes. :D"]
+            return [config["TIMETABLE"]["NO_CLASS_MSG"]]
 
         message = "\n".join(class_list)
         return (
