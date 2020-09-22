@@ -17,19 +17,23 @@
             {{ form.hidden_tag() }}
             {{ form.uni_id(placeholder=form.uni_id.label.text, class_="form-control") }}
             {{ form.uni_pw(placeholder=form.uni_pw.label.text, class_="form-control") }} <br>
-            {{ form.submit(value=form.submit.label.text, class_="button-control") }} <br>
+            {{ form.submit(value=form.submit.label.text, class_="form-control") }} <br>
             {% if allow_remember %}
-                <script src="/static/js/form.js"></script>
                 {% if config.FEATURES.ONE_TIME_USE %}
                     <br>
                     {{ form.remember }} {{ form.remember.label }}
+                    <a href="#" data-toggle="tooltip" title="If unchecked, your credentials will not be stored."><sup>?</sup></a>
                 {% endif %}
                 {% if config.FEATURES.SCHEDULER %}
                     <br>
                     {{ form.subscribe }} {{ form.subscribe.label }}
+                    <a href="#" data-toggle="tooltip" title="The bot messages you about your schedule prior to classes."><sup>?</sup></a>
                 {% endif %}
+                <script src="/static/js/form.js"></script>
+                <script src="/static/js/tooltip.js"></script>
             {% endif %}
         </form>
     {% endif %}
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 {% endblock %}

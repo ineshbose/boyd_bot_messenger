@@ -44,7 +44,7 @@ app.config["TEMPLATES"] = {
             "Thank you for registering. "
             "Hopefully it won't be difficult to use the bot. "
             "You can ask questions like 'what classes do I have tomorrow?', "
-            "'psychology lectures this year', 'next saturday after 1pm'."
+            "'psychology classes this year', 'next saturday 1pm'."
         ),
 
     },

@@ -7,6 +7,7 @@
         <!-- It's a good idea to style the registration form with a theme that is familiar to users and can get their trust.-->
         <link rel="shortcut icon" href="/static/img/unibot.ico">
         <link rel="stylesheet" type="text/css" href="/static/css/hillhead-theme.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/tooltip.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
@@ -27,15 +28,17 @@
                         {{ form.submit(value="Log in with your GUID", class_="button-control") }}
                         <a href="https://password.gla.ac.uk/">Forgot your password?</a>
                         {% if allow_remember %}
-                            <script src="/static/js/form.js"></script>
                             {% if config.FEATURES.ONE_TIME_USE %}
                                 <br>
                                 {{ form.remember }} {{ form.remember.label }}
+                                <sup><div class="tooltip">?<span class="tooltiptext">If unchecked, your credentials will not be stored.</span></div></sup>
                             {% endif %}
                             {% if config.FEATURES.SCHEDULER %}
                                 <br>
                                 {{ form.subscribe }} {{ form.subscribe.label }}
+                                <sup><div class="tooltip">?<span class="tooltiptext">The bot messages you about your schedule prior to classes.</span></div></sup>
                             {% endif %}
+                            <script src="/static/js/form.js"></script>
                         {% endif %}
                     </form>
                 {% endif %}
