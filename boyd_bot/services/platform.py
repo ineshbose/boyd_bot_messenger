@@ -61,11 +61,8 @@ class Platform:
         """
         res = {"fulfillmentMessages": []}
         message = [message] if not isinstance(message, list) else message
-
-        for m in message:
-            res["fulfillmentMessages"].append({"text": {"text": [m]}})
-
-        res["fulfillmentText"] = "\n".join(message)
+        res["fulfillmentMessages"].extend({"text": {"text": [m]}} for m in message)
+        res["fulfillmentText"] = "\n".join(message) if None not in message else None
         res = json.dumps(res, indent=4)
         r = make_response(res)
         r.headers["Content-Type"] = "application/json"

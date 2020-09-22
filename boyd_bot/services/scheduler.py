@@ -35,7 +35,7 @@ class Scheduler:
             time2 = (datetime.now(tz=self.tmzn) + timedelta(minutes=10)).isoformat()
             uid = data["_id"]
             if (
-                data.get("subscribe")
+                ("subscribe" in data and "before_class" in data["subscribe"])
                 and (
                     timetable.check_loggedIn(uid)
                     or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
@@ -57,7 +57,7 @@ class Scheduler:
         time_now = datetime.now(tz=self.tmzn)
         for data in db.get_all():
             uid = data["_id"]
-            if data.get("subscribe") and (
+            if ("subscribe" in data and "morning" in data["subscribe"]) and (
                 timetable.check_loggedIn(uid)
                 or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
             ):

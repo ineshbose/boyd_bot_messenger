@@ -1,11 +1,11 @@
 $(document).ready(function(){
     $("#remember").change(function(){
         if ($('#remember').prop('checked')) {
-            $("#subscribe").prop("disabled", false);
+            $('#subscribe [id^="subscribe-"]').prop("disabled", false);
         }
         else{
-            $("#subscribe").prop("disabled", true);
-            $("#subscribe").prop("checked", false);
+            $('#subscribe [id^="subscribe-"]').prop("disabled", true);
+            $('#subscribe [id^="subscribe-"]').prop("checked", false);
         }
     });
 });

@@ -10383,3 +10383,9 @@ body {
 .footer {
   padding: 5rem 0;
 }
+
+#subscribe{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

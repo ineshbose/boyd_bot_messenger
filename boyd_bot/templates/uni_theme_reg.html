@@ -34,9 +34,10 @@
                                 <sup><div class="tooltip">?<span class="tooltiptext">If unchecked, your credentials will not be stored.</span></div></sup>
                             {% endif %}
                             {% if config.FEATURES.SCHEDULER %}
-                                <br>
-                                {{ form.subscribe }} {{ form.subscribe.label }}
+                                <br><br>
+                                {{ form.subscribe.label}}
                                 <sup><div class="tooltip">?<span class="tooltiptext">The bot messages you about your schedule prior to classes.</span></div></sup>
+                                {{ form.subscribe }}
                             {% endif %}
                             <script src="/static/js/form.js"></script>
                         {% endif %}

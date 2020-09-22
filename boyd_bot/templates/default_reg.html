@@ -25,9 +25,11 @@
                     <a href="#" data-toggle="tooltip" title="If unchecked, your credentials will not be stored."><sup>?</sup></a>
                 {% endif %}
                 {% if config.FEATURES.SCHEDULER %}
+                    <br><br>
+                        {{ form.subscribe.label}}
+                        <a href="#" data-toggle="tooltip" title="The bot messages you about your schedule prior to classes."><sup>?</sup></a>
+                        {{ form.subscribe }}
                     <br>
-                    {{ form.subscribe }} {{ form.subscribe.label }}
-                    <a href="#" data-toggle="tooltip" title="The bot messages you about your schedule prior to classes."><sup>?</sup></a>
                 {% endif %}
                 <script src="/static/js/form.js"></script>
                 <script src="/static/js/tooltip.js"></script>

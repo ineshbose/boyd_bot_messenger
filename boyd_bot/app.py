@@ -68,7 +68,7 @@ def new_user_registration(reg_id):
         reg_id = request.form.get("reg_id")
         uni_id = request.form.get("uni_id")
         uni_pw = request.form.get("uni_pw")
-        subscribe = request.form.get("subscribe")
+        subscribe = request.form.getlist("subscribe")
 
         remember = (
             request.form.get("remember")

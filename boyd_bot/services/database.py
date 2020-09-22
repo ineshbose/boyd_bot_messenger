@@ -1,3 +1,4 @@
+import json
 import uuid
 from pymongo import MongoClient
 from .. import guard
@@ -26,9 +27,13 @@ class Database:
         if user_data:
             for data in user_data:
                 data_to_return[data] = (
-                    user_data[data]
-                    if data not in ["uni_id", "uni_pw"]
-                    else guard.decrypt(user_data[data])
+                    (
+                        user_data[data]
+                        if data not in ["uni_id", "uni_pw"]
+                        else guard.decrypt(user_data[data])
+                    )
+                    if data not in ["platform_user", "subscribe"]
+                    else json.loads(user_data[data])
                 )
         return data_to_return
 
@@ -58,10 +63,14 @@ class Database:
         data_to_add = {"_id": uid}
         for kw in kwargs:
             data_to_add[kw] = (
-                kwargs[kw]
-                if kw not in ["uni_id", "uni_pw"]
-                else guard.encrypt(kwargs[kw])
-            ) if not isinstance(kwargs[kw], bool) else int(kwargs[kw])
+                (
+                    kwargs[kw]
+                    if kw not in ["uni_id", "uni_pw"]
+                    else guard.encrypt(kwargs[kw])
+                )
+                if not isinstance(kwargs[kw], (bool, dict, list))
+                else json.dumps(kwargs[kw])
+            )
         return self.db.insert_one(data_to_add)
 
     def insert_in_reg(self, uid, platform_user):
