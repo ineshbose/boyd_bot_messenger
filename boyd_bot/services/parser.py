@@ -18,17 +18,26 @@ class Parser:
         """
         Returns message for "help_text" intent.
         """
-        return config["PARSER_MSG"]["HELP_TEXT"]
+        return config["PARSER"]["HELP_TEXT"]
 
     def delete_data(self, uid):
         """
         Returns response for "delete_data" intent.
         """
         return (
-            config["PARSER_MSG"]["DELETE_SUCCESS"]
+            config["PARSER"]["DELETE_SUCCESS"]
             if db.delete_data(uid)
-            else config["PARSER_MSG"]["DELETE_FAIL"]
+            else config["PARSER"]["DELETE_FAIL"]
         )
+
+    def edit_subscription(self, uid):
+        """
+        Updates user's subscription preference.
+        """
+        if config["FEATURES"]["SCHEDULER"]:
+            pass
+        else:
+            return config["PARSER"]["INTENT_UNAVAIL"]
 
     def read_timetable(self, uid, data):
         """
@@ -50,7 +59,7 @@ class Parser:
         if not dt_param:
             args.extend([None, None])
             args.append(param.get("class-name"))
-            message.extend(timetable.read(uid, *args))
+            message.append(timetable.read(uid, *args))
 
         else:
 
@@ -76,9 +85,9 @@ class Parser:
                     args.extend([dt_val, None])
 
                 args.append(param.get("class-name"))
-                message.extend(timetable.read(uid, *args))
+                message.append(timetable.read(uid, *args))
 
-        return message
+        return "\n".join(message)
 
     def parse(self, request_data, uid):
         """

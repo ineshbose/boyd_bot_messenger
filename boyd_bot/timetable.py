@@ -17,14 +17,11 @@ class Timetable:
     and handle timetable for multiple users.
     """
 
-    calendars = {}
-
     def __init__(self):
+        self.calendars = {}
         self.cal_url = config["TIMETABLE"]["CAL_URL"]
         self.tmzn = pytz.timezone(config["TIMETABLE"]["TIMEZONE"])
         self.fuzz_threshold = config["TIMETABLE"]["FUZZ_THRESHOLD"]
-        self.msg_char_limit = config["TIMETABLE"]["MSG_CHAR_LIMIT"]
-        self.classes_per_msg = config["TIMETABLE"]["CLASSES_PER_MSG"]
 
     def login(self, uid, uni_id, uni_pw):
         try:
@@ -48,31 +45,20 @@ class Timetable:
 
     def read(self, uid, start_date=None, end_date=None, class_name=None):
 
-        if class_name and not isinstance(class_name, list):
-            class_name = [class_name]
+        class_name = (
+            [class_name] if class_name and not isinstance(class_name, list)
+            else class_name
+        )
 
         class_list = [
             self.format_event(event)
-            for event in self.iterate(uid, start_date, end_date, class_name)
-        ] if start_date else [
-            self.format_event(event)
-            for event in self.get_one(uid, class_name)
+            for event in (self.iterate(uid, start_date, end_date, class_name)
+            if start_date else self.get_one(uid, class_name))
         ]
 
-        if not class_list:
-            return [config["TIMETABLE"]["NO_CLASS_MSG"]]
-
-        message = "\n".join(class_list)
         return (
-            [message]
-            if len(message) < self.msg_char_limit
-            else [
-                "\n".join(li)
-                for li in [
-                    class_list[i : i + self.classes_per_msg]
-                    for i in range(0, len(class_list), self.classes_per_msg)
-                ]
-            ]
+            "\n".join(class_list)
+            if class_list else config["TIMETABLE"]["NO_CLASS_MSG"]
         )
 
     def get_one(self, uid, class_name=None):

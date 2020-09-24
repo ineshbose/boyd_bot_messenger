@@ -14,21 +14,43 @@ class Platform:
         """
         self.p_token = platform_token
         self.url = "https://graph.facebook.com/v7.0/"
+        self.msg_char_limit = 2000
+
+    def sanitize_messages(self, message):
+        """
+        Keeps message in a uniform, acceptable way.
+        """
+        paragraphs = (
+            message.split('\n\n')
+            if isinstance(message, str) else message
+        )
+
+        new_message = []
+        temp_group = ""
+
+        for i,paragraph in enumerate(paragraphs):
+            temp_group=f"{temp_group}{paragraph}\n\n"
+
+            if i == len(paragraphs) - 1:
+                new_message.append(temp_group[:-2])
+                break
+
+            if len(temp_group + paragraphs[i+1]) >= self.msg_char_limit:
+                new_message.append(temp_group[:-2])
+                temp_group = ""
+
+        return new_message
 
     def send_message(self, uid, message):
         """
         Send message to a platform user through their ID.
         """
-
-        data = {
-            "messaging_type": "RESPONSE",
-            "recipient": {"id": uid},
-            "message": {"text": message},
-        }
-
-        return requests.post(
-            f"{self.url}me/messages?access_token={self.p_token}", json=data,
-        )
+        return [
+            requests.post(
+                f"{self.url}me/messages?access_token={self.p_token}",
+                json={"recipient": {"id": uid}, "message": {"text": m}}
+            ) for m in self.sanitize_messages(message)
+        ]
 
     def get_user_data(self, uid):
         """
@@ -60,9 +82,9 @@ class Platform:
         Send a response to a message sent by the user.
         """
         res = {"fulfillmentMessages": []}
-        message = [message] if not isinstance(message, list) else message
+        message = self.sanitize_messages(message) if message else []
         res["fulfillmentMessages"].extend({"text": {"text": [m]}} for m in message)
-        res["fulfillmentText"] = "\n".join(message) if None not in message else None
+        res["fulfillmentText"] = "\n".join(message)
         res = json.dumps(res, indent=4)
         r = make_response(res)
         r.headers["Content-Type"] = "application/json"

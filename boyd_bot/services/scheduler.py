@@ -41,14 +41,15 @@ class Scheduler:
                     or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
                 )
             ):
-                user_schedule = timetable.iterate(uid, time1, time2)
-                u_dt = platform.get_user_data(uid)
-                for event in user_schedule:
-                    msg = config["SCHEDULER"]["REMINDER_TEXT"](
-                        u_dt.get("first_name", " - heads up"),
-                        timetable.format_event(event)
-                    )
-                    platform.send_message(uid, msg)
+                _ = [
+                    platform.send_message(
+                        uid,
+                        config["SCHEDULER"]["REMINDER_TEXT"](
+                            platform.get_user_data(uid).get("first_name", " - heads up"),
+                            timetable.format_event(event)
+                        )
+                    ) for event in timetable.iterate(uid, time1, time2)
+                ]
 
     def morning_alert(self):
         """
@@ -57,30 +58,34 @@ class Scheduler:
         time_now = datetime.now(tz=self.tmzn)
         for data in db.get_all():
             uid = data["_id"]
-            if ("subscribe" in data and "morning" in data["subscribe"]) and (
-                timetable.check_loggedIn(uid)
-                or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
+            if (
+                ("subscribe" in data and "morning" in data["subscribe"])
+                and (
+                    timetable.check_loggedIn(uid)
+                    or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
+                    )
             ):
-                u_dt = platform.get_user_data(uid)
-                for msg_no, msg in enumerate(
-                    timetable.read(uid, time_now.isoformat())
-                ):
-                    if msg_no == 0:
-                        msg = config["SCHEDULER"]["MORNING_TEXT"](
-                            u_dt.get("first_name", "sunshine"),
-                            time_now.strftime("%d %B (%A)"), msg,
-                        )
-                    platform.send_message(uid, msg)
+                platform.send_message(
+                    uid,
+                    config["SCHEDULER"]["MORNING_TEXT"](
+                        platform.get_user_data(uid).get("first_name", "sunshine"),
+                        time_now.strftime("%d %B (%A)"),
+                        timetable.read(uid, time_now.isoformat())
+                    ),
+                )
 
     def run(self):
         """
         Starts the scheduler in the background.
         """
+
+        '''
         self.scheduler.add_job(
             func=self.clear_db,
             trigger="cron",
             week="*/3",  # Clear every 3 weeks
         )
+        ''' # Disabled for now
 
         self.scheduler.add_job(
             func=self.morning_alert,

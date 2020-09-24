@@ -19,10 +19,6 @@ app.config["TIMETABLE"] = {
 
     "FUZZ_THRESHOLD": 45,  # Minimum match value
 
-    "MSG_CHAR_LIMIT": 2000,  # Platform message character limit
-
-    "CLASSES_PER_MSG": 10,  # Division of message into classes
-
     "NO_CLASS_MSG": "There seem to be no classes. :D",  # No classes message
 
 }
@@ -98,8 +94,8 @@ app.config["MSG"] = {
 }
 
 
-# Parser messages
-app.config["PARSER_MSG"] = {
+# Parser
+app.config["PARSER"] = {
 
     "HELP_TEXT": (
         "I'm your university chatbot, so you can ask me "
@@ -113,6 +109,8 @@ app.config["PARSER_MSG"] = {
     "DELETE_SUCCESS": "Deleted! :)",
 
     "DELETE_FAIL": "Something went wrong. :(",
+
+    "INTENT_UNAVAIL": "Sorry, I would not be able to do that. :("
 
 }
 
@@ -131,12 +129,12 @@ app.config["SCHEDULER"] = {
     "MORNING_TEXT": lambda name, date, schedule: (
         f'Morning, {name}! '
         f'Today is {date} '
-        f"and your schedule is..\n{schedule}"
+        f"and your schedule is..\n\n{schedule}"
     ),
 
     "REMINDER_TEXT": lambda name, event: (
         f'Hey {name}! '
-        f"Hope you're on your way to\n{event}"
+        f"Hope you're on your way to\n\n{event}"
     ),
 
 }
