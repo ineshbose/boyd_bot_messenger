@@ -20,6 +20,14 @@ class Scheduler:
         self.uni_days = config["SCHEDULER"]["UNI_DAYS"]
         self.uni_hours = config["SCHEDULER"]["UNI_HOURS"]
 
+    def verify(self, data, sub_type):
+        return (
+            ("subscribe" in data and sub_type in data["subscribe"]) and (
+            timetable.check_loggedIn(data["_id"])
+            or timetable.login(data["_id"], data["uni_id"], data["uni_pw"])[0]
+            )
+        )
+
     def clear_db(self):
         """
         Job to clear the database once a while.
@@ -34,13 +42,7 @@ class Scheduler:
             time1 = datetime.now(tz=self.tmzn).isoformat()
             time2 = (datetime.now(tz=self.tmzn) + timedelta(minutes=10)).isoformat()
             uid = data["_id"]
-            if (
-                ("subscribe" in data and "before_class" in data["subscribe"])
-                and (
-                    timetable.check_loggedIn(uid)
-                    or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
-                )
-            ):
+            if self.verify(data, "before_class"):
                 _ = [
                     platform.send_message(
                         uid,
@@ -58,13 +60,7 @@ class Scheduler:
         time_now = datetime.now(tz=self.tmzn)
         for data in db.get_all():
             uid = data["_id"]
-            if (
-                ("subscribe" in data and "morning" in data["subscribe"])
-                and (
-                    timetable.check_loggedIn(uid)
-                    or timetable.login(uid, data["uni_id"], data["uni_pw"])[0]
-                    )
-            ):
+            if self.verify(data, "morning"):
                 platform.send_message(
                     uid,
                     config["SCHEDULER"]["MORNING_TEXT"](

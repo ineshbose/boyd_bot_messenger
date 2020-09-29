@@ -48,7 +48,12 @@ class Platform:
         return [
             requests.post(
                 f"{self.url}me/messages?access_token={self.p_token}",
-                json={"recipient": {"id": uid}, "message": {"text": m}}
+                json={
+                    "recipient": {"id": uid},
+                    "message": {"text": m},
+                    "messaging_type": "MESSAGE_TAG",
+                    "tag": "ACCOUNT_UPDATE"
+                }
             ) for m in self.sanitize_messages(message)
         ]
 
