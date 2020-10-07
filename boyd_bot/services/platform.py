@@ -12,8 +12,7 @@ class Platform:
         """
         Initialise class with a token provided by the platform.
         """
-        self.p_token = platform_token
-        self.url = "https://graph.facebook.com/v7.0/"
+        self.platform_token = platform_token
         self.msg_char_limit = 2000
 
     def sanitize_messages(self, message):
@@ -47,7 +46,8 @@ class Platform:
         """
         return [
             requests.post(
-                f"{self.url}me/messages?access_token={self.p_token}",
+                "https://graph.facebook.com/v7.0/me/messages",
+                params={"access_token": self.platform_token},
                 json={
                     "recipient": {"id": uid},
                     "message": {"text": m},
@@ -61,8 +61,10 @@ class Platform:
         """
         Get basic information about the user from the platform.
         """
-        req = requests.get(f"{self.url}{uid}?access_token={self.p_token}")
-        return req.json()
+        return requests.get(
+            f"https://graph.facebook.com/v7.0/{uid}",
+            params={"access_token": self.platform_token}
+        ).json()
 
     def get_id(self, data):
         """
