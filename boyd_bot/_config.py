@@ -58,7 +58,7 @@ app.config["FEATURES"] = {
     "DEMO": True,
 
     # read https://github.com/ineshbose/boyd_bot_messenger/issues/3
-    "SCHEDULER": True,
+    "SCHEDULER": False,
 
 }
 
