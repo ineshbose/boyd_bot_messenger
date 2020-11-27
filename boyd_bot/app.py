@@ -29,7 +29,7 @@ def webhook():
         user_data = platform.get_user_data(sender_id)
         if (
             not sender_id
-            or ("error" in user_data and platform_user)
+            or (not platform.validate_user(user_data) and platform_user)
             or not (platform_user or config["FEATURES"]["DEMO"])
         ):
             log(config["LOG"]["INVALID_USER"](sender_id))

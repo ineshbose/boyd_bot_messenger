@@ -62,6 +62,15 @@ Maps to unique sender ID through POST request data.
 | **`data`:** the POST request dictionary | **`str`:** the unique sender ID of the user |
 
 
+### `Platform`.**`validate_user(data)`**
+
+Confirms user is valid platform-user with their API.
+
+|                  Parameters                |                  Returns                    |
+|--------------------------------------------|---------------------------------------------|
+| **`data`:** the JSON with user information | **`bool`:** if user is valid platform user  |
+
+
 ### `Platform`.**`reply(message=None)`**
 
 Prepares a formatted JSON containing the message as a response to the POST request.

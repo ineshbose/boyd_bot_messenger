@@ -46,7 +46,7 @@ class Platform:
         """
         return [
             requests.post(
-                "https://graph.facebook.com/v7.0/me/messages",
+                "https://graph.facebook.com/me/messages",
                 params={"access_token": self.platform_token},
                 json={
                     "recipient": {"id": uid},
@@ -62,7 +62,7 @@ class Platform:
         Get basic information about the user from the platform.
         """
         return requests.get(
-            f"https://graph.facebook.com/v7.0/{uid}",
+            f"https://graph.facebook.com/{uid}",
             params={"access_token": self.platform_token}
         ).json()
 
@@ -83,6 +83,15 @@ class Platform:
                 else None,
                 False,
             )
+
+    def validate_user(self, data):
+        """
+        Check that a user is a valid platform-user by verifying
+        details from the platform's API.
+        """
+        return (
+            "error" not in data or data["error"]["error_subcode"] == 2018218
+        )
 
     def reply(self, message=None):
         """
