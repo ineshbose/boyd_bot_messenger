@@ -25,14 +25,19 @@ class Timetable:
 
     def login(self, uid, uni_id, uni_pw):
         try:
-            self.calendars[uid] = Calendar.from_ical(
-                requests.get(self.cal_url, auth=(uni_id, uni_pw)).content
-            )
-            return True, "Success"
+            req = requests.get(self.cal_url, auth=(uni_id, uni_pw))
+            if req.status_code == 200:
+                self.calendars[uid] = Calendar.from_ical(req.content)
+                return True, "Success"
+            else:
+                raise (
+                    ValueError() if req.status_code in [401, 403]
+                    else Exception(f"Code {req.status_code} : {req.content}")
+                )
         except ValueError:
             return False, "Invalid credentials."
         except Exception as e:
-            return False, f"Something went wrong. Try again. {str(e)}"
+            return False, f"Something went wrong. Try again.\n{str(e)}"
 
     def format_event(self, event):
         return (
