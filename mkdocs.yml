@@ -42,7 +42,7 @@ nav:
     - Home: index.md
     - Files:
       - __init__.py: files/init.md
-      - app.py: files/app.md
+      - bot.py: files/bot.md
       - timetable.py: files/timetable.md
       - views.py: files/views.md
       - forms.py: files/forms.md

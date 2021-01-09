@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, Response
 from werkzeug.exceptions import HTTPException
 from . import blueprint
 
@@ -16,6 +16,13 @@ def privacy():
 @blueprint.route("/terms")
 def terms():
     return render_template("terms.html")
+
+
+@blueprint.route("/robots.txt")
+def robots():
+    r = Response(response="User-Agent: *\nDisallow: /\n", status=200, mimetype="text/plain")
+    r.headers["Content-Type"] = "text/plain; charset=utf-8"
+    return r
 
 
 @blueprint.app_errorhandler(HTTPException)

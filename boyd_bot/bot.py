@@ -1,5 +1,5 @@
 from flask import request, redirect, render_template, url_for, abort
-from . import app, blueprint, RegisterForm, webhook_token, wb_arg_name, log
+from . import blueprint, RegisterForm, webhook_token, wb_arg_name, log
 from . import timetable, guard, db, parser, platform
 from ._config import config
 

@@ -2,14 +2,14 @@ APScheduler==3.6.3
 cryptography==3.2.1
 Flask==1.1.2
 icalendar==4.0.7
-pymongo==3.11.1
-rapidfuzz==0.13.3
-requests==2.25.0
+pymongo==3.11.2
+rapidfuzz==0.14.2
+requests==2.25.1
 
 
 # requests
-certifi==2020.11.8
-chardet==3.0.4
+certifi==2020.12.5
+chardet==4.0.0
 idna==2.10
 urllib3==1.26.2
 
@@ -37,5 +37,5 @@ pytz==2020.1
 
 
 # production
-dnspython==2.0.0
+dnspython==2.1.0
 gunicorn==20.0.4

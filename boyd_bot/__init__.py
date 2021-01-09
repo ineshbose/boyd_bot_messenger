@@ -64,7 +64,7 @@ def log(message):
     app.logger.info(message)
 
 
-from .app import webhook, new_user_registration, app
+from .bot import webhook, new_user_registration
 
 app.register_blueprint(blueprint, url_prefix=app.config["URL_ROOT"])
 
@@ -77,4 +77,6 @@ def secure_http_header(response):
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "same-origin"
     response.headers["Feature-Policy"] = "geolocation 'none'"
+    response.headers["Permissions-Policy"] = "geolocation=()"
+    response.headers["Expect-CT"] = "max-age=0"
     return response
