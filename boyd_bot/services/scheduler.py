@@ -1,6 +1,5 @@
 import pytz
 from datetime import datetime, timedelta
-from .. import db, timetable, platform
 from .._config import config
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -10,10 +9,14 @@ class Scheduler:
     Schedules certain jobs in the background.
     """
 
-    def __init__(self):
+    def __init__(self, db, timetable, platform):
         """
         Creating an instance of the scheduler package.
         """
+        self.db = db
+        self.timetable = timetable
+        self.platform = platform
+
         self.tmzn = pytz.timezone(config["SCHEDULER"]["TIMEZONE"])
         self.scheduler = BackgroundScheduler(timezone=self.tmzn)
         self.uni_months = config["SCHEDULER"]["UNI_MONTHS"]
@@ -23,8 +26,8 @@ class Scheduler:
     def verify(self, data, sub_type):
         return (
             ("subscribe" in data and sub_type in data["subscribe"]) and (
-            timetable.check_loggedIn(data["_id"])
-            or timetable.login(data["_id"], data["uni_id"], data["uni_pw"])[0]
+            self.timetable.check_loggedIn(data["_id"])
+            or self.timetable.login(data["_id"], data["uni_id"], data["uni_pw"])[0]
             )
         )
 
@@ -32,25 +35,25 @@ class Scheduler:
         """
         Job to clear the database once a while.
         """
-        db.clear_db()
+        self.db.clear_db()
 
     def check_class(self):
         """
         Job to check for upcoming events and notify users.
         """
-        for data in db.get_all():
+        for data in self.db.get_all():
             time1 = datetime.now(tz=self.tmzn).isoformat()
             time2 = (datetime.now(tz=self.tmzn) + timedelta(minutes=10)).isoformat()
             uid = data["_id"]
             if self.verify(data, "before_class"):
                 _ = [
-                    platform.send_message(
+                    self.platform.send_message(
                         uid,
                         config["SCHEDULER"]["REMINDER_TEXT"](
-                            platform.get_user_data(uid).get("first_name", " - heads up"),
-                            timetable.format_event(event)
+                            self.platform.get_user_data(uid).get("first_name", " - heads up"),
+                            self.timetable.format_event(event)
                         )
-                    ) for event in timetable.iterate(uid, time1, time2)
+                    ) for event in self.timetable.iterate(uid, time1, time2)
                 ]
 
     def morning_alert(self):
@@ -58,15 +61,15 @@ class Scheduler:
         Job to send users their schedule in the morning.
         """
         time_now = datetime.now(tz=self.tmzn)
-        for data in db.get_all():
+        for data in self.db.get_all():
             uid = data["_id"]
             if self.verify(data, "morning"):
-                platform.send_message(
+                self.platform.send_message(
                     uid,
                     config["SCHEDULER"]["MORNING_TEXT"](
-                        platform.get_user_data(uid).get("first_name", "sunshine"),
+                        self.platform.get_user_data(uid).get("first_name", "sunshine"),
                         time_now.strftime("%d %B (%A)"),
-                        timetable.read(uid, time_now.isoformat())
+                        self.timetable.read(uid, time_now.isoformat())
                     ),
                 )
 

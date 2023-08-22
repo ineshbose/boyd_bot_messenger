@@ -1,10 +1,11 @@
-from flask import request, redirect, render_template, url_for, abort
-from . import blueprint, RegisterForm, webhook_token, wb_arg_name, log
+from flask import request, redirect, render_template, url_for, abort, current_app
+from forms import RegisterForm
+from . import webhook_token, wb_arg_name
 from . import timetable, guard, db, parser, platform
 from ._config import config
 
 
-@blueprint.route("/webhook", methods=["GET", "POST"])
+# @blueprint.route("/webhook", methods=["GET", "POST"])
 def webhook():
 
     if request.method == "GET":
@@ -32,7 +33,7 @@ def webhook():
             or (not platform.validate_user(user_data) and platform_user)
             or not (platform_user or config["FEATURES"]["DEMO"])
         ):
-            log(config["LOG"]["INVALID_USER"](sender_id))
+            current_app.logger.warn(config["LOG"]["INVALID_USER"](sender_id))
             abort(401)
 
         reg_id = db.insert_in_reg(sender_id, platform_user)
@@ -43,7 +44,7 @@ def webhook():
     return platform.reply(response)
 
 
-@blueprint.route("/register/<reg_id>", methods=["GET", "POST"])
+# @blueprint.route("/register/<reg_id>", methods=["GET", "POST"])
 def new_user_registration(reg_id):
 
     if request.method == "GET":
@@ -78,7 +79,7 @@ def new_user_registration(reg_id):
 
         uid = db.get_data(reg_id)["user_id"]
         login_result = timetable.login(uid, uni_id, uni_pw)
-        log(config["LOG"]["USER_AUTH"](uid, login_result))
+        current_app.logger.info(config["LOG"]["USER_AUTH"](uid, login_result))
 
         if not login_result[0]:
             return render_template(
@@ -108,7 +109,7 @@ def user_gateway(request_data, uid):
         if not timetable.check_loggedIn(uid):
 
             user_data = db.get_data(uid)
-            log(config["LOG"]["RELOGIN"](uid))
+            current_app.logger.info(config["LOG"]["RELOGIN"](uid))
 
             if not guard.sanitized(user_data, ["uni_id", "uni_pw"]):
                 db.delete_data(uid)
@@ -120,7 +121,7 @@ def user_gateway(request_data, uid):
 
             if not login_result[0]:
 
-                log(config["LOG"]["AUTH_FAIL"](uid, login_result))
+                current_app.logger.warn(config["LOG"]["AUTH_FAIL"](uid, login_result))
                 db.delete_data(uid)
                 reg_id = db.insert_in_reg(*platform.get_id(request_data))
 
@@ -129,7 +130,7 @@ def user_gateway(request_data, uid):
         message = parser.parse(request_data, uid)
 
     except Exception as e:
-        log(config["LOG"]["ERROR"](type(e).__name__, e, uid, request_data))
+        current_app.logger.exception(config["LOG"]["ERROR"](type(e).__name__, e, uid, request_data))
         message = config["MSG"]["ERROR_MSG"]
 
     return message

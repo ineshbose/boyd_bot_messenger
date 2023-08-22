@@ -1,4 +1,3 @@
-from .. import db, timetable
 from .._config import config
 
 
@@ -8,11 +7,12 @@ class Parser:
     trigger events and generate a response.
     """
 
-    def __init__(self):
+    def __init__(self, db, timetable):
         """
         Initialise class with required fields (if any).
         """
-        pass
+        self.db = db
+        self.timetable = timetable
 
     def help_text(self):
         """
@@ -26,7 +26,7 @@ class Parser:
         """
         return (
             config["PARSER"]["DELETE_SUCCESS"]
-            if db.delete_data(uid)
+            if self.db.delete_data(uid)
             else config["PARSER"]["DELETE_FAIL"]
         )
 
@@ -59,7 +59,7 @@ class Parser:
         if not dt_param:
             args.extend([None, None])
             args.append(param.get("class-name"))
-            message.append(timetable.read(uid, *args))
+            message.append(self.timetable.read(uid, *args))
 
         else:
 
@@ -85,7 +85,7 @@ class Parser:
                     args.extend([dt_val, None])
 
                 args.append(param.get("class-name"))
-                message.append(timetable.read(uid, *args))
+                message.append(self.timetable.read(uid, *args))
 
         return "\n".join(message)
 

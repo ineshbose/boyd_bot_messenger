@@ -1,7 +1,6 @@
 import json
 import uuid
 from pymongo import MongoClient
-from .. import guard
 
 
 class Database:
@@ -10,13 +9,14 @@ class Database:
     necessary details about users for fetching their timetable.
     """
 
-    def __init__(self, db_token, key1, key2):
+    def __init__(self, db_token, key1, key2, guard):
         """
         Creating an instance of the database package.
         """
         self.cluster = MongoClient(db_token)
         self.collection = self.cluster[key1]
         self.db = self.collection[key2]
+        self.guard = guard
         self.clean_db()  # This clears the database from all one-time-users
 
     def sanitize(self, user_data):
@@ -30,7 +30,7 @@ class Database:
                     (
                         user_data[data]
                         if data not in ["uni_id", "uni_pw"]
-                        else guard.decrypt(user_data[data])
+                        else self.guard.decrypt(user_data[data])
                     )
                     if data not in ["platform_user", "subscribe"]
                     else json.loads(user_data[data])
@@ -66,7 +66,7 @@ class Database:
                 (
                     kwargs[kw]
                     if kw not in ["uni_id", "uni_pw"]
-                    else guard.encrypt(kwargs[kw])
+                    else self.guard.encrypt(kwargs[kw])
                 )
                 if not isinstance(kwargs[kw], (bool, dict, list))
                 else json.dumps(kwargs[kw])
