@@ -1,7 +1,7 @@
 # flake8: noqa
 # fmt: off
 
-from . import app_url
+app_url = ''
 
 config = {
     # URL root for the app

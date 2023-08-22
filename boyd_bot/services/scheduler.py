@@ -1,6 +1,5 @@
 import pytz
 from datetime import datetime, timedelta
-from .._config import config
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -9,19 +8,20 @@ class Scheduler:
     Schedules certain jobs in the background.
     """
 
-    def __init__(self, db, timetable, platform):
+    def __init__(self, db, timetable, platform, config = {}):
         """
         Creating an instance of the scheduler package.
         """
         self.db = db
         self.timetable = timetable
         self.platform = platform
+        self.config = config
 
-        self.tmzn = pytz.timezone(config["SCHEDULER"]["TIMEZONE"])
+        self.tmzn = pytz.timezone(self.config["TIMEZONE"])
         self.scheduler = BackgroundScheduler(timezone=self.tmzn)
-        self.uni_months = config["SCHEDULER"]["UNI_MONTHS"]
-        self.uni_days = config["SCHEDULER"]["UNI_DAYS"]
-        self.uni_hours = config["SCHEDULER"]["UNI_HOURS"]
+        self.uni_months = self.config["UNI_MONTHS"]
+        self.uni_days = self.config["UNI_DAYS"]
+        self.uni_hours = self.config["UNI_HOURS"]
 
     def verify(self, data, sub_type):
         return (
@@ -49,7 +49,7 @@ class Scheduler:
                 _ = [
                     self.platform.send_message(
                         uid,
-                        config["SCHEDULER"]["REMINDER_TEXT"](
+                        self.config["REMINDER_TEXT"](
                             self.platform.get_user_data(uid).get("first_name", " - heads up"),
                             self.timetable.format_event(event)
                         )
@@ -66,7 +66,7 @@ class Scheduler:
             if self.verify(data, "morning"):
                 self.platform.send_message(
                     uid,
-                    config["SCHEDULER"]["MORNING_TEXT"](
+                    self.config["MORNING_TEXT"](
                         self.platform.get_user_data(uid).get("first_name", "sunshine"),
                         time_now.strftime("%d %B (%A)"),
                         self.timetable.read(uid, time_now.isoformat())

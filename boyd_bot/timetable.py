@@ -1,6 +1,5 @@
 import pytz
 import requests
-from ._config import config
 from datetime import datetime
 from icalendar import Calendar
 from dateutil.parser import parse as dtparse
@@ -17,11 +16,12 @@ class Timetable:
     and handle timetable for multiple users.
     """
 
-    def __init__(self):
+    def __init__(self, config = {}):
         self.calendars = {}
-        self.cal_url = config["TIMETABLE"]["CAL_URL"]
-        self.tmzn = pytz.timezone(config["TIMETABLE"]["TIMEZONE"])
-        self.fuzz_threshold = config["TIMETABLE"]["FUZZ_THRESHOLD"]
+        self.config = config
+        self.cal_url = config["CAL_URL"]
+        self.tmzn = pytz.timezone(config["TIMEZONE"])
+        self.fuzz_threshold = config["FUZZ_THRESHOLD"]
 
     def login(self, uid, uni_id, uni_pw):
         try:
@@ -63,7 +63,7 @@ class Timetable:
 
         return (
             "\n".join(class_list)
-            if class_list else config["TIMETABLE"]["NO_CLASS_MSG"]
+            if class_list else self.config["NO_CLASS_MSG"]
         )
 
     def get_one(self, uid, class_name=None):

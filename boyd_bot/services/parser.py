@@ -1,43 +1,41 @@
-from .._config import config
-
-
 class Parser:
     """
     Breaks down data to get information,
     trigger events and generate a response.
     """
 
-    def __init__(self, db, timetable):
+    def __init__(self, db, timetable, config = {}):
         """
         Initialise class with required fields (if any).
         """
         self.db = db
         self.timetable = timetable
+        self.config = config
 
     def help_text(self):
         """
         Returns message for "help_text" intent.
         """
-        return config["PARSER"]["HELP_TEXT"]
+        return self.config["HELP_TEXT"]
 
     def delete_data(self, uid):
         """
         Returns response for "delete_data" intent.
         """
         return (
-            config["PARSER"]["DELETE_SUCCESS"]
+            self.config["DELETE_SUCCESS"]
             if self.db.delete_data(uid)
-            else config["PARSER"]["DELETE_FAIL"]
+            else self.config["DELETE_FAIL"]
         )
 
     def edit_subscription(self, uid):
         """
         Updates user's subscription preference.
         """
-        if config["FEATURES"]["SCHEDULER"]:
+        if False: # config["FEATURES"]["SCHEDULER"]:
             pass
         else:
-            return config["PARSER"]["INTENT_UNAVAIL"]
+            return self.config["INTENT_UNAVAIL"]
 
     def read_timetable(self, uid, data):
         """
