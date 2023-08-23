@@ -13,7 +13,7 @@
         {% if message %}
         <div class="alert-danger">{{message}}</div>
         {% endif %}
-        <form action="{{ url_for('.new_user_registration', reg_id=form.reg_id.data) }}" method="post" validate>
+        <form action="{{ url_for('boyd_bot.new_user_registration', reg_id=form.reg_id.data) }}" method="post" validate>
             {{ form.hidden_tag() }}
             {{ form.uni_id(placeholder=form.uni_id.label.text, class_="form-control") }}
             {{ form.uni_pw(placeholder=form.uni_pw.label.text, class_="form-control") }} <br>
@@ -31,8 +31,8 @@
                         {{ form.subscribe }}
                     <br>
                 {% endif %}
-                <script src="/static/js/form.js"></script>
-                <script src="/static/js/tooltip.js"></script>
+                <script src="{{ url_for('boyd_bot.static', filename='js/form.js') }}"></script>
+                <script src="{{ url_for('boyd_bot.static', filename='js/tooltip.js') }}"></script>
             {% endif %}
         </form>
     {% endif %}

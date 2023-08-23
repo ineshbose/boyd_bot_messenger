@@ -1,12 +1,12 @@
 from flask import request, redirect, render_template, url_for, abort, current_app
-from forms import RegisterForm
+from boyd_bot.forms import RegisterForm
 
 def bot_functions(config, webhook_token, wb_arg_name, timetable, guard, db, parser, platform):
 
     def webhook():
 
         if request.method == "GET":
-            return redirect(url_for(".index"))
+            return redirect(url_for("boyd_bot.index"))
 
         if not (
             guard.sanitized(request.headers, wb_arg_name, webhook_token)
