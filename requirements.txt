@@ -1,6 +1,6 @@
 APScheduler==3.10.1
 cryptography==40.0.2
-Flask==2.3.2
+Flask==2.2.2
 icalendar==5.0.5
 pymongo==4.3.3
 rapidfuzz==3.0.0
